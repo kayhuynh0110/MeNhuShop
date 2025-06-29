@@ -1,0 +1,1321 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mê Như Latte - Trà & Cà Phê Cao Cấp</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #a8d5a8 0%, #7fb069 100%);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header */
+        header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .logo-circle {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #f4e4bc, #d4a574);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 3px solid #8b6f47;
+            position: relative;
+        }
+
+        .logo-characters {
+            font-size: 24px;
+            font-weight: bold;
+            color: #8b6f47;
+        }
+
+        .logo-text {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #6b8e23;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: #6b8e23;
+        }
+
+        .order-btn {
+            background: linear-gradient(135deg, #6b8e23, #8fbc8f);
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 25px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .order-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(107, 142, 35, 0.3);
+        }
+
+        /* Hero Section */
+        .hero {
+            margin-top: 100px;
+            padding: 80px 0;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="20" cy="20" r="2" fill="rgba(255,255,255,0.1)"/><circle cx="80" cy="40" r="1.5" fill="rgba(255,255,255,0.1)"/><circle cx="40" cy="80" r="1" fill="rgba(255,255,255,0.1)"/><circle cx="90" cy="80" r="2.5" fill="rgba(255,255,255,0.1)"/></svg>');
+            animation: float 20s infinite linear;
+        }
+
+        @keyframes float {
+            0% { transform: translateX(-100px); }
+            100% { transform: translateX(100vw); }
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            color: white;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .hero p {
+            font-size: 1.3rem;
+            margin-bottom: 2rem;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .mascot {
+            width: 120px;
+            height: 120px;
+            background: #f4e4bc;
+            border-radius: 50%;
+            margin: 2rem auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            border: 4px solid white;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-10px); }
+            60% { transform: translateY(-5px); }
+        }
+
+        /* Menu Section */
+        .menu {
+            background: white;
+            padding: 80px 0;
+            margin: 40px 20px;
+            border-radius: 30px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+        }
+
+        .menu h2 {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            color: #6b8e23;
+        }
+
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .menu-item {
+            background: linear-gradient(135deg, #f8fdf8, #e8f5e8);
+            padding: 25px;
+            border-radius: 20px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: 2px solid transparent;
+        }
+
+        .menu-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(107, 142, 35, 0.2);
+            border-color: #6b8e23;
+        }
+
+        .menu-item-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .menu-item h3 {
+            font-size: 1.3rem;
+            color: #6b8e23;
+            margin-bottom: 0.5rem;
+        }
+
+        .price {
+            font-size: 1.4rem;
+            font-weight: bold;
+            color: #8b6f47;
+        }
+
+        .description {
+            color: #666;
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+
+        .special-section {
+            background: linear-gradient(135deg, #8b6f47, #a0785a);
+            color: white;
+            padding: 30px;
+            border-radius: 20px;
+            margin: 2rem 0;
+        }
+
+        .special-section h3 {
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+
+        .special-items {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+        }
+
+        .special-item {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 15px;
+            border-radius: 10px;
+            backdrop-filter: blur(10px);
+        }
+
+        .sweetness-levels {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin: 2rem 0;
+            flex-wrap: wrap;
+        }
+
+        .sweetness-option {
+            background: #6b8e23;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 20px;
+            font-weight: bold;
+            transition: background 0.3s ease;
+        }
+
+        .sweetness-option:hover {
+            background: #8fbc8f;
+            cursor: pointer;
+        }
+
+        /* Contact Section */
+        .contact {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 60px 0;
+            margin: 40px 20px;
+            border-radius: 30px;
+            text-align: center;
+        }
+
+        .contact h2 {
+            font-size: 2.5rem;
+            margin-bottom: 2rem;
+            color: #6b8e23;
+        }
+
+        .contact-info {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .contact-item {
+            background: linear-gradient(135deg, #f8fdf8, #e8f5e8);
+            padding: 25px;
+            border-radius: 15px;
+            transition: transform 0.3s ease;
+        }
+
+        .contact-item:hover {
+            transform: translateY(-3px);
+        }
+
+        .contact-item h3 {
+            color: #6b8e23;
+            margin-bottom: 1rem;
+        }
+
+        /* Order Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 2000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(5px);
+        }
+
+        .modal-content {
+            background: white;
+            margin: 5% auto;
+            padding: 30px;
+            border-radius: 20px;
+            width: 90%;
+            max-width: 600px;
+            max-height: 80vh;
+            overflow-y: auto;
+            position: relative;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            position: absolute;
+            right: 20px;
+            top: 15px;
+            cursor: pointer;
+        }
+
+        .close:hover {
+            color: #6b8e23;
+        }
+
+        .order-form {
+            margin-top: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #6b8e23;
+        }
+
+        .form-group select,
+        .form-group input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e8f5e8;
+            border-radius: 10px;
+            font-size: 16px;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-group select:focus,
+        .form-group input:focus {
+            outline: none;
+            border-color: #6b8e23;
+        }
+
+        .option-group {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .option-btn {
+            background: #f8fdf8;
+            border: 2px solid #e8f5e8;
+            padding: 10px 15px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            flex: 1;
+            min-width: 80px;
+            text-align: center;
+        }
+
+        .option-btn.active {
+            background: #6b8e23;
+            color: white;
+            border-color: #6b8e23;
+        }
+
+        .option-btn:hover {
+            border-color: #6b8e23;
+        }
+
+        .submit-order {
+            background: linear-gradient(135deg, #6b8e23, #8fbc8f);
+            color: white;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 15px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 20px;
+            transition: transform 0.3s ease;
+        }
+
+        .submit-order:hover {
+            transform: translateY(-2px);
+        }
+
+        .add-to-cart {
+            background: linear-gradient(135deg, #8b6f47, #a0785a);
+            color: white;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 15px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 20px;
+            transition: transform 0.3s ease;
+        }
+
+        .add-to-cart:hover {
+            transform: translateY(-2px);
+        }
+
+        .order-summary {
+            background: linear-gradient(135deg, #f8fdf8, #e8f5e8);
+            padding: 20px;
+            border-radius: 15px;
+            margin: 20px 0;
+            border: 2px solid #6b8e23;
+        }
+
+        .order-summary h3 {
+            color: #6b8e23;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .cart-item {
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 10px;
+            position: relative;
+            border: 1px solid #e8f5e8;
+        }
+
+        .cart-item h4 {
+            color: #6b8e23;
+            margin-bottom: 5px;
+            font-size: 16px;
+        }
+
+        .cart-item p {
+            margin: 3px 0;
+            font-size: 14px;
+            color: #666;
+        }
+
+        .cart-item-price {
+            font-weight: bold;
+            color: #8b6f47;
+            margin-top: 8px;
+        }
+
+        .remove-item {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: #ff6b6b;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 25px;
+            height: 25px;
+            cursor: pointer;
+            font-size: 14px;
+            line-height: 1;
+        }
+
+        .remove-item:hover {
+            background: #ff5252;
+        }
+
+        .total-summary {
+            background: #6b8e23;
+            color: white;
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            font-size: 18px;
+            font-weight: bold;
+            margin-top: 15px;
+        }
+
+        .empty-cart {
+            text-align: center;
+            color: #999;
+            font-style: italic;
+            padding: 20px;
+        }
+
+        /* Message Preview Modal */
+        .message-modal {
+            display: none;
+            position: fixed;
+            z-index: 3000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(5px);
+        }
+
+        .message-modal-content {
+            background: white;
+            margin: 5% auto;
+            padding: 30px;
+            border-radius: 20px;
+            width: 90%;
+            max-width: 600px;
+            max-height: 80vh;
+            overflow-y: auto;
+            position: relative;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+
+        .message-preview {
+            background: #f8fdf8;
+            border: 2px solid #6b8e23;
+            border-radius: 15px;
+            padding: 20px;
+            margin: 20px 0;
+            font-family: monospace;
+            white-space: pre-wrap;
+            font-size: 14px;
+            line-height: 1.5;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        .message-actions {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .copy-btn {
+            background: linear-gradient(135deg, #8b6f47, #a0785a);
+            color: white;
+            padding: 15px 25px;
+            border: none;
+            border-radius: 15px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            flex: 1;
+            transition: transform 0.3s ease;
+        }
+
+        .copy-btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .zalo-btn {
+            background: linear-gradient(135deg, #0084ff, #44a3ff);
+            color: white;
+            padding: 15px 25px;
+            border: none;
+            border-radius: 15px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            flex: 1;
+            transition: transform 0.3s ease;
+        }
+
+        .zalo-btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .copy-status {
+            text-align: center;
+            margin-top: 10px;
+            font-weight: bold;
+            color: #6b8e23;
+        }
+
+        /* Footer */
+        footer {
+            background: rgba(107, 142, 35, 0.9);
+            color: white;
+            text-align: center;
+            padding: 2rem 0;
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .menu-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .sweetness-levels {
+                gap: 0.5rem;
+            }
+
+            .sweetness-option {
+                padding: 8px 15px;
+                font-size: 0.9rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="container">
+            <div class="logo">
+                <div class="logo-circle">
+                    <span class="logo-characters">👫</span>
+                </div>
+                <div class="logo-text">Mê Như Latte</div>
+            </div>
+            <ul class="nav-links">
+                <li><a href="#home">Trang Chủ</a></li>
+                <li><a href="#menu">Menu</a></li>
+                <li><a href="#about">Giới Thiệu</a></li>
+                <li><a href="#contact">Liên Hệ</a></li>
+            </ul>
+            <button class="order-btn" onclick="orderOnline()">🛵 Đặt Hàng Online</button>
+        </nav>
+    </header>
+
+    <section id="home" class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <h1>Chào Mừng Đến Mê Như Latte</h1>
+                <p>Matcha Nhật Bản Cao Cấp & Latte Đặc Biệt</p>
+                <div class="mascot">🧋</div>
+                <p>Trải nghiệm những ly matcha và cà phê tuyệt vời được pha chế với tình yêu</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="menu" class="menu">
+        <div class="container">
+            <h2>Menu Đặc Biệt</h2>
+            
+            <div class="menu-grid">
+                <div class="menu-item">
+                    <div class="menu-item-header">
+                        <h3>Matcha Latte 🧋💖</h3>
+                        <span class="price">45K</span>
+                    </div>
+                    <p class="description">Matcha Nhật Fuji ở vị xuân, hương nhe nhàng, sữa hot mix.</p>
+                </div>
+
+                <div class="menu-item">
+                    <div class="menu-item-header">
+                        <h3>Matcha Cold Whish</h3>
+                        <span class="price">45K</span>
+                    </div>
+                    <p class="description">Đậm trà, béo thơm do đánh matcha trực tiếp với sữa lạnh</p>
+                </div>
+
+                <div class="menu-item">
+                    <div class="menu-item-header">
+                        <h3>Houjicha Latte</h3>
+                        <span class="price">40K</span>
+                    </div>
+                    <p class="description">Trà rang nhiệt độ cao, loại bỏ caffein, ít đắng, thơm trà.</p>
+                </div>
+
+                <div class="menu-item">
+                    <div class="menu-item-header">
+                        <h3>Caramel Matcha Latte</h3>
+                        <span class="price">45K</span>
+                    </div>
+                    <p class="description">Thơm vị caramel quyện rũ, hậu vị kéo dài, đậm đà.</p>
+                </div>
+
+                <div class="menu-item">
+                    <div class="menu-item-header">
+                        <h3>Khoai Môn Latte 🧋</h3>
+                        <span class="price">35K</span>
+                    </div>
+                    <p class="description">Latte khoai môn béo ngậy với hương vị đất đặc trưng</p>
+                </div>
+
+                <div class="menu-item">
+                    <div class="menu-item-header">
+                        <h3>Cacao Latte</h3>
+                        <span class="price">35K</span>
+                    </div>
+                    <p class="description">Latte chocolate đậm đà với cacao cao cấp</p>
+                </div>
+
+                <div class="menu-item">
+                    <div class="menu-item-header">
+                        <h3>Coffee Latte</h3>
+                        <span class="price">35K</span>
+                    </div>
+                    <p class="description">Latte cà phê cổ điển với sữa đánh hoàn hảo</p>
+                </div>
+            </div>
+
+            <div class="special-section">
+                <h3>🍃 Bộ Sưu Tập Matcha Đặc Biệt</h3>
+                <div class="special-items">
+                    <div class="special-item">
+                        <h4>🌿 Matcha Haru</h4>
+                        <p>Vị nhẹ, thơm thanh, ít đắng. Gù dịu dàng, dễ uống hàng ngày.</p>
+                    </div>
+                    <div class="special-item">
+                        <h4>🌿 Fuji Premium</h4>
+                        <p>Màu xanh rêu, thơm sâu, vị cân bằng, hậu ngọt nhẹ. Gù chuẩn Nhật, đậm mà không gắt.</p>
+                    </div>
+                    <div class="special-item">
+                        <h4>🌿 Fuji MH2</h4>
+                        <p>Vị vừa, hơi chát nhẹ, hậu ngọt. Gù trung bình, mê matcha rõ vị.</p>
+                    </div>
+                    <div class="special-item">
+                        <h4>🌿 Fuji MH3</h4>
+                        <p>Vị đậm, thơm hậu vị đắng nhẹ. Gù mạnh, thích matcha rõ vị.</p>
+                    </div>
+                    <div class="special-item">
+                        <h4>🌿 Uji Ceremonial Grade</h4>
+                        <p>Vị êm, thơm mùi ngọt trong biến nhẹ, hậu ngọt thanh kéo dài. Gù tinh tế, thích đậm matcha.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="sweetness-levels">
+                <div class="sweetness-option">Không đường (0%)</div>
+                <div class="sweetness-option">Ít ngọt (50%)</div>
+                <div class="sweetness-option">Vừa ngọt (100%)</div>
+                <div class="sweetness-option">Ngọt đậm (120%)</div>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact" class="contact">
+        <div class="container">
+            <h2>Ghé Thăm & Đặt Hàng Online</h2>
+            <div class="contact-info">
+                <div class="contact-item">
+                    <h3>📍 Địa Chỉ</h3>
+                    <p>266 Nguyễn Duy, P9, Q8<br>Thành phố Hồ Chí Minh</p>
+                </div>
+                <div class="contact-item">
+                    <h3>📞 Điện Thoại</h3>
+                    <p>0984 112 173</p>
+                </div>
+                <div class="contact-item">
+                    <h3>🛵 Giao Hàng</h3>
+                    <p>Đặt hàng online có sẵn<br>Giao hàng nhanh tận nơi</p>
+                </div>
+                <div class="contact-item">
+                    <h3>🥛 Tùy Chọn Sữa Tươi</h3>
+                    <p><strong>Sữa Gấu:</strong> Béo thơm, ngây sữa<br><strong>Oatside:</strong> Sữa hạt yến mạch, bùi, béo thơm thanh mát</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Order Modal -->
+    <div id="orderModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2 style="color: #6b8e23; text-align: center; margin-bottom: 20px;">🧋 Đặt Hàng Online</h2>
+            
+            <form class="order-form">
+                <div class="form-group">
+                    <label>Tên khách hàng: <span style="color: red;">*</span></label>
+                    <input type="text" id="customerName" placeholder="Nhập tên của bạn" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Số điện thoại: <span style="color: red;">*</span></label>
+                    <input type="tel" id="customerPhone" placeholder="Nhập số điện thoại" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Chọn đồ uống:</label>
+                    <select id="drinkSelect" required>
+                        <option value="">-- Chọn đồ uống --</option>
+                        <option value="Matcha Latte - 45K">Matcha Latte 🧋💖 - 45K</option>
+                        <option value="Matcha Cold Whish - 45K">Matcha Cold Whish - 45K</option>
+                        <option value="Houjicha Latte - 40K">Houjicha Latte - 40K</option>
+                        <option value="Caramel Matcha Latte - 45K">Caramel Matcha Latte - 45K</option>
+                        <option value="Khoai Môn Latte - 35K">Khoai Môn Latte 🧋 - 35K</option>
+                        <option value="Cacao Latte - 35K">Cacao Latte - 35K</option>
+                        <option value="Coffee Latte - 35K">Coffee Latte - 35K</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Loại Matcha (nếu chọn matcha): <span style="color: #8b6f47;">+5K</span></label>
+                    <select id="matchaType">
+                        <option value="">-- Chọn loại matcha --</option>
+                        <option value="Matcha Haru (+5K)">Matcha Haru - Vị nhẹ, dễ uống (+5K)</option>
+                        <option value="Fuji Premium (+5K)">Fuji Premium - Chuẩn Nhật, đậm mà không gắt (+5K)</option>
+                        <option value="Fuji MH2 (+5K)">Fuji MH2 - Vị vừa, mê matcha rõ vị (+5K)</option>
+                        <option value="Fuji MH3 (+5K)">Fuji MH3 - Vị đậm, thích matcha rõ vị (+5K)</option>
+                        <option value="Uji Ceremonial (+5K)">Uji Ceremonial Grade - Tinh tế, đậm matcha (+5K)</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Số lượng:</label>
+                    <input type="number" id="quantity" min="1" max="20" value="1" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Độ ngọt:</label>
+                    <div class="option-group">
+                        <div class="option-btn" data-sweetness="0%">Không đường</div>
+                        <div class="option-btn" data-sweetness="50%">Ít ngọt</div>
+                        <div class="option-btn active" data-sweetness="100%">Vừa ngọt</div>
+                        <div class="option-btn" data-sweetness="120%">Ngọt đậm</div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Lượng đá:</label>
+                    <div class="option-group">
+                        <div class="option-btn" data-ice="không đá">Không đá</div>
+                        <div class="option-btn" data-ice="ít đá">Ít đá</div>
+                        <div class="option-btn active" data-ice="vừa đá">Vừa đá</div>
+                        <div class="option-btn" data-ice="nhiều đá">Nhiều đá</div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Loại sữa:</label>
+                    <div class="option-group">
+                        <div class="option-btn active" data-milk="sữa thường">Sữa thường</div>
+                        <div class="option-btn" data-milk="sữa gấu">Sữa Gấu</div>
+                        <div class="option-btn" data-milk="oatside">Oatside</div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Ghi chú thêm:</label>
+                    <input type="text" id="notes" placeholder="Ví dụ: ít ngọt hơn, thêm topping...">
+                </div>
+
+                <div class="form-group">
+                    <div style="background: linear-gradient(135deg, #f8fdf8, #e8f5e8); padding: 15px; border-radius: 10px; border: 2px solid #6b8e23;">
+                        <h3 style="color: #6b8e23; margin: 0; text-align: center;">
+                            💰 Giá món này: <span id="itemPrice">0K</span>
+                        </h3>
+                    </div>
+                </div>
+
+                <button type="button" class="add-to-cart" onclick="addToCart()">
+                    🛒 Thêm vào giỏ hàng
+                </button>
+            </form>
+
+            <!-- Order Summary -->
+            <div class="order-summary">
+                <h3>🛍️ Giỏ hàng của bạn</h3>
+                <div id="cartItems">
+                    <div class="empty-cart">Giỏ hàng trống. Hãy thêm món đầu tiên!</div>
+                </div>
+                <div id="totalSummary" class="total-summary" style="display: none;">
+                    💰 Tổng cộng: <span id="grandTotal">0K</span>
+                </div>
+
+                <button type="button" class="submit-order" onclick="submitOrder()" id="submitBtn" style="display: none;">
+                    📱 Xem tin nhắn & Gửi Zalo
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Message Preview Modal -->
+    <div id="messageModal" class="message-modal">
+        <div class="message-modal-content">
+            <span class="close" onclick="closeMessageModal()">&times;</span>
+            <h2 style="color: #6b8e23; text-align: center; margin-bottom: 10px;">📋 Đơn hàng của bạn</h2>
+            <p style="text-align: center; color: #666; font-size: 14px; margin-bottom: 20px;">
+                Vui lòng kiểm tra và làm theo hướng dẫn
+            </p>
+            
+            <div class="message-preview" id="messagePreview">
+                <!-- Message content will be inserted here -->
+            </div>
+
+            <p style="text-align: center; color: #666; margin: 15px 0;">
+                👆 Đây là tin nhắn đã soạn sẵn cho đơn hàng của bạn
+            </p>
+
+            <div class="message-actions">
+                <button class="copy-btn" onclick="copyMessage()">
+                    📋 Sao chép tin nhắn
+                </button>
+                <button class="zalo-btn" onclick="openZalo()">
+                    💬 Mở Zalo
+                </button>
+            </div>
+
+            <div class="copy-status" id="copyStatus"></div>
+
+            <p style="text-align: center; color: #999; font-size: 14px; margin-top: 20px;">
+                💡 <strong>Hướng dẫn:</strong><br>
+                1. Sao chép tin nhắn<br>
+                2. Mở Zalo → Nhấn "Nhắn tin"<br>
+                3. Dán (Ctrl+V) và gửi
+            </p>
+        </div>
+    </div>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 Mê Như Latte. Trải Nghiệm Trà & Cà Phê Cao Cấp.</p>
+        </div>
+    </footer>
+
+    <script>
+    // Modal functionality
+            const modal = document.getElementById('orderModal');
+            const messageModal = document.getElementById('messageModal');
+            let currentOrderMessage = '';
+
+            function orderOnline() {
+                modal.style.display = 'block';
+                // Set default selections
+                document.querySelectorAll('.option-group').forEach(group => {
+                    const activeBtn = group.querySelector('.active');
+                    if (!activeBtn) {
+                        group.querySelector('.option-btn').classList.add('active');
+                    }
+                });
+                calculateItemPrice();
+            }
+
+            // Close main order modal
+            function closeOrderModal() {
+                modal.style.display = 'none';
+            }
+
+            // Close message preview modal
+            function closeMessageModal() {
+                messageModal.style.display = 'none';
+            }
+
+            // Handle close button clicks for both modals
+            document.addEventListener('click', function(event) {
+                if (event.target.classList.contains('close')) {
+                    const modal = event.target.closest('.modal, .message-modal');
+                    if (modal) {
+                        modal.style.display = 'none';
+                    }
+                }
+            });
+
+            // Handle clicks outside modals
+            window.onclick = function(event) {
+                if (event.target == modal) {
+                    modal.style.display = 'none';
+                }
+                if (event.target == messageModal) {
+                    messageModal.style.display = 'none';
+                }
+            }
+
+        // Option button handling
+        document.querySelectorAll('.option-group').forEach(group => {
+            group.addEventListener('click', function(e) {
+                if (e.target.classList.contains('option-btn')) {
+                    // Remove active class from siblings
+                    group.querySelectorAll('.option-btn').forEach(btn => {
+                        btn.classList.remove('active');
+                    });
+                    // Add active class to clicked button
+                    e.target.classList.add('active');
+                    calculateTotal();
+                }
+            });
+        });
+
+        // Cart functionality
+        let cart = [];
+        let cartItemCounter = 0;
+
+        // Calculate item price
+        function calculateItemPrice() {
+            const drinkSelect = document.getElementById('drinkSelect');
+            const matchaType = document.getElementById('matchaType');
+            const quantity = document.getElementById('quantity');
+            const itemPriceElement = document.getElementById('itemPrice');
+
+            if (!drinkSelect.value) {
+                itemPriceElement.textContent = '0K';
+                return 0;
+            }
+
+            // Extract base price from drink selection
+            const priceMatch = drinkSelect.value.match(/(\d+)K/);
+            let basePrice = priceMatch ? parseInt(priceMatch[1]) : 0;
+
+            // Add matcha fee if selected
+            let matchaFee = 0;
+            if (matchaType.value && drinkSelect.value.toLowerCase().includes('matcha')) {
+                matchaFee = 5;
+            }
+
+            const qty = parseInt(quantity.value) || 1;
+            const total = (basePrice + matchaFee) * qty;
+
+            itemPriceElement.textContent = total + 'K';
+            return total;
+        }
+
+        // Add item to cart
+        function addToCart() {
+            const customerName = document.getElementById('customerName').value.trim();
+            const customerPhone = document.getElementById('customerPhone').value.trim();
+            const drink = document.getElementById('drinkSelect').value;
+            const matchaType = document.getElementById('matchaType').value;
+            const quantity = parseInt(document.getElementById('quantity').value) || 1;
+            const notes = document.getElementById('notes').value;
+
+            // Validate required fields
+            if (!customerName) {
+                alert('⚠️ Vui lòng nhập tên khách hàng!');
+                document.getElementById('customerName').focus();
+                return;
+            }
+
+            if (!customerPhone) {
+                alert('⚠️ Vui lòng nhập số điện thoại!');
+                document.getElementById('customerPhone').focus();
+                return;
+            }
+
+            // Basic phone validation
+            const phoneRegex = /^[0-9]{10,11}$/;
+            if (!phoneRegex.test(customerPhone.replace(/\D/g, ''))) {
+                alert('⚠️ Số điện thoại không hợp lệ! Vui lòng nhập 10-11 số.');
+                document.getElementById('customerPhone').focus();
+                return;
+            }
+
+            if (!drink) {
+                alert('⚠️ Vui lòng chọn đồ uống!');
+                return;
+            }
+
+            // Get selected options
+            const sweetness = document.querySelector('[data-sweetness].active')?.getAttribute('data-sweetness') || '100%';
+            const ice = document.querySelector('[data-ice].active')?.getAttribute('data-ice') || 'vừa đá';
+            const milk = document.querySelector('[data-milk].active')?.getAttribute('data-milk') || 'sữa thường';
+
+            const itemPrice = calculateItemPrice();
+            
+            const cartItem = {
+                id: ++cartItemCounter,
+                customerName: customerName,
+                customerPhone: customerPhone,
+                drink: drink,
+                matchaType: matchaType,
+                quantity: quantity,
+                sweetness: sweetness,
+                ice: ice,
+                milk: milk,
+                notes: notes,
+                price: itemPrice
+            };
+
+            cart.push(cartItem);
+            updateCartDisplay();
+            clearForm();
+            
+            // Show success message
+            alert(`✅ Đã thêm vào giỏ hàng cho ${customerName}! Bạn có thể tiếp tục thêm món khác.`);
+        }
+
+        // Remove item from cart
+        function removeFromCart(itemId) {
+            cart = cart.filter(item => item.id !== itemId);
+            updateCartDisplay();
+        }
+
+        // Update cart display
+        function updateCartDisplay() {
+            const cartItemsContainer = document.getElementById('cartItems');
+            const totalSummary = document.getElementById('totalSummary');
+            const submitBtn = document.getElementById('submitBtn');
+            const grandTotalElement = document.getElementById('grandTotal');
+
+            if (cart.length === 0) {
+                cartItemsContainer.innerHTML = '<div class="empty-cart">Giỏ hàng trống. Hãy thêm món đầu tiên!</div>';
+                totalSummary.style.display = 'none';
+                submitBtn.style.display = 'none';
+                return;
+            }
+
+            let cartHTML = '';
+            let grandTotal = 0;
+
+            cart.forEach(item => {
+                grandTotal += item.price;
+                cartHTML += `
+                    <div class="cart-item">
+                        <button class="remove-item" onclick="removeFromCart(${item.id})">×</button>
+                        <h4>👤 ${item.customerName}</h4>
+                        <p><strong>📞 SĐT:</strong> ${item.customerPhone}</p>
+                        <p><strong>Đồ uống:</strong> ${item.drink}</p>
+                        ${item.matchaType ? `<p><strong>Matcha:</strong> ${item.matchaType}</p>` : ''}
+                        <p><strong>Số lượng:</strong> ${item.quantity}</p>
+                        <p><strong>Độ ngọt:</strong> ${item.sweetness} | <strong>Đá:</strong> ${item.ice} | <strong>Sữa:</strong> ${item.milk}</p>
+                        ${item.notes ? `<p><strong>Ghi chú:</strong> ${item.notes}</p>` : ''}
+                        <p class="cart-item-price">💰 ${item.price}K</p>
+                    </div>
+                `;
+            });
+
+            cartItemsContainer.innerHTML = cartHTML;
+            grandTotalElement.textContent = grandTotal + 'K';
+            totalSummary.style.display = 'block';
+            submitBtn.style.display = 'block';
+        }
+
+        // Clear form after adding to cart (keep customer name and phone)
+        function clearForm() {
+            // Don't clear customer name and phone - keep them for convenience
+            document.getElementById('drinkSelect').value = '';
+            document.getElementById('matchaType').value = '';
+            document.getElementById('quantity').value = '1';
+            document.getElementById('notes').value = '';
+            
+            // Reset options to default
+            document.querySelectorAll('.option-group').forEach(group => {
+                group.querySelectorAll('.option-btn').forEach(btn => btn.classList.remove('active'));
+                group.querySelector('.option-btn').classList.add('active'); // First option as default
+            });
+            
+            calculateItemPrice();
+        }
+
+        // Calculate total price
+        function calculateTotal() {
+            calculateItemPrice();
+        }
+
+        // Add event listeners for price calculation
+        document.getElementById('drinkSelect').addEventListener('change', calculateTotal);
+        document.getElementById('matchaType').addEventListener('change', calculateTotal);
+        document.getElementById('quantity').addEventListener('input', calculateTotal);
+
+        // Submit order function
+        function submitOrder() {
+            if (cart.length === 0) {
+                alert('Giỏ hàng trống! Vui lòng thêm ít nhất một món.');
+                return;
+            }
+
+            // Format order message with customer names and phones
+            let orderMessage = `🧋 ĐƠN HÀNG MỚI - MÊ NHƯ LATTE\n\n`;
+            orderMessage += `📋 Chi tiết đơn hàng:\n`;
+            
+            let grandTotal = 0;
+            cart.forEach((item, index) => {
+                grandTotal += item.price;
+                orderMessage += `\n${index + 1}. 👤 ${item.customerName}\n`;
+                orderMessage += `   📞 SĐT: ${item.customerPhone}\n`;
+                orderMessage += `   🧋 ${item.drink}\n`;
+                
+                if (item.matchaType && item.drink.toLowerCase().includes('matcha')) {
+                    orderMessage += `   • Loại Matcha: ${item.matchaType}\n`;
+                }
+                
+                orderMessage += `   • Số lượng: ${item.quantity}\n`;
+                orderMessage += `   • Độ ngọt: ${item.sweetness}\n`;
+                orderMessage += `   • Lượng đá: ${item.ice}\n`;
+                orderMessage += `   • Loại sữa: ${item.milk}\n`;
+                
+                if (item.notes) {
+                    orderMessage += `   • Ghi chú: ${item.notes}\n`;
+                }
+                
+                orderMessage += `   💰 Thành tiền: ${item.price}K\n`;
+            });
+            
+            orderMessage += `\n💰 TỔNG CỘNG: ${grandTotal}K\n`;
+            orderMessage += `📦 Tổng số món: ${cart.length}\n\n`;
+            orderMessage += `📍 Địa chỉ giao hàng: (Khách hàng vui lòng cung cấp)\n\n`;
+            orderMessage += `Cảm ơn bạn đã đặt hàng! 💚`;
+
+            // Store the message and show preview modal
+            currentOrderMessage = orderMessage;
+            document.getElementById('messagePreview').textContent = orderMessage;
+            messageModal.style.display = 'block';
+        }
+
+        // Copy message function
+        function copyMessage() {
+            navigator.clipboard.writeText(currentOrderMessage).then(() => {
+                document.getElementById('copyStatus').innerHTML = '✅ Đã sao chép tin nhắn!';
+                setTimeout(() => {
+                    document.getElementById('copyStatus').innerHTML = '';
+                }, 3000);
+            }).catch(() => {
+                // Fallback: select text for manual copy
+                const messagePreview = document.getElementById('messagePreview');
+                const range = document.createRange();
+                range.selectNode(messagePreview);
+                const selection = window.getSelection();
+                selection.removeAllRanges();
+                selection.addRange(range);
+                
+                document.getElementById('copyStatus').innerHTML = '📋 Đã chọn text, bấm Ctrl+C để sao chép';
+            });
+        }
+
+        // Open Zalo function
+        function openZalo() {
+            window.open('https://zalo.me/84984112173', '_blank');
+            document.getElementById('copyStatus').innerHTML = '🚀 Đã mở Zalo! Nhấn "Nhắn tin" và dán tin nhắn.';
+            
+            // Optional: Auto close after opening Zalo (user can still go back with X if needed)
+            setTimeout(() => {
+                const autoClose = confirm("Đã gửi đơn hàng thành công?\n\nOK: Xóa giỏ hàng và đóng\nCancel: Quay lại để chỉnh sửa");
+                if (autoClose) {
+                    finishOrder();
+                }
+            }, 3000);
+        }
+
+        // Function to completely finish the order and clear everything
+        function finishOrder() {
+            cart = [];
+            updateCartDisplay();
+            messageModal.style.display = 'none';
+            modal.style.display = 'none';
+            document.getElementById('copyStatus').innerHTML = '';
+        }
+
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Add click handlers for sweetness levels in menu
+        document.querySelectorAll('.sweetness-option').forEach(option => {
+            option.addEventListener('click', function() {
+                // Remove active class from all options
+                document.querySelectorAll('.sweetness-option').forEach(opt => {
+                    opt.style.background = '#6b8e23';
+                });
+                // Add active state to clicked option
+                this.style.background = '#8fbc8f';
+            });
+        });
+
+        // Menu item hover effects
+        document.querySelectorAll('.menu-item').forEach(item => {
+            item.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-5px) scale(1.02)';
+            });
+            
+            item.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0) scale(1)';
+            });
+        });
+    </script>
+</body>
+</html>

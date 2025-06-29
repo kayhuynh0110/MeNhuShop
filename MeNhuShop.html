@@ -315,7 +315,7 @@
             overflow: hidden;
             border-radius: 20px;
             box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
-            background: #f8fdf8;
+            background: linear-gradient(135deg, #6b8e23, #8fbc8f);
         }
 
         .gallery-track {
@@ -323,18 +323,18 @@
             width: 500%;
             height: 100%;
             animation: slideShow 20s infinite linear;
-            gap: 10px;
+            gap: 0;
         }
 
         .gallery-slide {
-            width: calc(20% - 8px);
+            width: 20%;
             height: 100%;
             position: relative;
             overflow: hidden;
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 5px;
+            padding: 15px;
         }
 
         .gallery-slide img {
@@ -344,25 +344,27 @@
             transition: transform 0.5s ease;
             cursor: pointer;
             border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
         }
 
         .gallery-slide:hover img {
             transform: scale(1.05);
         }
 
+        /* Thu hẹp frame cover */
         .gallery-overlay {
             position: absolute;
             bottom: 20px;
             left: 20px;
             right: 20px;
-            background: linear-gradient(transparent, rgba(0, 0, 0, 0.8));
+            background: linear-gradient(transparent, rgba(0, 0, 0, 0.85));
             color: white;
-            padding: 25px 20px 15px;
+            padding: 15px 12px 8px;
             text-align: center;
             transform: translateY(100%);
             transition: transform 0.3s ease;
-            border-radius: 15px;
+            border-radius: 10px;
+            max-height: 80px;
         }
 
         .gallery-slide:hover .gallery-overlay {
@@ -370,13 +372,21 @@
         }
 
         .gallery-overlay h3 {
-            font-size: 1.3rem;
-            margin-bottom: 8px;
+            font-size: 1.1rem;
+            margin-bottom: 4px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
 
         .gallery-overlay p {
-            font-size: 0.9rem;
+            font-size: 0.8rem;
             opacity: 0.9;
+            line-height: 1.2;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
         }
 
         @keyframes slideShow {
@@ -538,13 +548,6 @@
         }
 
         /* Contact Section */
-        .contact {
-            background: rgba(255, 255, 255, 0.95);
-            padding: 60px 0;
-            margin: 40px 20px;
-            border-radius: 30px;
-            text-align: center;
-        }
         .contact {
             background: rgba(255, 255, 255, 0.95);
             padding: 60px 0;
@@ -957,27 +960,31 @@
             }
 
             .gallery-track {
-                gap: 8px;
+                gap: 0;
             }
 
             .gallery-slide {
-                width: calc(20% - 6.4px);
-                padding: 3px;
+                width: 20%;
+                padding: 10px;
             }
 
+            /* Mobile overlay adjustments */
             .gallery-overlay {
                 bottom: 15px;
                 left: 15px;
                 right: 15px;
-                padding: 20px 15px 10px;
+                padding: 12px 10px 6px;
+                max-height: 65px;
             }
 
             .gallery-overlay h3 {
-                font-size: 1.1rem;
+                font-size: 1rem;
+                margin-bottom: 3px;
             }
 
             .gallery-overlay p {
-                font-size: 0.8rem;
+                font-size: 0.75rem;
+                -webkit-line-clamp: 1;
             }
 
             .popup-content {

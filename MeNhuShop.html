@@ -49,22 +49,13 @@
             gap: 15px;
         }
 
-        .logo-circle {
-            width: 60px;
-            height: 60px;
-            background: linear-gradient(135deg, #f4e4bc, #d4a574);
+        .logo-image {
+            width: 70px;
+            height: 70px;
             border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            object-fit: cover;
             border: 3px solid #8b6f47;
-            position: relative;
-        }
-
-        .logo-characters {
-            font-size: 24px;
-            font-weight: bold;
-            color: #8b6f47;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
         }
 
         .logo-text {
@@ -574,28 +565,16 @@
             position: relative;
         }
 
-        .scroll-indicator {
-            position: absolute;
-            bottom: 10px;
-            right: 15px;
-            background: rgba(107, 142, 35, 0.9);
-            color: white;
-            padding: 5px 10px;
-            border-radius: 15px;
-            font-size: 12px;
+        .scroll-hint {
+            background: rgba(107, 142, 35, 0.1);
+            border: 1px solid #6b8e23;
+            border-radius: 10px;
+            padding: 8px 12px;
+            margin: 10px 0;
+            text-align: center;
+            font-size: 13px;
+            color: #6b8e23;
             font-weight: bold;
-            animation: pulse 2s infinite;
-            display: none;
-        }
-
-        .scroll-indicator.show {
-            display: block;
-        }
-
-        @keyframes pulse {
-            0% { opacity: 1; }
-            50% { opacity: 0.6; }
-            100% { opacity: 1; }
         }
 
         .message-actions {
@@ -682,9 +661,7 @@
     <header>
         <nav class="container">
             <div class="logo">
-                <div class="logo-circle">
-                    <span class="logo-characters">👫</span>
-                </div>
+                <img src="logo.png" alt="Mê Như Latte Logo" class="logo-image">
                 <div class="logo-text">Mê Như Latte</div>
             </div>
             <ul class="nav-links">
@@ -852,6 +829,12 @@
                 </div>
 
                 <div class="form-group">
+                    <label>Ly này cho ai? <span style="color: #8b6f47;">(Tùy chọn)</span></label>
+                    <input type="text" id="drinkFor" placeholder="Để trống nếu là cho bạn, hoặc ghi tên người khác">
+                    <small style="color: #666; font-size: 12px;">💡 Ví dụ: "Anh Nam", "Chị Lan", "Bạn Minh"...</small>
+                </div>
+
+                <div class="form-group">
                     <label>Chọn đồ uống:</label>
                     <select id="drinkSelect" required>
                         <option value="">-- Chọn đồ uống --</option>
@@ -957,12 +940,14 @@
             
             <div class="message-preview" id="messagePreview">
                 <!-- Message content will be inserted here -->
-                <div class="scroll-indicator" id="scrollIndicator">⬇️ Lướt xuống để xem thêm</div>
+            </div>
+
+            <div class="scroll-hint" id="scrollHint" style="display: none;">
+                📱 Nội dung dài - vuốt lên xuống để xem tất cả thông tin
             </div>
 
             <p style="text-align: center; color: #666; margin: 15px 0;">
-                👆 Đây là tin nhắn đã soạn sẵn cho đơn hàng của bạn<br>
-                <small style="color: #999;">💡 Nếu tin nhắn dài, hãy lướt xuống để xem đầy đủ thông tin</small>
+                👆 Đây là tin nhắn đã soạn sẵn cho đơn hàng của bạn
             </p>
 
             <div class="message-actions">
@@ -974,19 +959,13 @@
                 </button>
             </div>
 
-            <div style="margin-top: 10px;">
-                <button class="copy-btn" onclick="closeMessageModal()" style="background: linear-gradient(135deg, #6b8e23, #8fbc8f);">
-                    🔙 Quay lại giỏ hàng
-                </button>
-            </div>
-
             <div class="copy-status" id="copyStatus"></div>
 
             <p style="text-align: center; color: #999; font-size: 14px; margin-top: 20px;">
                 💡 <strong>Hướng dẫn:</strong><br>
                 1. Sao chép tin nhắn<br>
-                2. Mở Zalo → Nhấn "Nhắn tin"<br>
-                3. Dán (Ctrl+V) và gửi
+                2. Mở Zalo → Tìm "Mê Như Latte"<br>
+                3. Dán tin nhắn và gửi
             </p>
         </div>
     </div>
@@ -1023,6 +1002,7 @@
         // Close message preview modal
         function closeMessageModal() {
             messageModal.style.display = 'none';
+            document.getElementById('scrollHint').style.display = 'none';
         }
 
         // Handle close button clicks for both modals
@@ -1098,6 +1078,7 @@
             const customerName = document.getElementById('customerName').value.trim();
             const customerPhone = document.getElementById('customerPhone').value.trim();
             const customerAddress = document.getElementById('customerAddress').value.trim();
+            const drinkFor = document.getElementById('drinkFor').value.trim();
             const drink = document.getElementById('drinkSelect').value;
             const matchaType = document.getElementById('matchaType').value;
             const quantity = parseInt(document.getElementById('quantity').value) || 1;
@@ -1142,11 +1123,15 @@
 
             const itemPrice = calculateItemPrice();
             
+            // Determine who this drink is for
+            const drinkForName = drinkFor || customerName;
+            
             const cartItem = {
                 id: ++cartItemCounter,
                 customerName: customerName,
                 customerPhone: customerPhone,
                 customerAddress: customerAddress,
+                drinkFor: drinkForName,
                 drink: drink,
                 matchaType: matchaType,
                 quantity: quantity,
@@ -1162,7 +1147,8 @@
             clearForm();
             
             // Show success message
-            alert(`✅ Đã thêm vào giỏ hàng cho ${customerName}! Bạn có thể tiếp tục thêm món khác.`);
+            const forWhom = drinkFor ? ` cho ${drinkFor}` : '';
+            alert(`✅ Đã thêm vào giỏ hàng${forWhom}! Bạn có thể tiếp tục thêm món khác.`);
         }
 
         // Remove item from cart
@@ -1190,12 +1176,14 @@
 
             cart.forEach(item => {
                 grandTotal += item.price;
+                const isForSomeoneElse = item.drinkFor !== item.customerName;
                 cartHTML += `
                     <div class="cart-item">
                         <button class="remove-item" onclick="removeFromCart(${item.id})">×</button>
                         <h4>👤 ${item.customerName}</h4>
                         <p><strong>📞 SĐT:</strong> ${item.customerPhone}</p>
                         <p><strong>📍 Địa chỉ:</strong> ${item.customerAddress}</p>
+                        ${isForSomeoneElse ? `<p style="color: #6b8e23; font-weight: bold;">🍃 Ly này cho: ${item.drinkFor}</p>` : ''}
                         <p><strong>Đồ uống:</strong> ${item.drink}</p>
                         ${item.matchaType ? `<p><strong>Matcha:</strong> ${item.matchaType}</p>` : ''}
                         <p><strong>Số lượng:</strong> ${item.quantity}</p>
@@ -1219,6 +1207,7 @@
             // document.getElementById('customerPhone').value = '';
             // document.getElementById('customerAddress').value = '';
             
+            document.getElementById('drinkFor').value = '';  // Clear "for who" field
             document.getElementById('drinkSelect').value = '';
             document.getElementById('matchaType').value = '';
             document.getElementById('quantity').value = '1';
@@ -1250,37 +1239,58 @@
                 return;
             }
 
-            // Format order message with customer details including addresses
+            // Get main customer info (from first item)
+            const mainCustomer = cart[0];
+            
+            // Group items by who they're for
+            const groupedItems = {};
+            let grandTotal = 0;
+            
+            cart.forEach(item => {
+                grandTotal += item.price;
+                const forWho = item.drinkFor;
+                
+                if (!groupedItems[forWho]) {
+                    groupedItems[forWho] = [];
+                }
+                groupedItems[forWho].push(item);
+            });
+
+            // Format order message
             let orderMessage = `🧋 ĐƠN HÀNG MỚI - MÊ NHƯ LATTE\n\n`;
+            orderMessage += `👤 Tên người đặt: ${mainCustomer.customerName}\n`;
+            orderMessage += `📞 SĐT: ${mainCustomer.customerPhone}\n`;
+            orderMessage += `📍 Địa chỉ: ${mainCustomer.customerAddress}\n\n`;
             orderMessage += `📋 Chi tiết đơn hàng:\n`;
             
-            let grandTotal = 0;
-            cart.forEach((item, index) => {
-                grandTotal += item.price;
-                orderMessage += `\n${index + 1}. 👤 ${item.customerName}\n`;
-                orderMessage += `   📞 SĐT: ${item.customerPhone}\n`;
-                orderMessage += `   📍 Địa chỉ: ${item.customerAddress}\n`;
-                orderMessage += `   🧋 ${item.drink}\n`;
+            // Add items grouped by person
+            Object.keys(groupedItems).forEach(personName => {
+                const items = groupedItems[personName];
+                orderMessage += `\n🍃 Ly nước của ${personName}:\n`;
                 
-                if (item.matchaType && item.drink.toLowerCase().includes('matcha')) {
-                    orderMessage += `   • Loại Matcha: ${item.matchaType}\n`;
-                }
-                
-                orderMessage += `   • Số lượng: ${item.quantity}\n`;
-                orderMessage += `   • Độ ngọt: ${item.sweetness}\n`;
-                orderMessage += `   • Lượng đá: ${item.ice}\n`;
-                orderMessage += `   • Loại sữa: ${item.milk}\n`;
-                
-                if (item.notes) {
-                    orderMessage += `   • Ghi chú: ${item.notes}\n`;
-                }
-                
-                orderMessage += `   💰 Thành tiền: ${item.price}K\n`;
+                items.forEach((item, index) => {
+                    orderMessage += `${index + 1}. ${item.drink}\n`;
+                    
+                    if (item.matchaType && item.drink.toLowerCase().includes('matcha')) {
+                        orderMessage += `   • Loại Matcha: ${item.matchaType}\n`;
+                    }
+                    
+                    orderMessage += `   • Số lượng: ${item.quantity}\n`;
+                    orderMessage += `   • Độ ngọt: ${item.sweetness}\n`;
+                    orderMessage += `   • Lượng đá: ${item.ice}\n`;
+                    orderMessage += `   • Loại sữa: ${item.milk}\n`;
+                    
+                    if (item.notes) {
+                        orderMessage += `   • Ghi chú: ${item.notes}\n`;
+                    }
+                    
+                    orderMessage += `   💰 Thành tiền: ${item.price}K\n\n`;
+                });
             });
             
-            orderMessage += `\n💰 TỔNG CỘNG: ${grandTotal}K\n`;
+            orderMessage += `💰 TỔNG CỘNG: ${grandTotal}K\n`;
             orderMessage += `📦 Tổng số món: ${cart.length}\n\n`;
-            orderMessage += `🚚 Chuẩn bị giao hàng đến các địa chỉ trên\n\n`;
+            orderMessage += `🚚 Chuẩn bị giao hàng đến địa chỉ trên\n\n`;
             orderMessage += `Cảm ơn bạn đã đặt hàng! 💚`;
 
             // Store the message and show preview modal
@@ -1288,40 +1298,24 @@
             document.getElementById('messagePreview').textContent = orderMessage;
             messageModal.style.display = 'block';
             
-            // Setup scroll indicator
-            setupScrollIndicator();
+            // Show scroll hint if content is long
+            showScrollHintIfNeeded();
         }
 
-        // Setup scroll indicator for message preview
-        function setupScrollIndicator() {
+        // Show scroll hint for long content
+        function showScrollHintIfNeeded() {
             const messagePreview = document.getElementById('messagePreview');
-            const scrollIndicator = document.getElementById('scrollIndicator');
+            const scrollHint = document.getElementById('scrollHint');
             
-            // Check if content is scrollable
-            function checkScrollable() {
+            // Simple check: if there are multiple items or long content, show hint
+            setTimeout(() => {
                 const isScrollable = messagePreview.scrollHeight > messagePreview.clientHeight;
-                const isAtBottom = messagePreview.scrollTop + messagePreview.clientHeight >= messagePreview.scrollHeight - 5;
-                
-                if (isScrollable && !isAtBottom) {
-                    scrollIndicator.classList.add('show');
+                if (isScrollable || cart.length > 1 || currentOrderMessage.length > 500) {
+                    scrollHint.style.display = 'block';
                 } else {
-                    scrollIndicator.classList.remove('show');
+                    scrollHint.style.display = 'none';
                 }
-            }
-            
-            // Initial check
-            setTimeout(checkScrollable, 100);
-            
-            // Check on scroll
-            messagePreview.addEventListener('scroll', checkScrollable);
-            
-            // Remove scroll listener when modal closes
-            const originalCloseFunction = closeMessageModal;
-            window.closeMessageModal = function() {
-                messagePreview.removeEventListener('scroll', checkScrollable);
-                scrollIndicator.classList.remove('show');
-                originalCloseFunction();
-            };
+            }, 100);
         }
 
         // Copy message function

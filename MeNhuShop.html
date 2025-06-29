@@ -571,6 +571,31 @@
             line-height: 1.5;
             max-height: 300px;
             overflow-y: auto;
+            position: relative;
+        }
+
+        .scroll-indicator {
+            position: absolute;
+            bottom: 10px;
+            right: 15px;
+            background: rgba(107, 142, 35, 0.9);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-size: 12px;
+            font-weight: bold;
+            animation: pulse 2s infinite;
+            display: none;
+        }
+
+        .scroll-indicator.show {
+            display: block;
+        }
+
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.6; }
+            100% { opacity: 1; }
         }
 
         .message-actions {
@@ -822,6 +847,11 @@
                 </div>
 
                 <div class="form-group">
+                    <label>Địa chỉ giao hàng: <span style="color: red;">*</span></label>
+                    <input type="text" id="customerAddress" placeholder="Nhập địa chỉ giao hàng đầy đủ" required>
+                </div>
+
+                <div class="form-group">
                     <label>Chọn đồ uống:</label>
                     <select id="drinkSelect" required>
                         <option value="">-- Chọn đồ uống --</option>
@@ -927,10 +957,12 @@
             
             <div class="message-preview" id="messagePreview">
                 <!-- Message content will be inserted here -->
+                <div class="scroll-indicator" id="scrollIndicator">⬇️ Lướt xuống để xem thêm</div>
             </div>
 
             <p style="text-align: center; color: #666; margin: 15px 0;">
-                👆 Đây là tin nhắn đã soạn sẵn cho đơn hàng của bạn
+                👆 Đây là tin nhắn đã soạn sẵn cho đơn hàng của bạn<br>
+                <small style="color: #999;">💡 Nếu tin nhắn dài, hãy lướt xuống để xem đầy đủ thông tin</small>
             </p>
 
             <div class="message-actions">
@@ -939,6 +971,12 @@
                 </button>
                 <button class="zalo-btn" onclick="openZalo()">
                     💬 Mở Zalo
+                </button>
+            </div>
+
+            <div style="margin-top: 10px;">
+                <button class="copy-btn" onclick="closeMessageModal()" style="background: linear-gradient(135deg, #6b8e23, #8fbc8f);">
+                    🔙 Quay lại giỏ hàng
                 </button>
             </div>
 
@@ -960,52 +998,52 @@
     </footer>
 
     <script>
-    // Modal functionality
-            const modal = document.getElementById('orderModal');
-            const messageModal = document.getElementById('messageModal');
-            let currentOrderMessage = '';
+        // Modal functionality
+        const modal = document.getElementById('orderModal');
+        const messageModal = document.getElementById('messageModal');
+        let currentOrderMessage = '';
 
-            function orderOnline() {
-                modal.style.display = 'block';
-                // Set default selections
-                document.querySelectorAll('.option-group').forEach(group => {
-                    const activeBtn = group.querySelector('.active');
-                    if (!activeBtn) {
-                        group.querySelector('.option-btn').classList.add('active');
-                    }
-                });
-                calculateItemPrice();
-            }
-
-            // Close main order modal
-            function closeOrderModal() {
-                modal.style.display = 'none';
-            }
-
-            // Close message preview modal
-            function closeMessageModal() {
-                messageModal.style.display = 'none';
-            }
-
-            // Handle close button clicks for both modals
-            document.addEventListener('click', function(event) {
-                if (event.target.classList.contains('close')) {
-                    const modal = event.target.closest('.modal, .message-modal');
-                    if (modal) {
-                        modal.style.display = 'none';
-                    }
+        function orderOnline() {
+            modal.style.display = 'block';
+            // Set default selections
+            document.querySelectorAll('.option-group').forEach(group => {
+                const activeBtn = group.querySelector('.active');
+                if (!activeBtn) {
+                    group.querySelector('.option-btn').classList.add('active');
                 }
             });
+            calculateItemPrice();
+        }
 
-            // Handle clicks outside modals
-            window.onclick = function(event) {
-                if (event.target == modal) {
+        // Close main order modal
+        function closeOrderModal() {
+            modal.style.display = 'none';
+        }
+
+        // Close message preview modal
+        function closeMessageModal() {
+            messageModal.style.display = 'none';
+        }
+
+        // Handle close button clicks for both modals
+        document.addEventListener('click', function(event) {
+            if (event.target.classList.contains('close')) {
+                const modal = event.target.closest('.modal, .message-modal');
+                if (modal) {
                     modal.style.display = 'none';
                 }
-                if (event.target == messageModal) {
-                    messageModal.style.display = 'none';
-                }
             }
+        });
+
+        // Handle clicks outside modals
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                modal.style.display = 'none';
+            }
+            if (event.target == messageModal) {
+                messageModal.style.display = 'none';
+            }
+        }
 
         // Option button handling
         document.querySelectorAll('.option-group').forEach(group => {
@@ -1059,6 +1097,7 @@
         function addToCart() {
             const customerName = document.getElementById('customerName').value.trim();
             const customerPhone = document.getElementById('customerPhone').value.trim();
+            const customerAddress = document.getElementById('customerAddress').value.trim();
             const drink = document.getElementById('drinkSelect').value;
             const matchaType = document.getElementById('matchaType').value;
             const quantity = parseInt(document.getElementById('quantity').value) || 1;
@@ -1085,6 +1124,12 @@
                 return;
             }
 
+            if (!customerAddress) {
+                alert('⚠️ Vui lòng nhập địa chỉ giao hàng!');
+                document.getElementById('customerAddress').focus();
+                return;
+            }
+
             if (!drink) {
                 alert('⚠️ Vui lòng chọn đồ uống!');
                 return;
@@ -1101,6 +1146,7 @@
                 id: ++cartItemCounter,
                 customerName: customerName,
                 customerPhone: customerPhone,
+                customerAddress: customerAddress,
                 drink: drink,
                 matchaType: matchaType,
                 quantity: quantity,
@@ -1149,6 +1195,7 @@
                         <button class="remove-item" onclick="removeFromCart(${item.id})">×</button>
                         <h4>👤 ${item.customerName}</h4>
                         <p><strong>📞 SĐT:</strong> ${item.customerPhone}</p>
+                        <p><strong>📍 Địa chỉ:</strong> ${item.customerAddress}</p>
                         <p><strong>Đồ uống:</strong> ${item.drink}</p>
                         ${item.matchaType ? `<p><strong>Matcha:</strong> ${item.matchaType}</p>` : ''}
                         <p><strong>Số lượng:</strong> ${item.quantity}</p>
@@ -1165,9 +1212,13 @@
             submitBtn.style.display = 'block';
         }
 
-        // Clear form after adding to cart (keep customer name and phone)
+        // Clear form after adding to cart (keep customer info for convenience)
         function clearForm() {
-            // Don't clear customer name and phone - keep them for convenience
+            // Keep customer name, phone, and address for convenience when adding multiple items
+            // document.getElementById('customerName').value = '';
+            // document.getElementById('customerPhone').value = '';
+            // document.getElementById('customerAddress').value = '';
+            
             document.getElementById('drinkSelect').value = '';
             document.getElementById('matchaType').value = '';
             document.getElementById('quantity').value = '1';
@@ -1199,7 +1250,7 @@
                 return;
             }
 
-            // Format order message with customer names and phones
+            // Format order message with customer details including addresses
             let orderMessage = `🧋 ĐƠN HÀNG MỚI - MÊ NHƯ LATTE\n\n`;
             orderMessage += `📋 Chi tiết đơn hàng:\n`;
             
@@ -1208,6 +1259,7 @@
                 grandTotal += item.price;
                 orderMessage += `\n${index + 1}. 👤 ${item.customerName}\n`;
                 orderMessage += `   📞 SĐT: ${item.customerPhone}\n`;
+                orderMessage += `   📍 Địa chỉ: ${item.customerAddress}\n`;
                 orderMessage += `   🧋 ${item.drink}\n`;
                 
                 if (item.matchaType && item.drink.toLowerCase().includes('matcha')) {
@@ -1228,13 +1280,48 @@
             
             orderMessage += `\n💰 TỔNG CỘNG: ${grandTotal}K\n`;
             orderMessage += `📦 Tổng số món: ${cart.length}\n\n`;
-            orderMessage += `📍 Địa chỉ giao hàng: (Khách hàng vui lòng cung cấp)\n\n`;
+            orderMessage += `🚚 Chuẩn bị giao hàng đến các địa chỉ trên\n\n`;
             orderMessage += `Cảm ơn bạn đã đặt hàng! 💚`;
 
             // Store the message and show preview modal
             currentOrderMessage = orderMessage;
             document.getElementById('messagePreview').textContent = orderMessage;
             messageModal.style.display = 'block';
+            
+            // Setup scroll indicator
+            setupScrollIndicator();
+        }
+
+        // Setup scroll indicator for message preview
+        function setupScrollIndicator() {
+            const messagePreview = document.getElementById('messagePreview');
+            const scrollIndicator = document.getElementById('scrollIndicator');
+            
+            // Check if content is scrollable
+            function checkScrollable() {
+                const isScrollable = messagePreview.scrollHeight > messagePreview.clientHeight;
+                const isAtBottom = messagePreview.scrollTop + messagePreview.clientHeight >= messagePreview.scrollHeight - 5;
+                
+                if (isScrollable && !isAtBottom) {
+                    scrollIndicator.classList.add('show');
+                } else {
+                    scrollIndicator.classList.remove('show');
+                }
+            }
+            
+            // Initial check
+            setTimeout(checkScrollable, 100);
+            
+            // Check on scroll
+            messagePreview.addEventListener('scroll', checkScrollable);
+            
+            // Remove scroll listener when modal closes
+            const originalCloseFunction = closeMessageModal;
+            window.closeMessageModal = function() {
+                messagePreview.removeEventListener('scroll', checkScrollable);
+                scrollIndicator.classList.remove('show');
+                originalCloseFunction();
+            };
         }
 
         // Copy message function

@@ -1,0 +1,26 @@
+{
+  "buildCommand": null,
+  "outputDirectory": "./",
+  "framework": null,
+  "installCommand": null,
+  "devCommand": null,
+  "cleanUrls": true,
+  "trailingSlash": false,
+  "routes": [
+    {
+      "src": "/",
+      "dest": "/MeNhuShop.html"
+    }
+  ],
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=86400"
+        }
+      ]
+    }
+  ]
+}

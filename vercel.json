@@ -6,10 +6,10 @@
   "devCommand": null,
   "cleanUrls": true,
   "trailingSlash": false,
-  "routes": [
+  "rewrites": [
     {
-      "src": "/",
-      "dest": "/MeNhuShop.html"
+      "source": "/",
+      "destination": "/MeNhuShop.html"
     }
   ],
   "headers": [

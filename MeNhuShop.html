@@ -3233,39 +3233,91 @@
             });
         }
 
-        // Open Zalo function - Simple and reliable
+        // Detect iOS devices
+        function isIOS() {
+            return /iPad|iPhone|iPod/.test(navigator.userAgent) || 
+                   (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+        }
+
+        // Open Zalo function - iOS optimized
         function openZalo() {
-            // Simple Zalo web URL - let browser handle the app detection
-            const zaloUrl = 'https://zalo.me/84984112173';
-            
-            // Open Zalo link in new tab
-            window.open(zaloUrl, '_blank');
-            
-            // Show helpful instructions
+            if (isIOS()) {
+                // iOS: Show manual instructions directly (most reliable)
+                showIOSInstructions();
+            } else {
+                // Android/Desktop: Use link method
+                const zaloUrl = 'https://zalo.me/84984112173';
+                
+                // Try same-tab navigation for better compatibility
+                window.location.href = zaloUrl;
+                
+                // Show success message
+                setTimeout(() => {
+                    document.getElementById('copyStatus').innerHTML = `
+                        <div style="text-align: center; margin-top: var(--space-md);">
+                            <p style="color: var(--color-success); font-weight: bold;">
+                                🚀 Đang chuyển đến Zalo...
+                            </p>
+                        </div>
+                    `;
+                }, 100);
+            }
+        }
+
+        // Show iOS-specific instructions
+        function showIOSInstructions() {
             document.getElementById('copyStatus').innerHTML = `
                 <div style="text-align: center; margin-top: var(--space-md);">
-                    <p style="color: var(--color-success); font-weight: bold; margin-bottom: var(--space-sm);">
-                        🚀 Đã mở link Zalo!
+                    <p style="color: var(--color-primary); font-weight: bold; margin-bottom: var(--space-md);">
+                        📱 iOS - Hướng dẫn gửi đơn hàng
                     </p>
-                    <div style="background: var(--color-mint-light); padding: var(--space-md); border-radius: var(--radius-lg); text-align: left;">
-                        <h4 style="color: var(--color-primary); margin-bottom: var(--space-sm);">📱 Tiếp theo:</h4>
-                        <ol style="margin: 0; padding-left: var(--space-lg); line-height: 1.6; font-size: var(--font-size-sm);">
-                            <li>Chọn <strong>"Mở bằng Zalo"</strong> khi được hỏi</li>
-                            <li>Hoặc copy số điện thoại: <strong>0984 112 173</strong></li>
-                            <li>Tìm trong Zalo và nhắn tin</li>
-                            <li>Dán tin nhắn đã sao chép ở trên</li>
-                        </ol>
+                    <div style="background: var(--color-mint-light); padding: var(--space-lg); border-radius: var(--radius-lg); text-align: left; border: 2px solid var(--color-primary);">
+                        <h4 style="color: var(--color-primary); margin-bottom: var(--space-md); text-align: center;">🎯 Làm theo 4 bước:</h4>
+                        
+                        <div style="background: var(--color-white); padding: var(--space-md); border-radius: var(--radius-md); margin-bottom: var(--space-md);">
+                            <p style="margin: 0; font-weight: bold; color: var(--color-primary);">
+                                1️⃣ Mở app Zalo trên điện thoại
+                            </p>
+                        </div>
+                        
+                        <div style="background: var(--color-white); padding: var(--space-md); border-radius: var(--radius-md); margin-bottom: var(--space-md);">
+                            <p style="margin: 0; font-weight: bold; color: var(--color-primary);">
+                                2️⃣ Tìm kiếm số điện thoại:
+                            </p>
+                            <p style="margin: var(--space-xs) 0 0 0; font-size: var(--font-size-lg); font-weight: bold; background: var(--color-cream); padding: var(--space-xs); border-radius: var(--radius-sm); text-align: center;">
+                                <a href="tel:0984112173" style="color: var(--color-primary); text-decoration: none;">0984 112 173</a>
+                            </p>
+                        </div>
+                        
+                        <div style="background: var(--color-white); padding: var(--space-md); border-radius: var(--radius-md); margin-bottom: var(--space-md);">
+                            <p style="margin: 0; font-weight: bold; color: var(--color-primary);">
+                                3️⃣ Nhấn "Nhắn tin" trong kết quả tìm kiếm
+                            </p>
+                        </div>
+                        
+                        <div style="background: var(--color-white); padding: var(--space-md); border-radius: var(--radius-md);">
+                            <p style="margin: 0; font-weight: bold; color: var(--color-primary);">
+                                4️⃣ Dán tin nhắn đã sao chép ở trên và gửi
+                            </p>
+                        </div>
+                        
+                        <div style="text-align: center; margin-top: var(--space-lg); padding-top: var(--space-md); border-top: 2px dashed var(--color-primary);">
+                            <p style="margin: 0; font-size: var(--font-size-sm); color: var(--color-text-light);">
+                                💡 <strong>Hoặc gọi trực tiếp:</strong> 
+                                <a href="tel:0984112173" style="color: var(--color-primary); font-weight: bold; text-decoration: none;">0984 112 173</a>
+                            </p>
+                        </div>
                     </div>
                 </div>
             `;
-            
-            // Optional: Auto close after success
+
+            // Auto close confirmation for iOS too
             setTimeout(() => {
                 const autoClose = confirm("Đã gửi đơn hàng thành công?\n\nOK: Xóa giỏ hàng và đóng\nCancel: Quay lại để chỉnh sửa");
                 if (autoClose) {
                     finishOrder();
                 }
-            }, 5000);
+            }, 8000); // Longer timeout for iOS users to read instructions
         }
 
         // Function to completely finish the order and clear everything

@@ -1128,6 +1128,7 @@
             border-radius: var(--radius-md);
             margin-bottom: var(--space-sm);
             box-shadow: var(--shadow-sm);
+            position: relative;
         }
 
         .review-item h4 {
@@ -1135,6 +1136,7 @@
             font-size: var(--font-size-lg);
             margin-bottom: var(--space-xs);
             font-weight: 600;
+            padding-right: var(--space-3xl); /* Make room for edit button */
         }
 
         .review-item p {
@@ -1319,6 +1321,7 @@
             margin-bottom: var(--space-xs);
             font-size: var(--font-size-lg);
             font-weight: 600;
+            padding-right: var(--space-4xl); /* Make room for buttons */
         }
 
         .cart-item p {
@@ -1334,10 +1337,16 @@
             font-size: var(--font-size-lg);
         }
 
-        .remove-item {
+        .cart-item-actions {
             position: absolute;
             top: var(--space-sm);
             right: var(--space-sm);
+            display: flex;
+            gap: var(--space-xs);
+        }
+
+        .remove-item,
+        .edit-item {
             background: var(--color-danger);
             color: var(--color-white);
             border: none;
@@ -1353,11 +1362,23 @@
             transition: all var(--transition-fast);
         }
 
+        .edit-item {
+            background: var(--color-primary);
+        }
+
         .remove-item:hover,
         .remove-item:focus {
             background: #c82333;
             transform: scale(1.1);
             outline: 2px solid var(--color-danger);
+            outline-offset: 2px;
+        }
+
+        .edit-item:hover,
+        .edit-item:focus {
+            background: var(--color-primary-dark);
+            transform: scale(1.1);
+            outline: 2px solid var(--color-primary);
             outline-offset: 2px;
         }
 
@@ -2373,6 +2394,7 @@
         let currentEditingItemId = null;
         let currentEditingName = '';
         let addItemSectionOpen = false;
+        let editingItemId = null; // For editing cart items
 
         // Modal elements
         const modal = document.getElementById('orderModal');
@@ -2655,6 +2677,13 @@
                     addItemForm.classList.remove('closing');
                     addItemSectionOpen = false;
                     updateToggleButton();
+                    
+                    // Cancel edit mode when closing form
+                    if (editingItemId) {
+                        cancelEditMode();
+                        clearItemForm();
+                        showToast('❌ Đã hủy chỉnh sửa');
+                    }
                 }, 250);
             } else {
                 // Open add item form
@@ -2795,28 +2824,59 @@
 
             const itemPrice = calculateItemPrice();
             
-            const cartItem = {
-                id: ++cartItemCounter,
-                drinkFor: drinkFor,
-                drink: drink,
-                matchaType: matchaType,
-                quantity: quantity,
-                sweetness: sweetness,
-                ice: ice,
-                milk: milk,
-                notes: notes,
-                price: itemPrice
-            };
+            if (editingItemId) {
+                // Edit mode: Update existing item
+                const existingItemIndex = cart.findIndex(item => item.id === editingItemId);
+                if (existingItemIndex !== -1) {
+                    cart[existingItemIndex] = {
+                        id: editingItemId, // Keep same ID
+                        drinkFor: drinkFor,
+                        drink: drink,
+                        matchaType: matchaType,
+                        quantity: quantity,
+                        sweetness: sweetness,
+                        ice: ice,
+                        milk: milk,
+                        notes: notes,
+                        price: itemPrice
+                    };
 
-            cart.push(cartItem);
+                    const forWhom = drinkFor !== 'Bạn' ? ` cho ${drinkFor}` : '';
+                    showToast(`✅ Đã cập nhật "${drink}"${forWhom}`);
+                } else {
+                    showToast('⚠️ Không tìm thấy món để cập nhật!');
+                    cancelEditMode();
+                    return;
+                }
+
+                // Exit edit mode
+                cancelEditMode();
+            } else {
+                // Add mode: Create new item
+                const cartItem = {
+                    id: ++cartItemCounter,
+                    drinkFor: drinkFor,
+                    drink: drink,
+                    matchaType: matchaType,
+                    quantity: quantity,
+                    sweetness: sweetness,
+                    ice: ice,
+                    milk: milk,
+                    notes: notes,
+                    price: itemPrice
+                };
+
+                cart.push(cartItem);
+                
+                const forWhom = drinkFor !== 'Bạn' ? ` cho ${drinkFor}` : '';
+                showToast(`✅ Đã thêm "${drink}"${forWhom} vào giỏ hàng`);
+            }
+
             updateCartDisplay();
             updateCartUI();
             clearItemForm();
             
-            const forWhom = drinkFor !== 'Bạn' ? ` cho ${drinkFor}` : '';
-            showToast(`✅ Đã thêm "${drink}"${forWhom} vào giỏ hàng`);
-            
-            // After adding item, collapse add item form and switch to cart view
+            // After adding/updating item, collapse add item form and switch to cart view
             if (addItemSectionOpen) {
                 toggleAddItemSection();
             }
@@ -2851,6 +2911,9 @@
                 }
             });
             
+            // Cancel edit mode if active
+            cancelEditMode();
+            
             calculateItemPrice();
         }
 
@@ -2870,7 +2933,106 @@
             }
         }
 
-        // Edit person name
+        // Edit cart item
+        function editCartItem(itemId) {
+            const item = cart.find(cartItem => cartItem.id === itemId);
+            if (!item) {
+                showToast('⚠️ Không tìm thấy món để chỉnh sửa!');
+                return;
+            }
+
+            // Set editing mode
+            editingItemId = itemId;
+
+            // Populate form with item data
+            populateFormWithItem(item);
+
+            // Open add item section if closed
+            if (!addItemSectionOpen) {
+                toggleAddItemSection();
+            }
+
+            // Update button text to indicate editing
+            const addButton = document.querySelector('.add-to-cart');
+            if (addButton) {
+                addButton.innerHTML = '✏️ Cập nhật món này';
+                addButton.style.background = 'linear-gradient(135deg, var(--color-primary), var(--color-primary-light))';
+            }
+
+            // Scroll to form and show toast
+            setTimeout(() => {
+                const addItemForm = document.getElementById('addItemForm');
+                if (addItemForm) {
+                    addItemForm.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    showToast(`✏️ Đang chỉnh sửa "${item.drink}"`);
+                }
+            }, 300);
+        }
+
+        // Populate form with item data
+        function populateFormWithItem(item) {
+            // Basic fields
+            const drinkFor = document.getElementById('drinkFor');
+            const drinkSelect = document.getElementById('drinkSelect');
+            const matchaType = document.getElementById('matchaType');
+            const quantity = document.getElementById('quantity');
+            const notes = document.getElementById('notes');
+
+            if (drinkFor) drinkFor.value = item.drinkFor === 'Bạn' ? '' : item.drinkFor;
+            if (drinkSelect) drinkSelect.value = item.drink;
+            if (matchaType) matchaType.value = item.matchaType || '';
+            if (quantity) quantity.value = item.quantity;
+            if (notes) notes.value = item.notes || '';
+
+            // Option buttons
+            setActiveOption('[data-sweetness]', item.sweetness);
+            setActiveOption('[data-ice]', item.ice);
+            setActiveOption('[data-milk]', item.milk);
+
+            // Recalculate price
+            calculateItemPrice();
+        }
+
+        // Helper function to set active option
+        function setActiveOption(selector, value) {
+            // Remove all active classes
+            document.querySelectorAll(selector).forEach(btn => {
+                btn.classList.remove('active');
+                btn.setAttribute('aria-checked', 'false');
+            });
+
+            // Set active for matching value
+            const targetBtn = document.querySelector(`${selector}[data-${selector.slice(1, -1)}="${value}"]`);
+            if (targetBtn) {
+                targetBtn.classList.add('active');
+                targetBtn.setAttribute('aria-checked', 'true');
+            }
+        }
+
+        // Edit cart item from review (Step 2)
+        function editCartItemFromReview(itemId) {
+            const item = cart.find(cartItem => cartItem.id === itemId);
+            if (!item) {
+                showToast('⚠️ Không tìm thấy món để chỉnh sửa!');
+                return;
+            }
+
+            // Go back to step 1
+            goToStep1();
+
+            // Wait for step transition then edit
+            setTimeout(() => {
+                editCartItem(itemId);
+            }, 100);
+        }
+        function cancelEditMode() {
+            editingItemId = null;
+            const addButton = document.querySelector('.add-to-cart');
+            if (addButton) {
+                addButton.innerHTML = '🛒 Thêm vào giỏ hàng';
+                addButton.style.background = 'linear-gradient(135deg, var(--color-accent), var(--color-accent-light))';
+            }
+        }
         function editPersonName(itemId, currentName) {
             currentEditingItemId = itemId;
             currentEditingName = currentName;
@@ -2997,7 +3159,12 @@
                 items.forEach(item => {
                     cartHTML += `
                         <div class="cart-item">
-                            <button class="remove-item" onclick="removeFromCart(${item.id})" aria-label="Xóa món này khỏi giỏ hàng">×</button>
+                            <div class="cart-item-actions">
+                                <button class="edit-item" onclick="editCartItem(${item.id})" 
+                                        title="Chỉnh sửa món này" aria-label="Chỉnh sửa món ${item.drink}">✏️</button>
+                                <button class="remove-item" onclick="removeFromCart(${item.id})" 
+                                        title="Xóa món này" aria-label="Xóa món ${item.drink}">×</button>
+                            </div>
                             <h4>${item.drink}</h4>
                             ${item.matchaType ? `<p><strong>Matcha:</strong> ${item.matchaType}</p>` : ''}
                             <p><strong>Số lượng:</strong> ${item.quantity}</p>
@@ -3061,6 +3228,10 @@
                 items.forEach(item => {
                     reviewHTML += `
                         <div class="review-item">
+                            <div class="cart-item-actions">
+                                <button class="edit-item" onclick="editCartItemFromReview(${item.id})" 
+                                        title="Chỉnh sửa món này" aria-label="Chỉnh sửa món ${item.drink}">✏️</button>
+                            </div>
                             <h4>${item.drink}</h4>
                             ${item.matchaType ? `<p><strong>Matcha:</strong> ${item.matchaType}</p>` : ''}
                             <p><strong>Số lượng:</strong> ${item.quantity} | <strong>Độ ngọt:</strong> ${item.sweetness} | <strong>Đá:</strong> ${item.ice}</p>

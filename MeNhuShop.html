@@ -3233,76 +3233,39 @@
             });
         }
 
-        // Open Zalo function - Fixed for mobile
+        // Open Zalo function - Simple and reliable
         function openZalo() {
-            const phoneNumber = '84984112173';
-            const message = encodeURIComponent(currentOrderMessage);
+            // Simple Zalo web URL - let browser handle the app detection
+            const zaloUrl = 'https://zalo.me/84984112173';
             
-            // Try multiple Zalo URL schemes for better compatibility
-            const zaloUrls = [
-                `zalo://conversation?phone=${phoneNumber}&message=${message}`, // Zalo app scheme
-                `https://zalo.me/${phoneNumber}?message=${message}`, // Zalo web with message
-                `https://zalo.me/${phoneNumber}`, // Zalo web fallback
-                `https://chat.zalo.me/?phone=${phoneNumber}` // Alternative Zalo web
-            ];
+            // Open Zalo link in new tab
+            window.open(zaloUrl, '_blank');
             
-            let urlIndex = 0;
-            
-            function tryNextUrl() {
-                if (urlIndex < zaloUrls.length) {
-                    const currentUrl = zaloUrls[urlIndex];
-                    console.log(`Trying Zalo URL ${urlIndex + 1}:`, currentUrl);
-                    
-                    // Open in new window/tab
-                    const zaloWindow = window.open(currentUrl, '_blank');
-                    
-                    // Check if window opened successfully
-                    setTimeout(() => {
-                        if (zaloWindow && (zaloWindow.closed || zaloWindow.location.href === 'about:blank')) {
-                            urlIndex++;
-                            if (urlIndex < zaloUrls.length) {
-                                tryNextUrl();
-                            } else {
-                                // All URLs failed, show manual instructions
-                                showManualInstructions();
-                            }
-                        } else {
-                            // Success
-                            document.getElementById('copyStatus').innerHTML = '🚀 Đã mở Zalo! Dán tin nhắn đã sao chép vào chat.';
-                            setTimeout(() => {
-                                const autoClose = confirm("Đã gửi đơn hàng thành công?\n\nOK: Xóa giỏ hàng và đóng\nCancel: Quay lại để chỉnh sửa");
-                                if (autoClose) {
-                                    finishOrder();
-                                }
-                            }, 3000);
-                        }
-                    }, 1000);
-                } else {
-                    showManualInstructions();
-                }
-            }
-            
-            // Start trying URLs
-            tryNextUrl();
-        }
-        
-        // Show manual instructions if all Zalo URLs fail
-        function showManualInstructions() {
+            // Show helpful instructions
             document.getElementById('copyStatus').innerHTML = `
-                <div style="text-align: left; background: var(--color-mint-light); padding: var(--space-md); border-radius: var(--radius-lg); margin-top: var(--space-md);">
-                    <h4 style="color: var(--color-primary); margin-bottom: var(--space-sm);">📱 Hướng dẫn gửi đơn hàng:</h4>
-                    <ol style="margin: 0; padding-left: var(--space-lg); line-height: 1.6;">
-                        <li><strong>Sao chép tin nhắn</strong> ở trên (nếu chưa)</li>
-                        <li><strong>Mở app Zalo</strong> trên điện thoại</li>
-                        <li><strong>Tìm kiếm:</strong> <code style="background: var(--color-white); padding: 2px 6px; border-radius: 4px;">0984112173</code></li>
-                        <li><strong>Nhấn "Nhắn tin"</strong> và dán tin nhắn</li>
-                        <li><strong>Gửi đơn hàng</strong> 🚀</li>
-                    </ol>
-                    <p style="margin-top: var(--space-sm); font-size: var(--font-size-sm); color: var(--color-text-light);">
-                        💡 Hoặc gọi trực tiếp: <a href="tel:0984112173" style="color: var(--color-primary); font-weight: bold;">0984 112 173</a>
+                <div style="text-align: center; margin-top: var(--space-md);">
+                    <p style="color: var(--color-success); font-weight: bold; margin-bottom: var(--space-sm);">
+                        🚀 Đã mở link Zalo!
                     </p>
+                    <div style="background: var(--color-mint-light); padding: var(--space-md); border-radius: var(--radius-lg); text-align: left;">
+                        <h4 style="color: var(--color-primary); margin-bottom: var(--space-sm);">📱 Tiếp theo:</h4>
+                        <ol style="margin: 0; padding-left: var(--space-lg); line-height: 1.6; font-size: var(--font-size-sm);">
+                            <li>Chọn <strong>"Mở bằng Zalo"</strong> khi được hỏi</li>
+                            <li>Hoặc copy số điện thoại: <strong>0984 112 173</strong></li>
+                            <li>Tìm trong Zalo và nhắn tin</li>
+                            <li>Dán tin nhắn đã sao chép ở trên</li>
+                        </ol>
+                    </div>
                 </div>
             `;
+            
+            // Optional: Auto close after success
+            setTimeout(() => {
+                const autoClose = confirm("Đã gửi đơn hàng thành công?\n\nOK: Xóa giỏ hàng và đóng\nCancel: Quay lại để chỉnh sửa");
+                if (autoClose) {
+                    finishOrder();
+                }
+            }, 5000);
         }
 
         // Function to completely finish the order and clear everything

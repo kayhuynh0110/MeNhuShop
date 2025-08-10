@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mê Như Latte - Trà & Cà Phê Cao Cấp</title>
+    <title>Mê Như Latte - Trà Xanh & Cà Phê Cao Cấp</title>
     <link rel="icon" type="image/jpeg" href="logo.jpg">
     <style>
         /* CSS Variables for Design System */
@@ -804,6 +804,89 @@
             line-height: 1.5;
         }
 
+        /* Add Item Section Styles */
+        .add-item-section {
+            margin-top: var(--space-lg);
+            border-top: 2px solid var(--color-mint);
+            padding-top: var(--space-lg);
+        }
+
+        .add-item-header {
+            text-align: center;
+            margin-bottom: var(--space-md);
+        }
+
+        .toggle-add-item {
+            background: linear-gradient(135deg, var(--color-accent), var(--color-accent-light));
+            color: var(--color-white);
+            padding: var(--space-md) var(--space-xl);
+            border: none;
+            border-radius: var(--radius-xl);
+            font-size: var(--font-size-lg);
+            font-weight: 600;
+            cursor: pointer;
+            transition: all var(--transition-normal);
+            box-shadow: var(--shadow-md);
+            min-height: 56px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: var(--space-sm);
+            margin: 0 auto;
+        }
+
+        .toggle-add-item:hover,
+        .toggle-add-item:focus {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+            outline: 2px solid rgba(139, 111, 71, 0.3);
+            outline-offset: 2px;
+        }
+
+        .add-item-form {
+            background: var(--color-mint-light);
+            padding: var(--space-lg);
+            border-radius: var(--radius-xl);
+            margin-top: var(--space-md);
+            border: 2px solid var(--color-primary);
+            animation: slideDown var(--transition-normal) ease-out;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+                max-height: 0;
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+                max-height: 1000px;
+            }
+        }
+
+        .add-item-form.closing {
+            animation: slideUp var(--transition-normal) ease-in;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 1;
+                transform: translateY(0);
+                max-height: 1000px;
+            }
+            to {
+                opacity: 0;
+                transform: translateY(-20px);
+                max-height: 0;
+            }
+        }
+
+        /* Edit Name Modal - Higher z-index */
+        #editNameModal {
+            z-index: 3000; /* Higher than other modals */
+        }
+
         /* Modal Base Styles */
         .modal,
         .message-modal {
@@ -1599,6 +1682,15 @@
                 flex-direction: column;
             }
 
+            .toggle-add-item {
+                padding: var(--space-sm) var(--space-lg);
+                font-size: var(--font-size-base);
+            }
+
+            .add-item-form {
+                padding: var(--space-md);
+            }
+
             .sticky-summary {
                 display: block;
             }
@@ -2048,96 +2140,10 @@
 
             <!-- Step 1: Menu Selection -->
             <div id="step1" class="order-step active">
-                <h2 id="orderModalTitle" style="color: var(--color-primary); text-align: center; margin-bottom: var(--space-lg);">🧋 Chọn Món & Tùy Chỉnh</h2>
+                <h2 id="orderModalTitle" style="color: var(--color-primary); text-align: center; margin-bottom: var(--space-lg);">🛍️ Giỏ Hàng Của Bạn</h2>
                 
-                <form class="order-form">
-                    <div class="form-group">
-                        <label for="drinkFor">Ly này cho ai? <span style="color: var(--color-accent);">(Tùy chọn)</span></label>
-                        <input type="text" id="drinkFor" placeholder="Để trống nếu là cho bạn, hoặc ghi tên người khác">
-                        <small style="color: var(--color-text-light); font-size: var(--font-size-xs);">💡 Ví dụ: "Anh Nam", "Chị Lan", "Bạn Minh"...</small>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="drinkSelect">Chọn đồ uống:</label>
-                        <select id="drinkSelect" required aria-required="true">
-                            <option value="">-- Chọn đồ uống --</option>
-                            <option value="Matcha Latte - 45K">Matcha Latte 🧋💖 - 45K</option>
-                            <option value="Matcha Cold Whish - 45K">Matcha Cold Whish - 45K</option>
-                            <option value="Houjicha Latte - 40K">Houjicha Latte - 40K</option>
-                            <option value="Caramel Matcha Latte - 45K">Caramel Matcha Latte - 45K</option>
-                            <option value="Khoai Môn Latte - 35K">Khoai Môn Latte 🧋 - 35K</option>
-                            <option value="Cacao Latte - 35K">Cacao Latte - 35K</option>
-                            <option value="Coffee Latte - 35K">Coffee Latte - 35K</option>
-                        </select>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="matchaType">Loại Matcha (nếu chọn matcha): <span style="color: var(--color-accent);">+5K</span></label>
-                        <select id="matchaType">
-                            <option value="">-- Chọn loại matcha --</option>
-                            <option value="Matcha Haru (+5K)">Matcha Haru - Vị nhẹ, dễ uống (+5K)</option>
-                            <option value="Fuji Premium (+5K)">Fuji Premium - Chuẩn Nhật, đậm mà không gắt (+5K)</option>
-                            <option value="Fuji MH2 (+5K)">Fuji MH2 - Vị vừa, mê matcha rõ vị (+5K)</option>
-                            <option value="Fuji MH3 (+5K)">Fuji MH3 - Vị đậm, thích matcha rõ vị (+5K)</option>
-                            <option value="Uji Ceremonial (+5K)">Uji Ceremonial Grade - Tinh tế, đậm matcha (+5K)</option>
-                        </select>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="quantity">Số lượng:</label>
-                        <input type="number" id="quantity" min="1" max="20" value="1" required aria-required="true">
-                    </div>
-
-                    <div class="form-group">
-                        <label>Độ ngọt:</label>
-                        <div class="option-group" role="radiogroup" aria-label="Chọn độ ngọt">
-                            <button type="button" class="option-btn" data-sweetness="0%" role="radio" aria-checked="false">Không đường</button>
-                            <button type="button" class="option-btn" data-sweetness="50%" role="radio" aria-checked="false">Ít ngọt</button>
-                            <button type="button" class="option-btn active" data-sweetness="100%" role="radio" aria-checked="true">Vừa ngọt</button>
-                            <button type="button" class="option-btn" data-sweetness="120%" role="radio" aria-checked="false">Ngọt đậm</button>
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label>Lượng đá:</label>
-                        <div class="option-group" role="radiogroup" aria-label="Chọn lượng đá">
-                            <button type="button" class="option-btn" data-ice="không đá" role="radio" aria-checked="false">Không đá</button>
-                            <button type="button" class="option-btn" data-ice="ít đá" role="radio" aria-checked="false">Ít đá</button>
-                            <button type="button" class="option-btn active" data-ice="vừa đá" role="radio" aria-checked="true">Vừa đá</button>
-                            <button type="button" class="option-btn" data-ice="nhiều đá" role="radio" aria-checked="false">Nhiều đá</button>
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label>Loại sữa:</label>
-                        <div class="option-group" role="radiogroup" aria-label="Chọn loại sữa">
-                            <button type="button" class="option-btn active" data-milk="sữa thường" role="radio" aria-checked="true">Sữa thường</button>
-                            <button type="button" class="option-btn" data-milk="sữa gấu" role="radio" aria-checked="false">Sữa Gấu</button>
-                            <button type="button" class="option-btn" data-milk="oatside" role="radio" aria-checked="false">Oatside</button>
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="notes">Ghi chú thêm:</label>
-                        <input type="text" id="notes" placeholder="Ví dụ: ít ngọt hơn, thêm topping...">
-                    </div>
-
-                    <div class="form-group">
-                        <div style="background: linear-gradient(135deg, var(--color-mint-light), var(--color-mint)); padding: var(--space-md); border-radius: var(--radius-lg); border: 2px solid var(--color-primary);">
-                            <h3 style="color: var(--color-primary); margin: 0; text-align: center;">
-                                💰 Giá món này: <span id="itemPrice">0K</span>
-                            </h3>
-                        </div>
-                    </div>
-
-                    <button type="button" class="add-to-cart" onclick="addToCart()">
-                        🛒 Thêm vào giỏ hàng
-                    </button>
-                </form>
-
-                <!-- Cart Summary in Step 1 -->
+                <!-- Cart Summary Section - Always visible -->
                 <div class="order-summary">
-                    <h3>🛍️ Giỏ hàng của bạn</h3>
                     <div id="cartItems">
                         <div class="empty-cart">Giỏ hàng trống. Hãy thêm món đầu tiên!</div>
                     </div>
@@ -2148,6 +2154,105 @@
                     <button type="button" class="proceed-to-delivery" onclick="goToStep2()" id="proceedBtn" style="display: none;">
                         ➡️ Tiếp tục - Nhập thông tin giao hàng
                     </button>
+                </div>
+
+                <!-- Add Item Section - Collapsible -->
+                <div id="addItemSection" class="add-item-section">
+                    <div class="add-item-header">
+                        <button type="button" class="toggle-add-item" onclick="toggleAddItemSection()" id="toggleAddBtn">
+                            <span id="toggleAddText">➕ Thêm món mới</span>
+                            <span id="toggleAddIcon">▼</span>
+                        </button>
+                    </div>
+
+                    <div id="addItemForm" class="add-item-form" style="display: none;">
+                        <h3 style="color: var(--color-primary); text-align: center; margin-bottom: var(--space-md);">🧋 Chọn Món & Tùy Chỉnh</h3>
+                        
+                        <form class="order-form">
+                            <div class="form-group">
+                                <label for="drinkFor">Ly này cho ai? <span style="color: var(--color-accent);">(Tùy chọn)</span></label>
+                                <input type="text" id="drinkFor" placeholder="Để trống nếu là cho bạn, hoặc ghi tên người khác">
+                                <small style="color: var(--color-text-light); font-size: var(--font-size-xs);">💡 Ví dụ: "Anh Nam", "Chị Lan", "Bạn Minh"...</small>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="drinkSelect">Chọn đồ uống:</label>
+                                <select id="drinkSelect" required aria-required="true">
+                                    <option value="">-- Chọn đồ uống --</option>
+                                    <option value="Matcha Latte - 45K">Matcha Latte 🧋💖 - 45K</option>
+                                    <option value="Matcha Cold Whish - 45K">Matcha Cold Whish - 45K</option>
+                                    <option value="Houjicha Latte - 40K">Houjicha Latte - 40K</option>
+                                    <option value="Caramel Matcha Latte - 45K">Caramel Matcha Latte - 45K</option>
+                                    <option value="Khoai Môn Latte - 35K">Khoai Môn Latte 🧋 - 35K</option>
+                                    <option value="Cacao Latte - 35K">Cacao Latte - 35K</option>
+                                    <option value="Coffee Latte - 35K">Coffee Latte - 35K</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="matchaType">Loại Matcha (nếu chọn matcha): <span style="color: var(--color-accent);">+5K</span></label>
+                                <select id="matchaType">
+                                    <option value="">-- Chọn loại matcha --</option>
+                                    <option value="Matcha Haru (+5K)">Matcha Haru - Vị nhẹ, dễ uống (+5K)</option>
+                                    <option value="Fuji Premium (+5K)">Fuji Premium - Chuẩn Nhật, đậm mà không gắt (+5K)</option>
+                                    <option value="Fuji MH2 (+5K)">Fuji MH2 - Vị vừa, mê matcha rõ vị (+5K)</option>
+                                    <option value="Fuji MH3 (+5K)">Fuji MH3 - Vị đậm, thích matcha rõ vị (+5K)</option>
+                                    <option value="Uji Ceremonial (+5K)">Uji Ceremonial Grade - Tinh tế, đậm matcha (+5K)</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="quantity">Số lượng:</label>
+                                <input type="number" id="quantity" min="1" max="20" value="1" required aria-required="true">
+                            </div>
+
+                            <div class="form-group">
+                                <label>Độ ngọt:</label>
+                                <div class="option-group" role="radiogroup" aria-label="Chọn độ ngọt">
+                                    <button type="button" class="option-btn" data-sweetness="0%" role="radio" aria-checked="false">Không đường</button>
+                                    <button type="button" class="option-btn" data-sweetness="50%" role="radio" aria-checked="false">Ít ngọt</button>
+                                    <button type="button" class="option-btn active" data-sweetness="100%" role="radio" aria-checked="true">Vừa ngọt</button>
+                                    <button type="button" class="option-btn" data-sweetness="120%" role="radio" aria-checked="false">Ngọt đậm</button>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Lượng đá:</label>
+                                <div class="option-group" role="radiogroup" aria-label="Chọn lượng đá">
+                                    <button type="button" class="option-btn" data-ice="không đá" role="radio" aria-checked="false">Không đá</button>
+                                    <button type="button" class="option-btn" data-ice="ít đá" role="radio" aria-checked="false">Ít đá</button>
+                                    <button type="button" class="option-btn active" data-ice="vừa đá" role="radio" aria-checked="true">Vừa đá</button>
+                                    <button type="button" class="option-btn" data-ice="nhiều đá" role="radio" aria-checked="false">Nhiều đá</button>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Loại sữa:</label>
+                                <div class="option-group" role="radiogroup" aria-label="Chọn loại sữa">
+                                    <button type="button" class="option-btn active" data-milk="sữa thường" role="radio" aria-checked="true">Sữa thường</button>
+                                    <button type="button" class="option-btn" data-milk="sữa gấu" role="radio" aria-checked="false">Sữa Gấu</button>
+                                    <button type="button" class="option-btn" data-milk="oatside" role="radio" aria-checked="false">Oatside</button>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="notes">Ghi chú thêm:</label>
+                                <input type="text" id="notes" placeholder="Ví dụ: ít ngọt hơn, thêm topping...">
+                            </div>
+
+                            <div class="form-group">
+                                <div style="background: linear-gradient(135deg, var(--color-mint-light), var(--color-mint)); padding: var(--space-md); border-radius: var(--radius-lg); border: 2px solid var(--color-primary);">
+                                    <h3 style="color: var(--color-primary); margin: 0; text-align: center;">
+                                        💰 Giá món này: <span id="itemPrice">0K</span>
+                                    </h3>
+                                </div>
+                            </div>
+
+                            <button type="button" class="add-to-cart" onclick="addToCart()">
+                                🛒 Thêm vào giỏ hàng
+                            </button>
+                        </form>
+                    </div>
                 </div>
             </div>
 
@@ -2267,6 +2372,7 @@
         let previouslyFocusedElement = null;
         let currentEditingItemId = null;
         let currentEditingName = '';
+        let addItemSectionOpen = false;
 
         // Modal elements
         const modal = document.getElementById('orderModal');
@@ -2381,6 +2487,11 @@
             updateCartDisplay();
             updateCartUI();
             showToast(`✅ Đã thêm "${drinkName}" vào giỏ hàng`);
+            
+            // Show a hint to open cart
+            setTimeout(() => {
+                showToast('💡 Nhấn nút "Giỏ hàng" để xem và đặt hàng!');
+            }, 2000);
         }
 
         // Setup mobile navigation
@@ -2488,7 +2599,92 @@
         function orderOnline() {
             openModal(modal);
             goToStep1();
+            
+            // Determine if we should open in cart view or add item view
+            if (cart.length > 0) {
+                // Cart view mode - show cart, collapse add item form
+                setCartViewMode();
+            } else {
+                // Add item view mode - show add item form
+                setAddItemViewMode();
+            }
+            
             calculateItemPrice();
+        }
+
+        // Set modal to cart view mode (when there are items in cart)
+        function setCartViewMode() {
+            document.getElementById('orderModalTitle').textContent = '🛍️ Giỏ Hàng Của Bạn';
+            
+            // Hide add item form
+            const addItemForm = document.getElementById('addItemForm');
+            if (addItemForm) {
+                addItemForm.style.display = 'none';
+                addItemSectionOpen = false;
+            }
+            
+            // Update toggle button
+            updateToggleButton();
+        }
+
+        // Set modal to add item view mode (when cart is empty)
+        function setAddItemViewMode() {
+            document.getElementById('orderModalTitle').textContent = '🛍️ Giỏ Hàng Của Bạn';
+            
+            // Show add item form
+            const addItemForm = document.getElementById('addItemForm');
+            if (addItemForm) {
+                addItemForm.style.display = 'block';
+                addItemSectionOpen = true;
+            }
+            
+            // Update toggle button
+            updateToggleButton();
+        }
+
+        // Toggle add item section
+        function toggleAddItemSection() {
+            const addItemForm = document.getElementById('addItemForm');
+            if (!addItemForm) return;
+            
+            if (addItemSectionOpen) {
+                // Close add item form
+                addItemForm.classList.add('closing');
+                setTimeout(() => {
+                    addItemForm.style.display = 'none';
+                    addItemForm.classList.remove('closing');
+                    addItemSectionOpen = false;
+                    updateToggleButton();
+                }, 250);
+            } else {
+                // Open add item form
+                addItemForm.style.display = 'block';
+                addItemSectionOpen = true;
+                updateToggleButton();
+                
+                // Scroll to form and focus first input
+                setTimeout(() => {
+                    addItemForm.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                    const drinkSelect = document.getElementById('drinkSelect');
+                    if (drinkSelect) drinkSelect.focus();
+                }, 100);
+            }
+        }
+
+        // Update toggle button text and icon
+        function updateToggleButton() {
+            const toggleText = document.getElementById('toggleAddText');
+            const toggleIcon = document.getElementById('toggleAddIcon');
+            
+            if (!toggleText || !toggleIcon) return;
+            
+            if (addItemSectionOpen) {
+                toggleText.textContent = '➖ Ẩn form thêm món';
+                toggleIcon.textContent = '▲';
+            } else {
+                toggleText.textContent = '➕ Thêm món mới';
+                toggleIcon.textContent = '▼';
+            }
         }
 
         function closeOrderModal() {
@@ -2619,6 +2815,19 @@
             
             const forWhom = drinkFor !== 'Bạn' ? ` cho ${drinkFor}` : '';
             showToast(`✅ Đã thêm "${drink}"${forWhom} vào giỏ hàng`);
+            
+            // After adding item, collapse add item form and switch to cart view
+            if (addItemSectionOpen) {
+                toggleAddItemSection();
+            }
+            
+            // Scroll to cart summary
+            setTimeout(() => {
+                const cartSection = document.querySelector('.order-summary');
+                if (cartSection) {
+                    cartSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            }, 300);
         }
 
         // Clear item form
@@ -2738,9 +2947,21 @@
             if (!cartItemsContainer) return;
 
             if (cart.length === 0) {
-                cartItemsContainer.innerHTML = '<div class="empty-cart">Giỏ hàng trống. Hãy thêm món đầu tiên!</div>';
+                cartItemsContainer.innerHTML = `
+                    <div class="empty-cart">
+                        Giỏ hàng trống.<br>
+                        <small style="color: var(--color-text-light);">💡 Dùng nút "+" trên menu hoặc "Thêm món mới" bên dưới</small>
+                    </div>
+                `;
                 if (totalSummary) totalSummary.style.display = 'none';
                 if (proceedBtn) proceedBtn.style.display = 'none';
+                
+                // If cart becomes empty and add item form is closed, auto open it
+                if (!addItemSectionOpen) {
+                    setTimeout(() => {
+                        setAddItemViewMode();
+                    }, 500);
+                }
                 return;
             }
 

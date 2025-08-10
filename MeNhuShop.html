@@ -6,23 +6,109 @@
     <title>Mê Như Latte - Trà & Cà Phê Cao Cấp</title>
     <link rel="icon" type="image/jpeg" href="logo.jpg">
     <style>
+        /* CSS Variables for Design System */
+        :root {
+            --color-primary: #6b8e23;
+            --color-primary-light: #8fbc8f;
+            --color-primary-dark: #5a7a1e;
+            --color-accent: #8b6f47;
+            --color-accent-light: #a0785a;
+            --color-mint: #e8f5e8;
+            --color-mint-light: #f8fdf8;
+            --color-cream: #f4e4bc;
+            --color-text: #333;
+            --color-text-light: #666;
+            --color-text-lighter: #999;
+            --color-white: #ffffff;
+            --color-success: #28a745;
+            --color-danger: #dc3545;
+            
+            /* 8-point spacing scale */
+            --space-xs: 0.5rem;    /* 8px */
+            --space-sm: 1rem;      /* 16px */
+            --space-md: 1.5rem;    /* 24px */
+            --space-lg: 2rem;      /* 32px */
+            --space-xl: 2.5rem;    /* 40px */
+            --space-2xl: 3rem;     /* 48px */
+            --space-3xl: 4rem;     /* 64px */
+            --space-4xl: 5rem;     /* 80px */
+            
+            /* Typography scale */
+            --font-size-xs: 0.75rem;
+            --font-size-sm: 0.875rem;
+            --font-size-base: 1rem;
+            --font-size-lg: 1.125rem;
+            --font-size-xl: 1.25rem;
+            --font-size-2xl: 1.5rem;
+            --font-size-3xl: 1.875rem;
+            --font-size-4xl: 2.25rem;
+            --font-size-5xl: 3rem;
+            
+            /* Border radius */
+            --radius-sm: 0.5rem;
+            --radius-md: 0.75rem;
+            --radius-lg: 1rem;
+            --radius-xl: 1.5rem;
+            --radius-2xl: 2rem;
+            --radius-full: 50%;
+            
+            /* Shadows */
+            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            
+            /* Transitions */
+            --transition-fast: 150ms ease-in-out;
+            --transition-normal: 250ms ease-in-out;
+            --transition-slow: 350ms ease-in-out;
+        }
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
 
+        /* Reduced motion support */
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+
         body {
-            font-family: 'Arial', sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
             line-height: 1.6;
-            color: #333;
-            background: linear-gradient(135deg, #a8d5a8 0%, #7fb069 100%);
+            color: var(--color-text);
+            background: linear-gradient(135deg, #a8d5a8 0%, var(--color-primary-light) 100%);
+            min-height: 100vh;
         }
 
         .container {
             max-width: 1200px;
             margin: 0 auto;
-            padding: 0 20px;
+            padding: 0 var(--space-sm);
+        }
+
+        /* Skip to content link for accessibility */
+        .skip-link {
+            position: absolute;
+            top: -40px;
+            left: var(--space-sm);
+            background: var(--color-primary);
+            color: var(--color-white);
+            padding: var(--space-xs) var(--space-sm);
+            text-decoration: none;
+            border-radius: var(--radius-sm);
+            z-index: 9999;
+            transition: top var(--transition-fast);
+        }
+
+        .skip-link:focus {
+            top: var(--space-sm);
         }
 
         /* Header */
@@ -34,93 +120,147 @@
             left: 0;
             right: 0;
             z-index: 1000;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            box-shadow: var(--shadow-lg);
         }
 
         nav {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 1rem 0;
+            padding: var(--space-sm) 0;
+            position: relative;
         }
 
         .logo {
             display: flex;
             align-items: center;
-            gap: 15px;
+            gap: var(--space-sm);
+            text-decoration: none;
+        }
+
+        .logo:focus {
+            outline: 2px solid var(--color-primary);
+            outline-offset: 2px;
+            border-radius: var(--radius-sm);
         }
 
         .logo-image {
-            width: 90px;
-            height: 90px;
-            border-radius: 50%;
+            width: 5rem;
+            height: 5rem;
+            border-radius: var(--radius-full);
             object-fit: cover;
-            border: 4px solid #8b6f47;
-            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: 3px solid var(--color-accent);
+            box-shadow: var(--shadow-md);
+            transition: transform var(--transition-normal), box-shadow var(--transition-normal);
         }
 
-        .logo-image:hover {
+        .logo:hover .logo-image,
+        .logo:focus .logo-image {
             transform: scale(1.05);
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+            box-shadow: var(--shadow-lg);
         }
 
         .logo-text {
-            font-size: 2rem;
-            font-weight: bold;
-            color: #6b8e23;
+            font-size: var(--font-size-2xl);
+            font-weight: 700;
+            color: var(--color-primary);
             text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
         }
 
-        /* Mobile responsive logo */
-        @media (max-width: 768px) {
-            .logo-image {
-                width: 70px;
-                height: 70px;
-            }
-            
-            .logo-text {
-                font-size: 1.6rem;
-            }
+        /* Mobile navigation */
+        .nav-toggle {
+            display: none;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: var(--space-xs);
+            border-radius: var(--radius-sm);
+            transition: background-color var(--transition-fast);
+        }
+
+        .nav-toggle:hover,
+        .nav-toggle:focus {
+            background-color: var(--color-mint);
+            outline: 2px solid var(--color-primary);
+            outline-offset: 2px;
+        }
+
+        .nav-toggle span {
+            display: block;
+            width: 24px;
+            height: 3px;
+            background: var(--color-primary);
+            margin: 4px 0;
+            transition: var(--transition-fast);
+            border-radius: 2px;
+        }
+
+        .nav-toggle.active span:nth-child(1) {
+            transform: rotate(45deg) translate(5px, 5px);
+        }
+
+        .nav-toggle.active span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .nav-toggle.active span:nth-child(3) {
+            transform: rotate(-45deg) translate(7px, -6px);
         }
 
         .nav-links {
             display: flex;
             list-style: none;
-            gap: 2rem;
+            gap: var(--space-lg);
+            margin: 0;
         }
 
         .nav-links a {
             text-decoration: none;
-            color: #333;
+            color: var(--color-text);
             font-weight: 500;
-            transition: color 0.3s ease;
+            padding: var(--space-xs) var(--space-sm);
+            border-radius: var(--radius-sm);
+            transition: all var(--transition-fast);
+            position: relative;
         }
 
-        .nav-links a:hover {
-            color: #6b8e23;
+        .nav-links a:hover,
+        .nav-links a:focus {
+            color: var(--color-primary);
+            background-color: var(--color-mint);
+            outline: none;
         }
 
         .order-btn {
-            background: linear-gradient(135deg, #6b8e23, #8fbc8f);
-            color: white;
-            padding: 12px 24px;
+            background: linear-gradient(135deg, var(--color-primary), var(--color-primary-light));
+            color: var(--color-white);
+            padding: var(--space-sm) var(--space-md);
             border: none;
-            border-radius: 25px;
-            font-weight: bold;
+            border-radius: var(--radius-xl);
+            font-weight: 600;
+            font-size: var(--font-size-sm);
             cursor: pointer;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            transition: all var(--transition-normal);
+            box-shadow: var(--shadow-md);
+            min-height: 44px; /* Minimum touch target */
+            min-width: 44px;
+            display: flex;
+            align-items: center;
+            gap: var(--space-xs);
         }
 
-        .order-btn:hover {
+        .order-btn:hover,
+        .order-btn:focus {
             transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(107, 142, 35, 0.3);
+            box-shadow: var(--shadow-xl);
+            outline: 2px solid var(--color-primary-dark);
+            outline-offset: 2px;
         }
 
         /* Hero Section */
         .hero {
-            margin-top: 100px;
-            padding: 80px 0;
+            margin-top: 6rem;
+            padding: var(--space-4xl) 0;
             text-align: center;
             position: relative;
             overflow: hidden;
@@ -145,33 +285,37 @@
         .hero-content {
             position: relative;
             z-index: 2;
+            max-width: 800px;
+            margin: 0 auto;
         }
 
         .hero h1 {
-            font-size: 3.5rem;
-            margin-bottom: 1rem;
-            color: white;
+            font-size: var(--font-size-5xl);
+            margin-bottom: var(--space-lg);
+            color: var(--color-white);
             text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            font-weight: 700;
         }
 
         .hero p {
-            font-size: 1.3rem;
-            margin-bottom: 2rem;
-            color: rgba(255, 255, 255, 0.9);
+            font-size: var(--font-size-xl);
+            margin-bottom: var(--space-lg);
+            color: rgba(255, 255, 255, 0.95);
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
         }
 
         .mascot {
             width: 150px;
             height: 150px;
-            background: #f4e4bc;
-            border-radius: 50%;
-            margin: 2rem auto;
+            background: var(--color-cream);
+            border-radius: var(--radius-full);
+            margin: var(--space-lg) auto;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 4rem;
-            border: 5px solid white;
-            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+            font-size: var(--font-size-4xl);
+            border: 4px solid var(--color-white);
+            box-shadow: var(--shadow-xl);
             animation: bounce 2s infinite;
         }
 
@@ -181,250 +325,303 @@
             60% { transform: translateY(-5px); }
         }
 
+        .hero .cta-button {
+            background: linear-gradient(135deg, var(--color-accent), var(--color-accent-light));
+            color: var(--color-white);
+            padding: var(--space-md) var(--space-xl);
+            border: none;
+            border-radius: var(--radius-xl);
+            font-size: var(--font-size-lg);
+            font-weight: 600;
+            cursor: pointer;
+            transition: all var(--transition-normal);
+            box-shadow: var(--shadow-lg);
+            margin-top: var(--space-lg);
+            min-height: 56px;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: var(--space-xs);
+            line-height: 1.4;
+        }
+
+        .hero .cta-button:hover,
+        .hero .cta-button:focus {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-xl);
+            outline: 3px solid rgba(255, 255, 255, 0.5);
+            outline-offset: 2px;
+        }
+
         /* Menu Section */
         .menu {
-            background: white;
-            padding: 80px 0;
-            margin: 40px 20px;
-            border-radius: 30px;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+            background: var(--color-white);
+            padding: var(--space-4xl) 0;
+            margin: var(--space-xl) var(--space-sm);
+            border-radius: var(--radius-2xl);
+            box-shadow: var(--shadow-xl);
         }
 
         .menu h2 {
             text-align: center;
-            font-size: 2.5rem;
-            margin-bottom: 3rem;
-            color: #6b8e23;
+            font-size: var(--font-size-4xl);
+            margin-bottom: var(--space-2xl);
+            color: var(--color-primary);
+            font-weight: 700;
         }
 
         .menu-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 2rem;
-            margin-bottom: 3rem;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: var(--space-lg);
+            margin-bottom: var(--space-2xl);
         }
 
         .menu-item {
-            background: linear-gradient(135deg, #f8fdf8, #e8f5e8);
-            padding: 25px;
-            border-radius: 20px;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            background: linear-gradient(135deg, var(--color-mint-light), var(--color-mint));
+            padding: var(--space-md);
+            border-radius: var(--radius-xl);
+            transition: all var(--transition-normal);
             border: 2px solid transparent;
+            cursor: pointer;
+            position: relative;
         }
 
-        .menu-item:hover {
+        .menu-item:hover,
+        .menu-item:focus-within {
             transform: translateY(-5px);
-            box-shadow: 0 15px 40px rgba(107, 142, 35, 0.2);
-            border-color: #6b8e23;
+            box-shadow: var(--shadow-lg);
+            border-color: var(--color-primary);
         }
 
         .menu-item-header {
             display: flex;
             justify-content: space-between;
-            align-items: center;
-            margin-bottom: 1rem;
+            align-items: flex-start;
+            margin-bottom: var(--space-sm);
+            gap: var(--space-sm);
         }
 
         .menu-item h3 {
-            font-size: 1.3rem;
-            color: #6b8e23;
-            margin-bottom: 0.5rem;
+            font-size: var(--font-size-xl);
+            color: var(--color-primary);
+            margin-bottom: var(--space-xs);
+            font-weight: 600;
+            flex: 1;
         }
 
         .price {
-            font-size: 1.4rem;
-            font-weight: bold;
-            color: #8b6f47;
+            font-size: var(--font-size-xl);
+            font-weight: 700;
+            color: var(--color-accent);
+            white-space: nowrap;
+            background: var(--color-white);
+            padding: var(--space-xs) var(--space-sm);
+            border-radius: var(--radius-md);
+            box-shadow: var(--shadow-sm);
         }
 
         .description {
-            color: #666;
-            font-size: 0.95rem;
+            color: var(--color-text-light);
+            font-size: var(--font-size-base);
             line-height: 1.5;
         }
 
         .special-section {
-            background: linear-gradient(135deg, #8b6f47, #a0785a);
-            color: white;
-            padding: 30px;
-            border-radius: 20px;
-            margin: 2rem 0;
+            background: linear-gradient(135deg, var(--color-accent), var(--color-accent-light));
+            color: var(--color-white);
+            padding: var(--space-xl);
+            border-radius: var(--radius-xl);
+            margin: var(--space-lg) 0;
         }
 
         .special-section h3 {
-            font-size: 1.8rem;
-            margin-bottom: 1rem;
+            font-size: var(--font-size-3xl);
+            margin-bottom: var(--space-lg);
             text-align: center;
+            font-weight: 600;
         }
 
         .special-items {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 1rem;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: var(--space-lg);
         }
 
         .special-item {
-            background: rgba(255, 255, 255, 0.1);
-            padding: 15px;
-            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.15);
+            padding: var(--space-md);
+            border-radius: var(--radius-lg);
             backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .special-item h4 {
+            font-size: var(--font-size-lg);
+            margin-bottom: var(--space-xs);
+            font-weight: 600;
         }
 
         .sweetness-levels {
             display: flex;
             justify-content: center;
-            gap: 1rem;
-            margin: 2rem 0;
+            gap: var(--space-sm);
+            margin: var(--space-lg) 0;
             flex-wrap: wrap;
         }
 
         .sweetness-option {
-            background: #6b8e23;
-            color: white;
-            padding: 10px 20px;
-            border-radius: 20px;
-            font-weight: bold;
-            transition: background 0.3s ease;
-        }
-
-        .sweetness-option:hover {
-            background: #8fbc8f;
+            background: var(--color-primary);
+            color: var(--color-white);
+            padding: var(--space-sm) var(--space-md);
+            border-radius: var(--radius-xl);
+            font-weight: 600;
+            font-size: var(--font-size-sm);
+            transition: all var(--transition-fast);
             cursor: pointer;
+            border: 2px solid transparent;
+            min-height: 44px;
+            display: flex;
+            align-items: center;
         }
 
-        /* Product Gallery Section */
+        .sweetness-option:hover,
+        .sweetness-option:focus {
+            background: var(--color-primary-light);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+            outline: 2px solid var(--color-primary-dark);
+            outline-offset: 2px;
+        }
+
+        /* Product Gallery Section - Scroll Snap Carousel */
         .product-gallery {
-            background: linear-gradient(135deg, #f8fdf8, #e8f5e8);
-            padding: 80px 0;
-            margin: 40px 20px;
-            border-radius: 30px;
+            background: linear-gradient(135deg, var(--color-mint-light), var(--color-mint));
+            padding: var(--space-4xl) 0;
+            margin: var(--space-xl) var(--space-sm);
+            border-radius: var(--radius-2xl);
             overflow: hidden;
             position: relative;
         }
 
         .product-gallery h2 {
             text-align: center;
-            font-size: 2.5rem;
-            margin-bottom: 3rem;
-            color: #6b8e23;
+            font-size: var(--font-size-4xl);
+            margin-bottom: var(--space-2xl);
+            color: var(--color-primary);
+            font-weight: 700;
         }
 
         .gallery-container {
             position: relative;
             height: 350px;
-            overflow: hidden;
-            border-radius: 20px;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
-            background: linear-gradient(135deg, #6b8e23, #8fbc8f);
+            overflow-x: auto;
+            overflow-y: hidden;
+            border-radius: var(--radius-xl);
+            box-shadow: var(--shadow-xl);
+            background: linear-gradient(135deg, var(--color-primary), var(--color-primary-light));
+            scroll-snap-type: x mandatory;
+            scroll-behavior: smooth;
+            -webkit-overflow-scrolling: touch;
         }
 
         .gallery-track {
             display: flex;
-            width: 500%;
             height: 100%;
-            animation: slideShow 20s infinite linear;
+            width: max-content;
             gap: 0;
         }
 
         .gallery-slide {
-            width: 20%;
+            width: 350px;
             height: 100%;
             position: relative;
             overflow: hidden;
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 15px;
+            padding: var(--space-md);
+            scroll-snap-align: start;
+            flex-shrink: 0;
         }
 
         .gallery-slide img {
             width: 100%;
             height: 100%;
             object-fit: contain;
-            transition: transform 0.5s ease;
+            transition: transform var(--transition-normal);
             cursor: pointer;
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-lg);
         }
 
-        .gallery-slide:hover img {
+        .gallery-slide:hover img,
+        .gallery-slide:focus-within img {
             transform: scale(1.05);
         }
 
-        /* Thu hẹp frame cover */
         .gallery-overlay {
             position: absolute;
-            bottom: 20px;
-            left: 20px;
-            right: 20px;
+            bottom: var(--space-md);
+            left: var(--space-md);
+            right: var(--space-md);
             background: linear-gradient(transparent, rgba(0, 0, 0, 0.85));
-            color: white;
-            padding: 15px 12px 8px;
+            color: var(--color-white);
+            padding: var(--space-md) var(--space-sm) var(--space-sm);
             text-align: center;
             transform: translateY(100%);
-            transition: transform 0.3s ease;
-            border-radius: 10px;
-            max-height: 80px;
+            transition: transform var(--transition-normal);
+            border-radius: var(--radius-lg);
+            max-height: 120px;
         }
 
-        .gallery-slide:hover .gallery-overlay {
+        .gallery-slide:hover .gallery-overlay,
+        .gallery-slide:focus-within .gallery-overlay {
             transform: translateY(0);
         }
 
         .gallery-overlay h3 {
-            font-size: 1.1rem;
-            margin-bottom: 4px;
+            font-size: var(--font-size-lg);
+            margin-bottom: var(--space-xs);
+            font-weight: 600;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
         }
 
         .gallery-overlay p {
-            font-size: 0.8rem;
+            font-size: var(--font-size-sm);
             opacity: 0.9;
-            line-height: 1.2;
+            line-height: 1.3;
             display: -webkit-box;
             -webkit-line-clamp: 2;
             -webkit-box-orient: vertical;
             overflow: hidden;
         }
 
-        @keyframes slideShow {
-            0% { transform: translateX(0); }
-            100% { transform: translateX(-100%); }
-        }
-
-        .gallery-track:hover {
-            animation-play-state: paused;
-        }
-
-        /* Gallery indicators */
-        .gallery-indicators {
+        .gallery-nav {
             display: flex;
             justify-content: center;
-            gap: 10px;
-            margin-top: 30px;
+            gap: var(--space-sm);
+            margin-top: var(--space-lg);
         }
 
-        .gallery-indicator {
+        .gallery-nav-btn {
             width: 12px;
             height: 12px;
-            border-radius: 50%;
+            border-radius: var(--radius-full);
             background: rgba(107, 142, 35, 0.3);
+            border: none;
             cursor: pointer;
-            transition: background 0.3s ease;
-            animation: indicatorPulse 20s infinite linear;
+            transition: background var(--transition-fast);
         }
 
-        .gallery-indicator:nth-child(1) { animation-delay: 0s; }
-        .gallery-indicator:nth-child(2) { animation-delay: 4s; }
-        .gallery-indicator:nth-child(3) { animation-delay: 8s; }
-        .gallery-indicator:nth-child(4) { animation-delay: 12s; }
-        .gallery-indicator:nth-child(5) { animation-delay: 16s; }
-
-        @keyframes indicatorPulse {
-            0%, 80%, 100% { background: rgba(107, 142, 35, 0.3); }
-            10%, 70% { background: #6b8e23; }
+        .gallery-nav-btn:hover,
+        .gallery-nav-btn:focus,
+        .gallery-nav-btn.active {
+            background: var(--color-primary);
+            outline: 2px solid var(--color-primary-dark);
+            outline-offset: 2px;
         }
 
         /* Image Popup Modal */
@@ -455,53 +652,59 @@
             max-width: 100%;
             max-height: 70vh;
             object-fit: contain;
-            border-radius: 15px;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-xl);
         }
 
         .popup-info {
             background: rgba(255, 255, 255, 0.95);
-            color: #333;
-            padding: 20px;
-            border-radius: 15px;
-            margin-top: 20px;
+            color: var(--color-text);
+            padding: var(--space-lg);
+            border-radius: var(--radius-lg);
+            margin-top: var(--space-lg);
             text-align: center;
             backdrop-filter: blur(10px);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            box-shadow: var(--shadow-lg);
+            max-width: 500px;
         }
 
         .popup-info h3 {
-            color: #6b8e23;
-            font-size: 1.5rem;
-            margin-bottom: 10px;
+            color: var(--color-primary);
+            font-size: var(--font-size-2xl);
+            margin-bottom: var(--space-sm);
+            font-weight: 600;
         }
 
         .popup-info p {
-            color: #666;
-            font-size: 1rem;
+            color: var(--color-text-light);
+            font-size: var(--font-size-base);
         }
 
         .popup-close {
             position: absolute;
-            top: 20px;
-            right: 30px;
-            color: white;
-            font-size: 40px;
+            top: var(--space-lg);
+            right: var(--space-lg);
+            color: var(--color-white);
+            font-size: 2.5rem;
             font-weight: bold;
             cursor: pointer;
             z-index: 10001;
             width: 50px;
             height: 50px;
             background: rgba(0, 0, 0, 0.5);
-            border-radius: 50%;
+            border-radius: var(--radius-full);
             display: flex;
             align-items: center;
             justify-content: center;
-            transition: background 0.3s ease;
+            transition: all var(--transition-fast);
+            border: none;
         }
 
-        .popup-close:hover {
+        .popup-close:hover,
+        .popup-close:focus {
             background: rgba(107, 142, 35, 0.8);
+            outline: 2px solid var(--color-white);
+            outline-offset: 2px;
         }
 
         .popup-nav {
@@ -509,84 +712,101 @@
             top: 50%;
             transform: translateY(-50%);
             background: rgba(0, 0, 0, 0.5);
-            color: white;
+            color: var(--color-white);
             border: none;
             width: 60px;
             height: 60px;
-            border-radius: 50%;
-            font-size: 24px;
+            border-radius: var(--radius-full);
+            font-size: var(--font-size-2xl);
             cursor: pointer;
-            transition: background 0.3s ease;
+            transition: all var(--transition-fast);
             display: flex;
             align-items: center;
             justify-content: center;
         }
 
-        .popup-nav:hover {
+        .popup-nav:hover,
+        .popup-nav:focus {
             background: rgba(107, 142, 35, 0.8);
+            outline: 2px solid var(--color-white);
+            outline-offset: 2px;
         }
 
         .popup-prev {
-            left: 30px;
+            left: var(--space-lg);
         }
 
         .popup-next {
-            right: 30px;
+            right: var(--space-lg);
         }
 
         .popup-counter {
             position: absolute;
-            bottom: 20px;
+            bottom: var(--space-lg);
             left: 50%;
             transform: translateX(-50%);
             background: rgba(0, 0, 0, 0.7);
-            color: white;
-            padding: 10px 20px;
-            border-radius: 20px;
-            font-size: 14px;
-            font-weight: bold;
+            color: var(--color-white);
+            padding: var(--space-sm) var(--space-lg);
+            border-radius: var(--radius-xl);
+            font-size: var(--font-size-sm);
+            font-weight: 600;
         }
 
         /* Contact Section */
         .contact {
             background: rgba(255, 255, 255, 0.95);
-            padding: 60px 0;
-            margin: 40px 20px;
-            border-radius: 30px;
+            padding: var(--space-4xl) 0;
+            margin: var(--space-xl) var(--space-sm);
+            border-radius: var(--radius-2xl);
             text-align: center;
+            box-shadow: var(--shadow-lg);
         }
 
         .contact h2 {
-            font-size: 2.5rem;
-            margin-bottom: 2rem;
-            color: #6b8e23;
+            font-size: var(--font-size-4xl);
+            margin-bottom: var(--space-lg);
+            color: var(--color-primary);
+            font-weight: 700;
         }
 
         .contact-info {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-            margin-top: 2rem;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: var(--space-lg);
+            margin-top: var(--space-lg);
         }
 
         .contact-item {
-            background: linear-gradient(135deg, #f8fdf8, #e8f5e8);
-            padding: 25px;
-            border-radius: 15px;
-            transition: transform 0.3s ease;
+            background: linear-gradient(135deg, var(--color-mint-light), var(--color-mint));
+            padding: var(--space-xl);
+            border-radius: var(--radius-lg);
+            transition: transform var(--transition-normal);
+            border: 2px solid transparent;
         }
 
-        .contact-item:hover {
+        .contact-item:hover,
+        .contact-item:focus-within {
             transform: translateY(-3px);
+            border-color: var(--color-primary);
+            box-shadow: var(--shadow-md);
         }
 
         .contact-item h3 {
-            color: #6b8e23;
-            margin-bottom: 1rem;
+            color: var(--color-primary);
+            margin-bottom: var(--space-sm);
+            font-size: var(--font-size-lg);
+            font-weight: 600;
         }
 
-        /* Order Modal */
-        .modal {
+        .contact-item p {
+            font-size: var(--font-size-base);
+            line-height: 1.5;
+        }
+
+        /* Modal Base Styles */
+        .modal,
+        .message-modal {
             display: none;
             position: fixed;
             z-index: 2000;
@@ -596,244 +816,505 @@
             height: 100%;
             background-color: rgba(0, 0, 0, 0.5);
             backdrop-filter: blur(5px);
+            overflow-y: auto;
         }
 
-        .modal-content {
-            background: white;
-            margin: 5% auto;
-            padding: 30px;
-            border-radius: 20px;
+        .modal-content,
+        .message-modal-content {
+            background: var(--color-white);
+            margin: 2rem auto;
+            padding: var(--space-xl);
+            border-radius: var(--radius-xl);
             width: 90%;
             max-width: 600px;
-            max-height: 80vh;
+            max-height: 90vh;
             overflow-y: auto;
             position: relative;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            box-shadow: var(--shadow-xl);
         }
 
         .close {
-            color: #aaa;
-            float: right;
-            font-size: 28px;
-            font-weight: bold;
             position: absolute;
-            right: 20px;
-            top: 15px;
+            right: var(--space-lg);
+            top: var(--space-lg);
+            color: var(--color-text-lighter);
+            font-size: 2rem;
+            font-weight: bold;
             cursor: pointer;
+            background: none;
+            border: none;
+            width: 44px;
+            height: 44px;
+            border-radius: var(--radius-full);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all var(--transition-fast);
         }
 
-        .close:hover {
-            color: #6b8e23;
+        .close:hover,
+        .close:focus {
+            color: var(--color-primary);
+            background: var(--color-mint);
+            outline: 2px solid var(--color-primary);
+            outline-offset: 2px;
         }
 
+        /* Step Indicator */
+        .step-indicator {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: var(--space-xl);
+            padding: var(--space-lg) 0;
+        }
+
+        .step {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: var(--space-xs);
+            opacity: 0.5;
+            transition: opacity var(--transition-normal);
+        }
+
+        .step.active {
+            opacity: 1;
+        }
+
+        .step.completed {
+            opacity: 1;
+        }
+
+        .step-number {
+            width: 40px;
+            height: 40px;
+            border-radius: var(--radius-full);
+            background: var(--color-mint);
+            border: 2px solid var(--color-primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: var(--font-size-lg);
+            color: var(--color-primary);
+            transition: all var(--transition-normal);
+        }
+
+        .step.active .step-number {
+            background: var(--color-primary);
+            color: var(--color-white);
+            box-shadow: var(--shadow-md);
+        }
+
+        .step.completed .step-number {
+            background: var(--color-success);
+            border-color: var(--color-success);
+            color: var(--color-white);
+        }
+
+        .step.completed .step-number::before {
+            content: "✓";
+            font-size: var(--font-size-base);
+        }
+
+        .step-label {
+            font-size: var(--font-size-sm);
+            font-weight: 600;
+            color: var(--color-text);
+            text-align: center;
+            white-space: nowrap;
+        }
+
+        .step-connector {
+            width: 80px;
+            height: 2px;
+            background: var(--color-mint);
+            margin: 0 var(--space-lg);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .step-connector::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 0%;
+            height: 100%;
+            background: var(--color-primary);
+            transition: width var(--transition-slow);
+        }
+
+        .step[data-step="1"].completed + .step-connector::after {
+            width: 100%;
+        }
+
+        /* Order Steps */
+        .order-step {
+            display: none;
+            animation: fadeInSlide var(--transition-normal) ease-out;
+        }
+
+        .order-step.active {
+            display: block;
+        }
+
+        @keyframes fadeInSlide {
+            from {
+                opacity: 0;
+                transform: translateX(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        /* Step Navigation */
+        .step-navigation {
+            display: flex;
+            gap: var(--space-md);
+            margin-top: var(--space-xl);
+        }
+
+        .btn-secondary {
+            background: var(--color-mint);
+            color: var(--color-primary);
+            padding: var(--space-md) var(--space-lg);
+            border: 2px solid var(--color-primary);
+            border-radius: var(--radius-lg);
+            font-size: var(--font-size-base);
+            font-weight: 600;
+            cursor: pointer;
+            flex: 1;
+            transition: all var(--transition-normal);
+            min-height: 56px;
+        }
+
+        .btn-secondary:hover,
+        .btn-secondary:focus {
+            background: var(--color-primary);
+            color: var(--color-white);
+            outline: 2px solid var(--color-primary-dark);
+            outline-offset: 2px;
+        }
+
+        /* Proceed Button */
+        .proceed-to-delivery {
+            background: linear-gradient(135deg, var(--color-primary), var(--color-primary-light));
+            color: var(--color-white);
+            padding: var(--space-md) var(--space-xl);
+            border: none;
+            border-radius: var(--radius-lg);
+            font-size: var(--font-size-lg);
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
+            margin-top: var(--space-lg);
+            transition: all var(--transition-normal);
+            min-height: 56px;
+        }
+
+        .proceed-to-delivery:hover,
+        .proceed-to-delivery:focus {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+            outline: 3px solid rgba(107, 142, 35, 0.3);
+            outline-offset: 2px;
+        }
+
+        /* Order Review */
+        .order-review {
+            background: var(--color-mint-light);
+            padding: var(--space-lg);
+            border-radius: var(--radius-lg);
+            margin: var(--space-lg) 0;
+            border: 2px solid var(--color-primary);
+        }
+
+        .order-review h3 {
+            display: flex;
+            align-items: center;
+            gap: var(--space-sm);
+        }
+
+        .review-item {
+            background: var(--color-white);
+            padding: var(--space-md);
+            border-radius: var(--radius-md);
+            margin-bottom: var(--space-sm);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .review-item h4 {
+            color: var(--color-primary);
+            font-size: var(--font-size-lg);
+            margin-bottom: var(--space-xs);
+            font-weight: 600;
+        }
+
+        .review-item p {
+            margin: var(--space-xs) 0;
+            font-size: var(--font-size-sm);
+            color: var(--color-text-light);
+        }
+
+        .review-item-price {
+            font-weight: 700;
+            color: var(--color-accent);
+            font-size: var(--font-size-base);
+            margin-top: var(--space-sm);
+        }
+
+        .final-total {
+            background: var(--color-primary);
+            color: var(--color-white);
+            padding: var(--space-md);
+            border-radius: var(--radius-lg);
+            text-align: center;
+            font-size: var(--font-size-xl);
+            font-weight: 700;
+            margin-top: var(--space-md);
+            box-shadow: var(--shadow-md);
+        }
+
+        /* Mobile adjustments for steps */
+        @media (max-width: 768px) {
+            .step-indicator {
+                margin-bottom: var(--space-lg);
+                padding: var(--space-md) 0;
+            }
+
+            .step-connector {
+                width: 60px;
+                margin: 0 var(--space-md);
+            }
+
+            .step-label {
+                font-size: var(--font-size-xs);
+            }
+
+            .step-navigation {
+                flex-direction: column;
+            }
+
+            .modal-content {
+                margin: 0.5rem auto;
+                max-height: 95vh;
+            }
+        }
         .order-form {
-            margin-top: 20px;
+            margin-top: var(--space-lg);
         }
 
         .form-group {
-            margin-bottom: 20px;
+            margin-bottom: var(--space-lg);
         }
 
         .form-group label {
             display: block;
-            margin-bottom: 8px;
-            font-weight: bold;
-            color: #6b8e23;
+            margin-bottom: var(--space-xs);
+            font-weight: 600;
+            color: var(--color-primary);
+            font-size: var(--font-size-base);
         }
 
         .form-group select,
         .form-group input {
             width: 100%;
-            padding: 12px;
-            border: 2px solid #e8f5e8;
-            border-radius: 10px;
-            font-size: 16px;
-            transition: border-color 0.3s ease;
+            padding: var(--space-sm);
+            border: 2px solid var(--color-mint);
+            border-radius: var(--radius-lg);
+            font-size: var(--font-size-base);
+            transition: all var(--transition-fast);
+            min-height: 44px;
         }
 
         .form-group select:focus,
         .form-group input:focus {
             outline: none;
-            border-color: #6b8e23;
+            border-color: var(--color-primary);
+            box-shadow: 0 0 0 3px rgba(107, 142, 35, 0.1);
         }
 
         .option-group {
             display: flex;
-            gap: 10px;
+            gap: var(--space-sm);
             flex-wrap: wrap;
         }
 
         .option-btn {
-            background: #f8fdf8;
-            border: 2px solid #e8f5e8;
-            padding: 10px 15px;
-            border-radius: 10px;
+            background: var(--color-mint-light);
+            border: 2px solid var(--color-mint);
+            padding: var(--space-sm) var(--space-md);
+            border-radius: var(--radius-lg);
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: all var(--transition-fast);
             flex: 1;
             min-width: 80px;
             text-align: center;
+            font-weight: 500;
+            min-height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
         .option-btn.active {
-            background: #6b8e23;
-            color: white;
-            border-color: #6b8e23;
+            background: var(--color-primary);
+            color: var(--color-white);
+            border-color: var(--color-primary);
         }
 
-        .option-btn:hover {
-            border-color: #6b8e23;
+        .option-btn:hover,
+        .option-btn:focus {
+            border-color: var(--color-primary);
+            box-shadow: var(--shadow-sm);
+            outline: 2px solid var(--color-primary-dark);
+            outline-offset: 2px;
         }
 
-        .submit-order {
-            background: linear-gradient(135deg, #6b8e23, #8fbc8f);
-            color: white;
-            padding: 15px 30px;
+        .submit-order,
+        .add-to-cart {
+            background: linear-gradient(135deg, var(--color-primary), var(--color-primary-light));
+            color: var(--color-white);
+            padding: var(--space-md) var(--space-xl);
             border: none;
-            border-radius: 15px;
-            font-size: 18px;
-            font-weight: bold;
+            border-radius: var(--radius-lg);
+            font-size: var(--font-size-lg);
+            font-weight: 600;
             cursor: pointer;
             width: 100%;
-            margin-top: 20px;
-            transition: transform 0.3s ease;
-        }
-
-        .submit-order:hover {
-            transform: translateY(-2px);
+            margin-top: var(--space-lg);
+            transition: all var(--transition-normal);
+            min-height: 56px;
         }
 
         .add-to-cart {
-            background: linear-gradient(135deg, #8b6f47, #a0785a);
-            color: white;
-            padding: 12px 25px;
-            border: none;
-            border-radius: 15px;
-            font-size: 16px;
-            font-weight: bold;
-            cursor: pointer;
-            width: 100%;
-            margin-top: 20px;
-            transition: transform 0.3s ease;
+            background: linear-gradient(135deg, var(--color-accent), var(--color-accent-light));
         }
 
-        .add-to-cart:hover {
+        .submit-order:hover,
+        .submit-order:focus,
+        .add-to-cart:hover,
+        .add-to-cart:focus {
             transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+            outline: 3px solid rgba(107, 142, 35, 0.3);
+            outline-offset: 2px;
         }
 
         .order-summary {
-            background: linear-gradient(135deg, #f8fdf8, #e8f5e8);
-            padding: 20px;
-            border-radius: 15px;
-            margin: 20px 0;
-            border: 2px solid #6b8e23;
+            background: linear-gradient(135deg, var(--color-mint-light), var(--color-mint));
+            padding: var(--space-lg);
+            border-radius: var(--radius-lg);
+            margin: var(--space-lg) 0;
+            border: 2px solid var(--color-primary);
         }
 
         .order-summary h3 {
-            color: #6b8e23;
-            margin-bottom: 15px;
+            color: var(--color-primary);
+            margin-bottom: var(--space-md);
             text-align: center;
+            font-size: var(--font-size-xl);
+            font-weight: 600;
         }
 
         .cart-item {
-            background: white;
-            padding: 15px;
-            border-radius: 10px;
-            margin-bottom: 10px;
+            background: var(--color-white);
+            padding: var(--space-md);
+            border-radius: var(--radius-lg);
+            margin-bottom: var(--space-sm);
             position: relative;
-            border: 1px solid #e8f5e8;
+            border: 1px solid var(--color-mint);
+            box-shadow: var(--shadow-sm);
         }
 
         .cart-item h4 {
-            color: #6b8e23;
-            margin-bottom: 5px;
-            font-size: 16px;
+            color: var(--color-primary);
+            margin-bottom: var(--space-xs);
+            font-size: var(--font-size-lg);
+            font-weight: 600;
         }
 
         .cart-item p {
-            margin: 3px 0;
-            font-size: 14px;
-            color: #666;
+            margin: var(--space-xs) 0;
+            font-size: var(--font-size-sm);
+            color: var(--color-text-light);
         }
 
         .cart-item-price {
-            font-weight: bold;
-            color: #8b6f47;
-            margin-top: 8px;
+            font-weight: 700;
+            color: var(--color-accent);
+            margin-top: var(--space-sm);
+            font-size: var(--font-size-lg);
         }
 
         .remove-item {
             position: absolute;
-            top: 10px;
-            right: 10px;
-            background: #ff6b6b;
-            color: white;
+            top: var(--space-sm);
+            right: var(--space-sm);
+            background: var(--color-danger);
+            color: var(--color-white);
             border: none;
-            border-radius: 50%;
-            width: 25px;
-            height: 25px;
+            border-radius: var(--radius-full);
+            width: 32px;
+            height: 32px;
             cursor: pointer;
-            font-size: 14px;
+            font-size: var(--font-size-sm);
             line-height: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all var(--transition-fast);
         }
 
-        .remove-item:hover {
-            background: #ff5252;
+        .remove-item:hover,
+        .remove-item:focus {
+            background: #c82333;
+            transform: scale(1.1);
+            outline: 2px solid var(--color-danger);
+            outline-offset: 2px;
         }
 
         .total-summary {
-            background: #6b8e23;
-            color: white;
-            padding: 15px;
-            border-radius: 10px;
+            background: var(--color-primary);
+            color: var(--color-white);
+            padding: var(--space-md);
+            border-radius: var(--radius-lg);
             text-align: center;
-            font-size: 18px;
-            font-weight: bold;
-            margin-top: 15px;
+            font-size: var(--font-size-xl);
+            font-weight: 700;
+            margin-top: var(--space-md);
+            box-shadow: var(--shadow-md);
         }
 
         .empty-cart {
             text-align: center;
-            color: #999;
+            color: var(--color-text-lighter);
             font-style: italic;
-            padding: 20px;
+            padding: var(--space-xl);
+            font-size: var(--font-size-base);
+        }
+
+        /* Price Display Enhancement */
+        #itemPrice {
+            font-size: var(--font-size-2xl);
+            font-weight: 700;
+            color: var(--color-primary);
         }
 
         /* Message Preview Modal */
-        .message-modal {
-            display: none;
-            position: fixed;
-            z-index: 3000;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.5);
-            backdrop-filter: blur(5px);
-        }
-
-        .message-modal-content {
-            background: white;
-            margin: 5% auto;
-            padding: 30px;
-            border-radius: 20px;
-            width: 90%;
-            max-width: 600px;
-            max-height: 80vh;
-            overflow-y: auto;
-            position: relative;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-        }
-
         .message-preview {
-            background: #f8fdf8;
-            border: 2px solid #6b8e23;
-            border-radius: 15px;
-            padding: 20px;
-            margin: 20px 0;
-            font-family: monospace;
+            background: var(--color-mint-light);
+            border: 2px solid var(--color-primary);
+            border-radius: var(--radius-lg);
+            padding: var(--space-lg);
+            margin: var(--space-lg) 0;
+            font-family: 'Courier New', monospace;
             white-space: pre-wrap;
-            font-size: 14px;
+            font-size: var(--font-size-sm);
             line-height: 1.5;
             max-height: 300px;
             overflow-y: auto;
@@ -842,154 +1323,234 @@
 
         .scroll-hint {
             background: rgba(107, 142, 35, 0.1);
-            border: 1px solid #6b8e23;
-            border-radius: 10px;
-            padding: 8px 12px;
-            margin: 10px 0;
+            border: 1px solid var(--color-primary);
+            border-radius: var(--radius-lg);
+            padding: var(--space-sm) var(--space-md);
+            margin: var(--space-sm) 0;
             text-align: center;
-            font-size: 13px;
-            color: #6b8e23;
-            font-weight: bold;
+            font-size: var(--font-size-xs);
+            color: var(--color-primary);
+            font-weight: 600;
         }
 
         .message-actions {
             display: flex;
-            gap: 15px;
-            margin-top: 20px;
+            gap: var(--space-md);
+            margin-top: var(--space-lg);
+        }
+
+        .copy-btn,
+        .zalo-btn {
+            padding: var(--space-md) var(--space-lg);
+            border: none;
+            border-radius: var(--radius-lg);
+            font-size: var(--font-size-base);
+            font-weight: 600;
+            cursor: pointer;
+            flex: 1;
+            transition: all var(--transition-normal);
+            min-height: 56px;
         }
 
         .copy-btn {
-            background: linear-gradient(135deg, #8b6f47, #a0785a);
-            color: white;
-            padding: 15px 25px;
-            border: none;
-            border-radius: 15px;
-            font-size: 16px;
-            font-weight: bold;
-            cursor: pointer;
-            flex: 1;
-            transition: transform 0.3s ease;
-        }
-
-        .copy-btn:hover {
-            transform: translateY(-2px);
+            background: linear-gradient(135deg, var(--color-accent), var(--color-accent-light));
+            color: var(--color-white);
         }
 
         .zalo-btn {
             background: linear-gradient(135deg, #0084ff, #44a3ff);
-            color: white;
-            padding: 15px 25px;
-            border: none;
-            border-radius: 15px;
-            font-size: 16px;
-            font-weight: bold;
-            cursor: pointer;
-            flex: 1;
-            transition: transform 0.3s ease;
+            color: var(--color-white);
         }
 
-        .zalo-btn:hover {
+        .copy-btn:hover,
+        .copy-btn:focus,
+        .zalo-btn:hover,
+        .zalo-btn:focus {
             transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+            outline: 2px solid rgba(255, 255, 255, 0.5);
+            outline-offset: 2px;
         }
 
         .copy-status {
             text-align: center;
-            margin-top: 10px;
-            font-weight: bold;
-            color: #6b8e23;
+            margin-top: var(--space-sm);
+            font-weight: 600;
+            color: var(--color-primary);
+            font-size: var(--font-size-sm);
+        }
+
+        /* Sticky Order Summary for Mobile */
+        .sticky-summary {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: var(--color-white);
+            padding: var(--space-md);
+            box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.1);
+            border-top: 2px solid var(--color-primary);
+            z-index: 1500;
+            display: none;
+        }
+
+        .sticky-summary-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            max-width: 1200px;
+            margin: 0 auto;
+            gap: var(--space-md);
+        }
+
+        .sticky-total {
+            font-size: var(--font-size-lg);
+            font-weight: 700;
+            color: var(--color-primary);
+        }
+
+        .sticky-cta {
+            background: linear-gradient(135deg, var(--color-primary), var(--color-primary-light));
+            color: var(--color-white);
+            padding: var(--space-sm) var(--space-lg);
+            border: none;
+            border-radius: var(--radius-lg);
+            font-weight: 600;
+            cursor: pointer;
+            transition: all var(--transition-normal);
+            min-height: 44px;
+            flex-shrink: 0;
+        }
+
+        .sticky-cta:hover,
+        .sticky-cta:focus {
+            transform: translateY(-1px);
+            box-shadow: var(--shadow-md);
         }
 
         /* Footer */
         footer {
-            background: rgba(107, 142, 35, 0.9);
-            color: white;
+            background: var(--color-primary);
+            color: var(--color-white);
             text-align: center;
-            padding: 2rem 0;
+            padding: var(--space-xl) 0;
+            margin-top: var(--space-xl);
+        }
+
+        footer p {
+            font-size: var(--font-size-base);
+            opacity: 0.9;
         }
 
         /* Mobile Responsive */
         @media (max-width: 768px) {
-            .nav-links {
-                display: none;
+            :root {
+                --font-size-5xl: 2.5rem;
+                --font-size-4xl: 2rem;
+                --font-size-3xl: 1.5rem;
             }
 
-            .hero h1 {
-                font-size: 2.5rem;
+            .nav-toggle {
+                display: block;
+            }
+
+            .nav-links {
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background: var(--color-white);
+                flex-direction: column;
+                padding: var(--space-lg);
+                gap: var(--space-sm);
+                box-shadow: var(--shadow-lg);
+                border-radius: 0 0 var(--radius-lg) var(--radius-lg);
+                transform: translateY(-100%);
+                opacity: 0;
+                visibility: hidden;
+                transition: all var(--transition-normal);
+            }
+
+            .nav-links.show {
+                transform: translateY(0);
+                opacity: 1;
+                visibility: visible;
+            }
+
+            .nav-links a {
+                padding: var(--space-sm);
+                border-radius: var(--radius-sm);
+                text-align: center;
+            }
+
+            .logo-image {
+                width: 4rem;
+                height: 4rem;
+            }
+            
+            .logo-text {
+                font-size: var(--font-size-xl);
+            }
+
+            .order-btn {
+                padding: var(--space-sm);
+                font-size: var(--font-size-xs);
+            }
+
+            .hero {
+                padding: var(--space-2xl) 0;
+            }
+
+            .mascot {
+                width: 120px;
+                height: 120px;
+                font-size: var(--font-size-3xl);
             }
 
             .menu-grid {
                 grid-template-columns: 1fr;
             }
 
-            .sweetness-levels {
-                gap: 0.5rem;
-            }
-
-            .sweetness-option {
-                padding: 8px 15px;
-                font-size: 0.9rem;
-            }
-
-            .logo-image {
-                width: 70px;
-                height: 70px;
-            }
-            
-            .logo-text {
-                font-size: 1.6rem;
-            }
-
-            .mascot {
-                width: 120px;
-                height: 120px;
-                font-size: 3rem;
-            }
-
             .product-gallery {
-                margin: 20px 10px;
-                padding: 60px 0;
+                margin: var(--space-lg) var(--space-sm);
+                padding: var(--space-2xl) 0;
             }
 
             .product-gallery h2 {
-                font-size: 2rem;
-                margin-bottom: 2rem;
+                font-size: var(--font-size-3xl);
+                margin-bottom: var(--space-lg);
             }
 
             .gallery-container {
                 height: 280px;
             }
 
-            .gallery-track {
-                gap: 0;
-            }
-
             .gallery-slide {
-                width: 20%;
-                padding: 10px;
+                width: 280px;
+                padding: var(--space-sm);
             }
 
-            /* Mobile overlay adjustments */
             .gallery-overlay {
-                bottom: 15px;
-                left: 15px;
-                right: 15px;
-                padding: 12px 10px 6px;
-                max-height: 65px;
+                bottom: var(--space-sm);
+                left: var(--space-sm);
+                right: var(--space-sm);
+                padding: var(--space-sm) var(--space-sm) var(--space-xs);
+                max-height: 80px;
             }
 
             .gallery-overlay h3 {
-                font-size: 1rem;
-                margin-bottom: 3px;
+                font-size: var(--font-size-base);
+                margin-bottom: var(--space-xs);
             }
 
             .gallery-overlay p {
-                font-size: 0.75rem;
+                font-size: var(--font-size-xs);
                 -webkit-line-clamp: 1;
             }
 
             .popup-content {
                 width: 95%;
-                margin: 2% auto;
+                margin: 1rem auto;
             }
 
             .popup-image {
@@ -997,9 +1558,9 @@
             }
 
             .popup-close {
-                top: 10px;
-                right: 15px;
-                font-size: 30px;
+                top: var(--space-sm);
+                right: var(--space-sm);
+                font-size: 2rem;
                 width: 40px;
                 height: 40px;
             }
@@ -1007,392 +1568,644 @@
             .popup-nav {
                 width: 50px;
                 height: 50px;
-                font-size: 20px;
+                font-size: var(--font-size-xl);
             }
 
             .popup-prev {
-                left: 15px;
+                left: var(--space-sm);
             }
 
             .popup-next {
-                right: 15px;
+                right: var(--space-sm);
             }
 
-            .popup-info {
-                padding: 15px;
-                margin-top: 15px;
+            .modal-content,
+            .message-modal-content {
+                margin: 1rem auto;
+                padding: var(--space-lg);
+                width: 95%;
             }
 
-            .popup-info h3 {
-                font-size: 1.2rem;
+            .option-group {
+                flex-direction: column;
             }
 
-            .popup-info p {
-                font-size: 0.9rem;
+            .option-btn {
+                flex: none;
+                min-width: auto;
             }
 
-            .popup-counter {
-                bottom: 15px;
-                padding: 8px 15px;
-                font-size: 12px;
+            .message-actions {
+                flex-direction: column;
             }
+
+            .sticky-summary {
+                display: block;
+            }
+
+            body.modal-open .sticky-summary {
+                display: none;
+            }
+
+            /* Reduce motion and effects on mobile for performance */
+            .hero::before {
+                animation: none;
+            }
+
+            .mascot {
+                animation: none;
+            }
+        }
+
+        /* Cart count badge on header button */
+        .cart-badge {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 18px;
+            height: 18px;
+            padding: 0 6px;
+            border-radius: 9999px;
+            background: var(--color-danger);
+            color: #fff;
+            font-size: 12px;
+            font-weight: 700;
+            line-height: 1;
+        }
+
+        /* Quick add (+) button in menu */
+        .quick-add-wrap {
+            display: flex;
+            justify-content: flex-end;
+            margin-top: var(--space-sm);
+        }
+        .quick-add-btn {
+            width: 36px;
+            height: 36px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 9999px;
+            border: none;
+            cursor: pointer;
+            background: var(--color-primary);
+            color: #fff;
+            font-size: 20px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+            transition: transform .08s ease, background .2s ease;
+        }
+        .quick-add-btn:active { transform: scale(0.96); }
+        .quick-add-btn:hover { background: var(--color-primary-dark); }
+
+        /* Toast */
+        #toast {
+            position: fixed;
+            bottom: 24px;
+            left: 50%;
+            transform: translateX(-50%) translateY(20px);
+            background: rgba(0,0,0,0.9);
+            color: #fff;
+            padding: 10px 16px;
+            border-radius: 9999px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.25);
+            opacity: 0;
+            transition: transform .25s ease, opacity .25s ease;
+            pointer-events: none;
+            z-index: 9999;
+            font-size: 14px;
+        }
+        #toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+        /* Edit person name styles */
+        .person-name-edit {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--space-xs);
+            background: rgba(107, 142, 35, 0.1);
+            padding: var(--space-xs) var(--space-sm);
+            border-radius: var(--radius-sm);
+            margin-bottom: var(--space-xs);
+        }
+
+        .edit-name-input {
+            border: none;
+            background: transparent;
+            color: var(--color-primary);
+            font-weight: bold;
+            font-size: var(--font-size-base);
+            padding: 2px;
+            border-bottom: 1px dashed var(--color-primary);
+            min-width: 100px;
+        }
+
+        .edit-name-input:focus {
+            outline: none;
+            border-bottom: 2px solid var(--color-primary);
+        }
+
+        .edit-name-btn {
+            background: none;
+            border: none;
+            color: var(--color-primary);
+            cursor: pointer;
+            padding: 2px;
+            border-radius: var(--radius-sm);
+            font-size: var(--font-size-sm);
+            transition: background var(--transition-fast);
+        }
+
+        .edit-name-btn:hover,
+        .edit-name-btn:focus {
+            background: var(--color-primary);
+            color: white;
+            outline: none;
+        }
+
+        /* Edit name form */
+        .edit-name-form {
+            margin-top: var(--space-sm);
+        }
+
+        /* Person group styling */
+        .person-group {
+            background: rgba(255, 255, 255, 0.5);
+            border-radius: var(--radius-lg);
+            padding: var(--space-md);
+            margin-bottom: var(--space-md);
+            border-left: 4px solid var(--color-primary);
+        }
+
+        .person-group-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: var(--space-sm);
+        }
+
+        .person-group-name {
+            color: var(--color-primary);
+            font-weight: bold;
+            font-size: var(--font-size-lg);
         }
     </style>
 </head>
 <body>
+    <a href="#main" class="skip-link">Bỏ qua đến nội dung chính</a>
+    
     <header>
         <nav class="container">
-            <div class="logo">
+            <a href="#home" class="logo" aria-label="Mê Như Latte - Trang chủ">
                 <img src="logo.jpg" alt="Mê Như Latte Logo" class="logo-image">
                 <div class="logo-text">Mê Như Latte</div>
-            </div>
-            <ul class="nav-links">
+            </a>
+            
+            <button class="nav-toggle" aria-label="Mở menu điều hướng" aria-expanded="false">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            
+            <ul class="nav-links" role="navigation" aria-label="Menu điều hướng chính">
                 <li><a href="#home">Trang Chủ</a></li>
                 <li><a href="#menu">Menu</a></li>
                 <li><a href="#about">Giới Thiệu</a></li>
                 <li><a href="#contact">Liên Hệ</a></li>
             </ul>
-            <button class="order-btn" onclick="orderOnline()">🛵 Đặt Hàng Online</button>
+            <button id="orderBtn" class="order-btn" onclick="orderOnline()" aria-label="Mở giỏ hàng">
+                <span class="btn-label">🛵 Đặt Hàng Online</span>
+                <span id="cartCountBadge" class="cart-badge" style="display: none;">0</span>
+            </button>
         </nav>
     </header>
 
-    <section id="home" class="hero">
-        <div class="container">
-            <div class="hero-content">
-                <h1>Chào Mừng Đến Mê Như Latte</h1>
-                <p>Matcha Nhật Bản Cao Cấp & Latte Đặc Biệt</p>
-                <div class="mascot">🍵</div>
-                <p>Trải nghiệm những ly matcha và cà phê tuyệt vời được pha chế với tình yêu</p>
-            </div>
-        </div>
-    </section>
-
-    <section id="menu" class="menu">
-        <div class="container">
-            <h2>Menu Đặc Biệt</h2>
-            
-            <div class="menu-grid">
-                <div class="menu-item">
-                    <div class="menu-item-header">
-                        <h3>Matcha Latte 🧋💖</h3>
-                        <span class="price">45K</span>
-                    </div>
-                    <p class="description">Matcha Nhật Fuji 01 vụ xuân, hương nhẹ nhàng, sữa hạt hòa quyện.</p>
-                </div>
-
-                <div class="menu-item">
-                    <div class="menu-item-header">
-                        <h3>Matcha Cold Whish</h3>
-                        <span class="price">45K</span>
-                    </div>
-                    <p class="description">Đậm trà, béo thơm do đánh matcha trực tiếp với sữa lạnh</p>
-                </div>
-
-                <div class="menu-item">
-                    <div class="menu-item-header">
-                        <h3>Houjicha Latte</h3>
-                        <span class="price">40K</span>
-                    </div>
-                    <p class="description">Trà rang nhiệt độ cao, loại bỏ caffein, ít đắng, thơm trà.</p>
-                </div>
-
-                <div class="menu-item">
-                    <div class="menu-item-header">
-                        <h3>Caramel Matcha Latte</h3>
-                        <span class="price">45K</span>
-                    </div>
-                    <p class="description">Thơm vị caramel quyến rũ, hậu vị kéo dài, đậm đà.</p>
-                </div>
-
-                <div class="menu-item">
-                    <div class="menu-item-header">
-                        <h3>Khoai Môn Latte 🧋</h3>
-                        <span class="price">35K</span>
-                    </div>
-                    <p class="description">Latte khoai môn béo ngậy với hương vị rất đặc trưng</p>
-                </div>
-
-                <div class="menu-item">
-                    <div class="menu-item-header">
-                        <h3>Cacao Latte</h3>
-                        <span class="price">35K</span>
-                    </div>
-                    <p class="description">Latte chocolate đậm đà với cacao cao cấp</p>
-                </div>
-
-                <div class="menu-item">
-                    <div class="menu-item-header">
-                        <h3>Coffee Latte</h3>
-                        <span class="price">35K</span>
-                    </div>
-                    <p class="description">Latte cà phê cổ điển với sữa đánh hoàn hảo</p>
+    <main id="main">
+        <section id="home" class="hero">
+            <div class="container">
+                <div class="hero-content">
+                    <h1>Chào Mừng Đến Mê Như Latte</h1>
+                    <p>Matcha Nhật Bản Cao Cấp & Latte Đặc Biệt</p>
+                    <div class="mascot" role="img" aria-label="Biểu tượng tách trà">🍵</div>
+                    <p>Trải nghiệm những ly matcha và cà phê tuyệt vời được pha chế với tình yêu</p>
+                    <button id="ctaOrderBtn" class="cta-button" onclick="orderOnline()" aria-label="Mở giỏ hàng">
+                        <span class="btn-label">🛵 Đặt Hàng Online</span>
+                    </button>
                 </div>
             </div>
+        </section>
 
-            <div class="special-section">
-                <h3>🍃 Bộ Sưu Tập Matcha Đặc Biệt</h3>
-                <div class="special-items">
-                    <div class="special-item">
-                        <h4>🌿 Matcha Haru</h4>
-                        <p>Vị nhẹ, thơm thanh, ít đắng. Gu dịu dàng, dễ uống hàng ngày.</p>
-                    </div>
-                    <div class="special-item">
-                        <h4>🌿 Fuji Premium</h4>
-                        <p>Màu xanh rêu, thơm sâu, vị cân bằng, hậu ngọt nhẹ. Gu chuẩn Nhật, đậm mà không gắt.</p>
-                    </div>
-                    <div class="special-item">
-                        <h4>🌿 Fuji MH2</h4>
-                        <p>Vị vừa, hơi chát nhẹ, hậu ngọt. Gu trung bình, mê matcha rõ vị.</p>
-                    </div>
-                    <div class="special-item">
-                        <h4>🌿 Fuji MH3</h4>
-                        <p>Vị đậm, thơm hậu vị đắng nhẹ. Gu mạnh, thích matcha rõ vị.</p>
-                    </div>
-                    <div class="special-item">
-                        <h4>🌿 Uji Ceremonial Grade</h4>
-                        <p>Vị êm, thơm mùi ngọt trong biến nhẹ, hậu ngọt thanh kéo dài. Gu tinh tế, thích đậm matcha.</p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="sweetness-levels">
-                <div class="sweetness-option">Không đường (0%)</div>
-                <div class="sweetness-option">Ít ngọt (50%)</div>
-                <div class="sweetness-option">Vừa ngọt (100%)</div>
-                <div class="sweetness-option">Ngọt đậm (120%)</div>
-            </div>
-        </div>
-    </section>
-
-    <section class="product-gallery">
-        <div class="container">
-            <h2>🍃 Sản Phẩm Của Mê Như</h2>
-            <div class="gallery-container">
-                <div class="gallery-track">
-                    <div class="gallery-slide">
-                        <img src="image1.jpg" alt="Khoai Môn Latte" onclick="openImagePopup(0)">
-                        <div class="gallery-overlay">
-                            <h3>Khoai Môn Latte</h3>
-                            <p>Vị khoai môn béo ngậy, hương rất đặc trưng</p>
+        <section id="menu" class="menu">
+            <div class="container">
+                <h2>Menu Đặc Biệt</h2>
+                
+                <div class="menu-grid">
+                    <div class="menu-item" tabindex="0" role="article">
+                        <div class="menu-item-header">
+                            <h3>Matcha Latte 🧋💖</h3>
+                            <span class="price">45K</span>
                         </div>
+                        <p class="description">Matcha Nhật Fuji 01 vụ xuân, hương nhẹ nhàng, sữa hạt hòa quyện.</p>
                     </div>
-                    <div class="gallery-slide">
-                        <img src="image2.jpg" alt="Houjicha Latte" onclick="openImagePopup(1)">
-                        <div class="gallery-overlay">
+
+                    <div class="menu-item" tabindex="0" role="article">
+                        <div class="menu-item-header">
+                            <h3>Matcha Cold Whish</h3>
+                            <span class="price">45K</span>
+                        </div>
+                        <p class="description">Đậm trà, béo thơm do đánh matcha trực tiếp với sữa lạnh</p>
+                    </div>
+
+                    <div class="menu-item" tabindex="0" role="article">
+                        <div class="menu-item-header">
                             <h3>Houjicha Latte</h3>
-                            <p>Trà rang nhiệt độ cao, thơm ngon đặc biệt</p>
+                            <span class="price">40K</span>
                         </div>
+                        <p class="description">Trà rang nhiệt độ cao, loại bỏ caffein, ít đắng, thơm trà.</p>
                     </div>
-                    <div class="gallery-slide">
-                        <img src="image3.jpg" alt="Caramel Matcha" onclick="openImagePopup(2)">
-                        <div class="gallery-overlay">
-                            <h3>Caramel Matcha</h3>
-                            <p>Vị caramel quyện với matcha đậm đà</p>
+
+                    <div class="menu-item" tabindex="0" role="article">
+                        <div class="menu-item-header">
+                            <h3>Caramel Matcha Latte</h3>
+                            <span class="price">45K</span>
                         </div>
+                        <p class="description">Thơm vị caramel quyến rũ, hậu vị kéo dài, đậm đà.</p>
                     </div>
-                    <div class="gallery-slide">
-                        <img src="image4.jpg" alt="Matcha Latte Premium" onclick="openImagePopup(3)">
-                        <div class="gallery-overlay">
-                            <h3>Matcha Latte Premium</h3>
-                            <p>Matcha Nhật Bản cao cấp, pha chế thủ công</p>
+
+                    <div class="menu-item" tabindex="0" role="article">
+                        <div class="menu-item-header">
+                            <h3>Khoai Môn Latte 🧋</h3>
+                            <span class="price">35K</span>
                         </div>
+                        <p class="description">Latte khoai môn béo ngậy với hương vị rất đặc trưng</p>
                     </div>
-                    <div class="gallery-slide">
-                        <img src="image5.jpg" alt="Matcha Cold Brew" onclick="openImagePopup(4)">
-                        <div class="gallery-overlay">
-                            <h3>Matcha Cold Brew</h3>
-                            <p>Đậm trà, béo thơm, mát lạnh</p>
+
+                    <div class="menu-item" tabindex="0" role="article">
+                        <div class="menu-item-header">
+                            <h3>Cacao Latte</h3>
+                            <span class="price">35K</span>
+                        </div>
+                        <p class="description">Latte chocolate đậm đà với cacao cao cấp</p>
+                    </div>
+
+                    <div class="menu-item" tabindex="0" role="article">
+                        <div class="menu-item-header">
+                            <h3>Coffee Latte</h3>
+                            <span class="price">35K</span>
+                        </div>
+                        <p class="description">Latte cà phê cổ điển với sữa đánh hoàn hảo</p>
+                    </div>
+                </div>
+
+                <div class="special-section">
+                    <h3>🍃 Bộ Sưu Tập Matcha Đặc Biệt</h3>
+                    <div class="special-items">
+                        <div class="special-item">
+                            <h4>🌿 Matcha Haru</h4>
+                            <p>Vị nhẹ, thơm thanh, ít đắng. Gu dịu dàng, dễ uống hàng ngày.</p>
+                        </div>
+                        <div class="special-item">
+                            <h4>🌿 Fuji Premium</h4>
+                            <p>Màu xanh rêu, thơm sâu, vị cân bằng, hậu ngọt nhẹ. Gu chuẩn Nhật, đậm mà không gắt.</p>
+                        </div>
+                        <div class="special-item">
+                            <h4>🌿 Fuji MH2</h4>
+                            <p>Vị vừa, hơi chát nhẹ, hậu ngọt. Gu trung bình, mê matcha rõ vị.</p>
+                        </div>
+                        <div class="special-item">
+                            <h4>🌿 Fuji MH3</h4>
+                            <p>Vị đậm, thơm hậu vị đắng nhẹ. Gu mạnh, thích matcha rõ vị.</p>
+                        </div>
+                        <div class="special-item">
+                            <h4>🌿 Uji Ceremonial Grade</h4>
+                            <p>Vị êm, thơm mùi ngọt trong biến nhẹ, hậu ngọt thanh kéo dài. Gu tinh tế, thích đậm matcha.</p>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="gallery-indicators">
-                <div class="gallery-indicator"></div>
-                <div class="gallery-indicator"></div>
-                <div class="gallery-indicator"></div>
-                <div class="gallery-indicator"></div>
-                <div class="gallery-indicator"></div>
-            </div>
-            <p style="text-align: center; margin-top: 20px; color: #8b6f47; font-style: italic;">
-                ✨ Di chuột vào hình để tạm dừng và xem chi tiết • 🔍 Click vào hình để xem full size
-            </p>
-        </div>
-    </section>
 
-    <!-- Image Popup Modal -->
-    <div id="imagePopup" class="image-popup">
-        <span class="popup-close" onclick="closeImagePopup()">&times;</span>
-        <button class="popup-nav popup-prev" onclick="previousImage()">‹</button>
-        <button class="popup-nav popup-next" onclick="nextImage()">›</button>
-        <div class="popup-content">
-            <img id="popupImage" class="popup-image" src="" alt="">
-            <div class="popup-info">
-                <h3 id="popupTitle"></h3>
-                <p id="popupDescription"></p>
+                <div class="sweetness-levels" role="group" aria-label="Lựa chọn độ ngọt">
+                    <button class="sweetness-option" tabindex="0" aria-label="Không đường">Không đường (0%)</button>
+                    <button class="sweetness-option" tabindex="0" aria-label="Ít ngọt">Ít ngọt (50%)</button>
+                    <button class="sweetness-option" tabindex="0" aria-label="Vừa ngọt">Vừa ngọt (100%)</button>
+                    <button class="sweetness-option" tabindex="0" aria-label="Ngọt đậm">Ngọt đậm (120%)</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Product Gallery Section - Scroll Snap Carousel -->
+        <section class="product-gallery">
+            <div class="container">
+                <h2>🍃 Sản Phẩm Của Mê Như</h2>
+                <div class="gallery-container" role="region" aria-label="Bộ sưu tập sản phẩm">
+                    <div class="gallery-track">
+                        <div class="gallery-slide">
+                            <img src="image1.jpg" alt="Khoai Môn Latte" onclick="openImagePopup(0)" 
+                                 tabindex="0" role="button" aria-label="Xem chi tiết Khoai Môn Latte" 
+                                 onkeydown="handleImageKeydown(event, 0)" loading="lazy">
+                            <div class="gallery-overlay">
+                                <h3>Khoai Môn Latte</h3>
+                                <p>Vị khoai môn béo ngậy, hương rất đặc trưng</p>
+                            </div>
+                        </div>
+                        <div class="gallery-slide">
+                            <img src="image2.jpg" alt="Houjicha Latte" onclick="openImagePopup(1)" 
+                                 tabindex="0" role="button" aria-label="Xem chi tiết Houjicha Latte"
+                                 onkeydown="handleImageKeydown(event, 1)" loading="lazy">
+                            <div class="gallery-overlay">
+                                <h3>Houjicha Latte</h3>
+                                <p>Trà rang nhiệt độ cao, thơm ngon đặc biệt</p>
+                            </div>
+                        </div>
+                        <div class="gallery-slide">
+                            <img src="image3.jpg" alt="Caramel Matcha" onclick="openImagePopup(2)" 
+                                 tabindex="0" role="button" aria-label="Xem chi tiết Caramel Matcha"
+                                 onkeydown="handleImageKeydown(event, 2)" loading="lazy">
+                            <div class="gallery-overlay">
+                                <h3>Caramel Matcha</h3>
+                                <p>Vị caramel quyện với matcha đậm đà</p>
+                            </div>
+                        </div>
+                        <div class="gallery-slide">
+                            <img src="image4.jpg" alt="Matcha Latte Premium" onclick="openImagePopup(3)" 
+                                 tabindex="0" role="button" aria-label="Xem chi tiết Matcha Latte Premium"
+                                 onkeydown="handleImageKeydown(event, 3)" loading="lazy">
+                            <div class="gallery-overlay">
+                                <h3>Matcha Latte Premium</h3>
+                                <p>Matcha Nhật Bản cao cấp, pha chế thủ công</p>
+                            </div>
+                        </div>
+                        <div class="gallery-slide">
+                            <img src="image5.jpg" alt="Matcha Cold Brew" onclick="openImagePopup(4)" 
+                                 tabindex="0" role="button" aria-label="Xem chi tiết Matcha Cold Brew"
+                                 onkeydown="handleImageKeydown(event, 4)" loading="lazy">
+                            <div class="gallery-overlay">
+                                <h3>Matcha Cold Brew</h3>
+                                <p>Đậm trà, béo thơm, mát lạnh</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="gallery-nav" role="group" aria-label="Điều hướng gallery">
+                    <button class="gallery-nav-btn active" onclick="scrollToImage(0)" aria-label="Xem hình 1"></button>
+                    <button class="gallery-nav-btn" onclick="scrollToImage(1)" aria-label="Xem hình 2"></button>
+                    <button class="gallery-nav-btn" onclick="scrollToImage(2)" aria-label="Xem hình 3"></button>
+                    <button class="gallery-nav-btn" onclick="scrollToImage(3)" aria-label="Xem hình 4"></button>
+                    <button class="gallery-nav-btn" onclick="scrollToImage(4)" aria-label="Xem hình 5"></button>
+                </div>
+                <p style="text-align: center; margin-top: var(--space-lg); color: var(--color-accent); font-style: italic;">
+                    ✨ Vuốt ngang để xem thêm • 🔍 Nhấn vào hình để xem full size
+                </p>
+            </div>
+        </section>
+
+        <!-- Image Popup Modal -->
+        <div id="imagePopup" class="image-popup" role="dialog" aria-modal="true" aria-labelledby="popupTitle">
+            <button class="popup-close" onclick="closeImagePopup()" aria-label="Đóng popup">&times;</button>
+            <button class="popup-nav popup-prev" onclick="previousImage()" aria-label="Hình trước">‹</button>
+            <button class="popup-nav popup-next" onclick="nextImage()" aria-label="Hình sau">›</button>
+            <div class="popup-content">
+                <img id="popupImage" class="popup-image" src="" alt="">
+                <div class="popup-info">
+                    <h3 id="popupTitle"></h3>
+                    <p id="popupDescription"></p>
+                </div>
+            </div>
+            <div class="popup-counter">
+                <span id="popupCounter"></span>
             </div>
         </div>
-        <div class="popup-counter">
-            <span id="popupCounter"></span>
+
+        <section id="contact" class="contact">
+            <div class="container">
+                <h2>Ghé Thăm & Đặt Hàng Online</h2>
+                <div class="contact-info">
+                    <div class="contact-item" tabindex="0">
+                        <h3>📍 Địa Chỉ</h3>
+                        <p>266 Nguyễn Duy, P9, Q8<br>Thành phố Hồ Chí Minh</p>
+                    </div>
+                    <div class="contact-item" tabindex="0">
+                        <h3>📞 Điện Thoại</h3>
+                        <p><a href="tel:0984112173" style="color: inherit; text-decoration: none;">0984 112 173</a></p>
+                    </div>
+                    <div class="contact-item" tabindex="0">
+                        <h3>🛵 Giao Hàng</h3>
+                        <p>Đặt hàng online có sẵn<br>Giao hàng nhanh tận nơi</p>
+                    </div>
+                    <div class="contact-item" tabindex="0">
+                        <h3>🥛 Tùy Chọn Sữa Tươi</h3>
+                        <p><strong>Sữa Gấu:</strong> Béo thơm, ngậy sữa<br><strong>Oatside:</strong> Sữa hạt yến mạch, bùi, béo thơm thanh mát</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Edit Name Modal -->
+    <div id="editNameModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="editNameModalTitle">
+        <div class="modal-content" style="max-width: 400px;">
+            <button class="close" onclick="closeEditNameModal()" aria-label="Đóng form đổi tên">&times;</button>
+            <h2 id="editNameModalTitle" style="color: var(--color-primary); text-align: center; margin-bottom: var(--space-lg);">✏️ Đổi tên người uống</h2>
+            
+            <form class="edit-name-form">
+                <div class="form-group">
+                    <label for="newPersonName">Tên mới:</label>
+                    <input type="text" id="newPersonName" placeholder="Nhập tên người uống" required aria-required="true">
+                </div>
+                
+                <div style="background: var(--color-mint-light); padding: var(--space-md); border-radius: var(--radius-lg); margin: var(--space-md) 0;">
+                    <p style="margin: 0; font-size: var(--font-size-sm); color: var(--color-text-light);">
+                        💡 <strong>Lưu ý:</strong> Thay đổi tên sẽ áp dụng cho tất cả các món của người này trong đơn hàng.
+                    </p>
+                </div>
+
+                <div class="step-navigation">
+                    <button type="button" class="btn-secondary" onclick="closeEditNameModal()">
+                        ❌ Hủy
+                    </button>
+                    <button type="button" class="submit-order" onclick="confirmEditName()" id="confirmEditBtn">
+                        ✅ Xác nhận đổi tên
+                    </button>
+                </div>
+            </form>
         </div>
     </div>
 
-    <section id="contact" class="contact">
-        <div class="container">
-            <h2>Ghé Thăm & Đặt Hàng Online</h2>
-            <div class="contact-info">
-                <div class="contact-item">
-                    <h3>📍 Địa Chỉ</h3>
-                    <p>266 Nguyễn Duy, P9, Q8<br>Thành phố Hồ Chí Minh</p>
+    <!-- Order Modal -->
+    <div id="orderModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="orderModalTitle">
+        <div class="modal-content">
+            <button class="close" onclick="closeOrderModal()" aria-label="Đóng form đặt hàng">&times;</button>
+            
+            <!-- Step Indicator -->
+            <div class="step-indicator">
+                <div class="step active" data-step="1">
+                    <div class="step-number">1</div>
+                    <div class="step-label">Chọn món</div>
                 </div>
-                <div class="contact-item">
-                    <h3>📞 Điện Thoại</h3>
-                    <p>0984 112 173</p>
-                </div>
-                <div class="contact-item">
-                    <h3>🛵 Giao Hàng</h3>
-                    <p>Đặt hàng online có sẵn<br>Giao hàng nhanh tận nơi</p>
-                </div>
-                <div class="contact-item">
-                    <h3>🥛 Tùy Chọn Sữa Tươi</h3>
-                    <p><strong>Sữa Gấu:</strong> Béo thơm, ngậy sữa<br><strong>Oatside:</strong> Sữa hạt yến mạch, bùi, béo thơm thanh mát</p>
+                <div class="step-connector"></div>
+                <div class="step" data-step="2">
+                    <div class="step-number">2</div>
+                    <div class="step-label">Thông tin giao hàng</div>
                 </div>
             </div>
-        </div>
-    </section>
 
-    <!-- Order Modal -->
-    <div id="orderModal" class="modal">
-        <div class="modal-content">
-            <span class="close">&times;</span>
-            <h2 style="color: #6b8e23; text-align: center; margin-bottom: 20px;">🧋 Đặt Hàng Online</h2>
-            
-            <form class="order-form">
-                <div class="form-group">
-                    <label>Tên khách hàng: <span style="color: red;">*</span></label>
-                    <input type="text" id="customerName" placeholder="Nhập tên của bạn" required>
+            <!-- Step 1: Menu Selection -->
+            <div id="step1" class="order-step active">
+                <h2 id="orderModalTitle" style="color: var(--color-primary); text-align: center; margin-bottom: var(--space-lg);">🧋 Chọn Món & Tùy Chỉnh</h2>
+                
+                <form class="order-form">
+                    <div class="form-group">
+                        <label for="drinkFor">Ly này cho ai? <span style="color: var(--color-accent);">(Tùy chọn)</span></label>
+                        <input type="text" id="drinkFor" placeholder="Để trống nếu là cho bạn, hoặc ghi tên người khác">
+                        <small style="color: var(--color-text-light); font-size: var(--font-size-xs);">💡 Ví dụ: "Anh Nam", "Chị Lan", "Bạn Minh"...</small>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="drinkSelect">Chọn đồ uống:</label>
+                        <select id="drinkSelect" required aria-required="true">
+                            <option value="">-- Chọn đồ uống --</option>
+                            <option value="Matcha Latte - 45K">Matcha Latte 🧋💖 - 45K</option>
+                            <option value="Matcha Cold Whish - 45K">Matcha Cold Whish - 45K</option>
+                            <option value="Houjicha Latte - 40K">Houjicha Latte - 40K</option>
+                            <option value="Caramel Matcha Latte - 45K">Caramel Matcha Latte - 45K</option>
+                            <option value="Khoai Môn Latte - 35K">Khoai Môn Latte 🧋 - 35K</option>
+                            <option value="Cacao Latte - 35K">Cacao Latte - 35K</option>
+                            <option value="Coffee Latte - 35K">Coffee Latte - 35K</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="matchaType">Loại Matcha (nếu chọn matcha): <span style="color: var(--color-accent);">+5K</span></label>
+                        <select id="matchaType">
+                            <option value="">-- Chọn loại matcha --</option>
+                            <option value="Matcha Haru (+5K)">Matcha Haru - Vị nhẹ, dễ uống (+5K)</option>
+                            <option value="Fuji Premium (+5K)">Fuji Premium - Chuẩn Nhật, đậm mà không gắt (+5K)</option>
+                            <option value="Fuji MH2 (+5K)">Fuji MH2 - Vị vừa, mê matcha rõ vị (+5K)</option>
+                            <option value="Fuji MH3 (+5K)">Fuji MH3 - Vị đậm, thích matcha rõ vị (+5K)</option>
+                            <option value="Uji Ceremonial (+5K)">Uji Ceremonial Grade - Tinh tế, đậm matcha (+5K)</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="quantity">Số lượng:</label>
+                        <input type="number" id="quantity" min="1" max="20" value="1" required aria-required="true">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Độ ngọt:</label>
+                        <div class="option-group" role="radiogroup" aria-label="Chọn độ ngọt">
+                            <button type="button" class="option-btn" data-sweetness="0%" role="radio" aria-checked="false">Không đường</button>
+                            <button type="button" class="option-btn" data-sweetness="50%" role="radio" aria-checked="false">Ít ngọt</button>
+                            <button type="button" class="option-btn active" data-sweetness="100%" role="radio" aria-checked="true">Vừa ngọt</button>
+                            <button type="button" class="option-btn" data-sweetness="120%" role="radio" aria-checked="false">Ngọt đậm</button>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Lượng đá:</label>
+                        <div class="option-group" role="radiogroup" aria-label="Chọn lượng đá">
+                            <button type="button" class="option-btn" data-ice="không đá" role="radio" aria-checked="false">Không đá</button>
+                            <button type="button" class="option-btn" data-ice="ít đá" role="radio" aria-checked="false">Ít đá</button>
+                            <button type="button" class="option-btn active" data-ice="vừa đá" role="radio" aria-checked="true">Vừa đá</button>
+                            <button type="button" class="option-btn" data-ice="nhiều đá" role="radio" aria-checked="false">Nhiều đá</button>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Loại sữa:</label>
+                        <div class="option-group" role="radiogroup" aria-label="Chọn loại sữa">
+                            <button type="button" class="option-btn active" data-milk="sữa thường" role="radio" aria-checked="true">Sữa thường</button>
+                            <button type="button" class="option-btn" data-milk="sữa gấu" role="radio" aria-checked="false">Sữa Gấu</button>
+                            <button type="button" class="option-btn" data-milk="oatside" role="radio" aria-checked="false">Oatside</button>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="notes">Ghi chú thêm:</label>
+                        <input type="text" id="notes" placeholder="Ví dụ: ít ngọt hơn, thêm topping...">
+                    </div>
+
+                    <div class="form-group">
+                        <div style="background: linear-gradient(135deg, var(--color-mint-light), var(--color-mint)); padding: var(--space-md); border-radius: var(--radius-lg); border: 2px solid var(--color-primary);">
+                            <h3 style="color: var(--color-primary); margin: 0; text-align: center;">
+                                💰 Giá món này: <span id="itemPrice">0K</span>
+                            </h3>
+                        </div>
+                    </div>
+
+                    <button type="button" class="add-to-cart" onclick="addToCart()">
+                        🛒 Thêm vào giỏ hàng
+                    </button>
+                </form>
+
+                <!-- Cart Summary in Step 1 -->
+                <div class="order-summary">
+                    <h3>🛍️ Giỏ hàng của bạn</h3>
+                    <div id="cartItems">
+                        <div class="empty-cart">Giỏ hàng trống. Hãy thêm món đầu tiên!</div>
+                    </div>
+                    <div id="totalSummary" class="total-summary" style="display: none;">
+                        💰 Tổng cộng: <span id="grandTotal">0K</span>
+                    </div>
+
+                    <button type="button" class="proceed-to-delivery" onclick="goToStep2()" id="proceedBtn" style="display: none;">
+                        ➡️ Tiếp tục - Nhập thông tin giao hàng
+                    </button>
                 </div>
+            </div>
 
-                <div class="form-group">
-                    <label>Số điện thoại: <span style="color: red;">*</span></label>
-                    <input type="tel" id="customerPhone" placeholder="Nhập số điện thoại" required>
-                </div>
+            <!-- Step 2: Delivery Information -->
+            <div id="step2" class="order-step">
+                <h2 style="color: var(--color-primary); text-align: center; margin-bottom: var(--space-lg);">📍 Thông Tin Giao Hàng</h2>
+                
+                <form class="delivery-form">
+                    <div class="form-group">
+                        <label for="customerName">Tên khách hàng: <span style="color: var(--color-danger);">*</span></label>
+                        <input type="text" id="customerName" placeholder="Nhập tên của bạn" required aria-required="true">
+                    </div>
 
-                <div class="form-group">
-                    <label>Địa chỉ giao hàng: <span style="color: red;">*</span></label>
-                    <input type="text" id="customerAddress" placeholder="Nhập địa chỉ giao hàng đầy đủ" required>
-                </div>
+                    <div class="form-group">
+                        <label for="customerPhone">Số điện thoại: <span style="color: var(--color-danger);">*</span></label>
+                        <input type="tel" id="customerPhone" placeholder="Nhập số điện thoại" required aria-required="true">
+                    </div>
 
-                <div class="form-group">
-                    <label>Ly này cho ai? <span style="color: #8b6f47;">(Tùy chọn)</span></label>
-                    <input type="text" id="drinkFor" placeholder="Để trống nếu là cho bạn, hoặc ghi tên người khác">
-                    <small style="color: #666; font-size: 12px;">💡 Ví dụ: "Anh Nam", "Chị Lan", "Bạn Minh"...</small>
-                </div>
+                    <div class="form-group">
+                        <label for="customerAddress">Địa chỉ giao hàng: <span style="color: var(--color-danger);">*</span></label>
+                        <input type="text" id="customerAddress" placeholder="Nhập địa chỉ giao hàng đầy đủ" required aria-required="true">
+                    </div>
+                </form>
 
-                <div class="form-group">
-                    <label>Chọn đồ uống:</label>
-                    <select id="drinkSelect" required>
-                        <option value="">-- Chọn đồ uống --</option>
-                        <option value="Matcha Latte - 45K">Matcha Latte 🧋💖 - 45K</option>
-                        <option value="Matcha Cold Whish - 45K">Matcha Cold Whish - 45K</option>
-                        <option value="Houjicha Latte - 40K">Houjicha Latte - 40K</option>
-                        <option value="Caramel Matcha Latte - 45K">Caramel Matcha Latte - 45K</option>
-                        <option value="Khoai Môn Latte - 35K">Khoai Môn Latte 🧋 - 35K</option>
-                        <option value="Cacao Latte - 35K">Cacao Latte - 35K</option>
-                        <option value="Coffee Latte - 35K">Coffee Latte - 35K</option>
-                    </select>
-                </div>
-
-                <div class="form-group">
-                    <label>Loại Matcha (nếu chọn matcha): <span style="color: #8b6f47;">+5K</span></label>
-                    <select id="matchaType">
-                        <option value="">-- Chọn loại matcha --</option>
-                        <option value="Matcha Haru (+5K)">Matcha Haru - Vị nhẹ, dễ uống (+5K)</option>
-                        <option value="Fuji Premium (+5K)">Fuji Premium - Chuẩn Nhật, đậm mà không gắt (+5K)</option>
-                        <option value="Fuji MH2 (+5K)">Fuji MH2 - Vị vừa, mê matcha rõ vị (+5K)</option>
-                        <option value="Fuji MH3 (+5K)">Fuji MH3 - Vị đậm, thích matcha rõ vị (+5K)</option>
-                        <option value="Uji Ceremonial (+5K)">Uji Ceremonial Grade - Tinh tế, đậm matcha (+5K)</option>
-                    </select>
-                </div>
-
-                <div class="form-group">
-                    <label>Số lượng:</label>
-                    <input type="number" id="quantity" min="1" max="20" value="1" required>
-                </div>
-
-                <div class="form-group">
-                    <label>Độ ngọt:</label>
-                    <div class="option-group">
-                        <div class="option-btn" data-sweetness="0%">Không đường</div>
-                        <div class="option-btn" data-sweetness="50%">Ít ngọt</div>
-                        <div class="option-btn active" data-sweetness="100%">Vừa ngọt</div>
-                        <div class="option-btn" data-sweetness="120%">Ngọt đậm</div>
+                <!-- Order Review -->
+                <div class="order-review">
+                    <h3 style="color: var(--color-primary); margin-bottom: var(--space-md);">📋 Xem lại đơn hàng</h3>
+                    <div id="orderReview">
+                        <!-- Cart items will be displayed here -->
+                    </div>
+                    <div class="final-total">
+                        💰 Tổng thanh toán: <span id="finalTotal">0K</span>
                     </div>
                 </div>
 
-                <div class="form-group">
-                    <label>Lượng đá:</label>
-                    <div class="option-group">
-                        <div class="option-btn" data-ice="không đá">Không đá</div>
-                        <div class="option-btn" data-ice="ít đá">Ít đá</div>
-                        <div class="option-btn active" data-ice="vừa đá">Vừa đá</div>
-                        <div class="option-btn" data-ice="nhiều đá">Nhiều đá</div>
-                    </div>
+                <!-- Step Navigation -->
+                <div class="step-navigation">
+                    <button type="button" class="btn-secondary" onclick="goToStep1()">
+                        ⬅️ Quay lại chỉnh sửa món
+                    </button>
+                    <button type="button" class="submit-order" onclick="submitOrder()" id="finalSubmitBtn">
+                        📱 Hoàn tất đặt hàng
+                    </button>
                 </div>
-
-                <div class="form-group">
-                    <label>Loại sữa:</label>
-                    <div class="option-group">
-                        <div class="option-btn active" data-milk="sữa thường">Sữa thường</div>
-                        <div class="option-btn" data-milk="sữa gấu">Sữa Gấu</div>
-                        <div class="option-btn" data-milk="oatside">Oatside</div>
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label>Ghi chú thêm:</label>
-                    <input type="text" id="notes" placeholder="Ví dụ: ít ngọt hơn, thêm topping...">
-                </div>
-
-                <div class="form-group">
-                    <div style="background: linear-gradient(135deg, #f8fdf8, #e8f5e8); padding: 15px; border-radius: 10px; border: 2px solid #6b8e23;">
-                        <h3 style="color: #6b8e23; margin: 0; text-align: center;">
-                            💰 Giá món này: <span id="itemPrice">0K</span>
-                        </h3>
-                    </div>
-                </div>
-
-                <button type="button" class="add-to-cart" onclick="addToCart()">
-                    🛒 Thêm vào giỏ hàng
-                </button>
-            </form>
-
-            <!-- Order Summary -->
-            <div class="order-summary">
-                <h3>🛍️ Giỏ hàng của bạn</h3>
-                <div id="cartItems">
-                    <div class="empty-cart">Giỏ hàng trống. Hãy thêm món đầu tiên!</div>
-                </div>
-                <div id="totalSummary" class="total-summary" style="display: none;">
-                    💰 Tổng cộng: <span id="grandTotal">0K</span>
-                </div>
-
-                <button type="button" class="submit-order" onclick="submitOrder()" id="submitBtn" style="display: none;">
-                    📱 Xem tin nhắn & Gửi Zalo
-                </button>
-            </form>
+            </div>
         </div>
     </div>
 
     <!-- Message Preview Modal -->
-    <div id="messageModal" class="message-modal">
+    <div id="messageModal" class="message-modal" role="dialog" aria-modal="true" aria-labelledby="messageModalTitle">
         <div class="message-modal-content">
-            <span class="close" onclick="closeMessageModal()">&times;</span>
-            <h2 style="color: #6b8e23; text-align: center; margin-bottom: 10px;">📋 Đơn hàng của bạn</h2>
-            <p style="text-align: center; color: #666; font-size: 14px; margin-bottom: 20px;">
+            <button class="close" onclick="closeMessageModal()" aria-label="Đóng xem trước tin nhắn">&times;</button>
+            <h2 id="messageModalTitle" style="color: var(--color-primary); text-align: center; margin-bottom: var(--space-sm);">📋 Đơn hàng của bạn</h2>
+            <p style="text-align: center; color: var(--color-text-light); font-size: var(--font-size-sm); margin-bottom: var(--space-lg);">
                 Vui lòng kiểm tra và làm theo hướng dẫn
             </p>
             
-            <div class="message-preview" id="messagePreview">
+            <div class="message-preview" id="messagePreview" role="textbox" aria-readonly="true" aria-label="Nội dung tin nhắn đặt hàng">
                 <!-- Message content will be inserted here -->
             </div>
 
@@ -1401,21 +2214,21 @@
                 📱 Nội dung dài - vuốt lên xuống để xem tất cả thông tin đơn hàng
             </div>
 
-            <p style="text-align: center; color: #666; margin: 15px 0;">
+            <p style="text-align: center; color: var(--color-text-light); margin: var(--space-md) 0;">
                   👇 SẴN SÀNG ĐẶT HÀNG - KÉO XUỐNG ĐỂ XEM HƯỚNG DẪN
             </p>
             <div class="message-actions">
-                <button class="copy-btn" onclick="copyMessage()">
+                <button class="copy-btn" onclick="copyMessage()" aria-label="Sao chép tin nhắn đặt hàng">
                     📋 Sao chép tin nhắn
                 </button>
-                <button class="zalo-btn" onclick="openZalo()">
+                <button class="zalo-btn" onclick="openZalo()" aria-label="Mở ứng dụng Zalo">
                     💬 Mở Zalo
                 </button>
             </div>
 
-            <div class="copy-status" id="copyStatus"></div>
+            <div class="copy-status" id="copyStatus" role="status" aria-live="polite"></div>
 
-            <p style="text-align: center; color: #999; font-size: 14px; margin-top: 20px;">
+            <p style="text-align: center; color: var(--color-text-lighter); font-size: var(--font-size-sm); margin-top: var(--space-lg);">
                 💡 <strong>Hướng dẫn:</strong><br>
                 1. Sao chép tin nhắn<br>
                 2. Mở Zalo → Tìm "Mê Như Latte"<br>
@@ -1424,6 +2237,21 @@
         </div>
     </div>
 
+    <!-- Sticky Summary Bar for Mobile -->
+    <div class="sticky-summary" id="stickySummary">
+        <div class="sticky-summary-content">
+            <div class="sticky-total">
+                Tổng: <span id="stickyTotal">0K</span>
+            </div>
+            <button class="sticky-cta" onclick="submitOrder()" aria-label="Gửi đơn hàng qua Zalo">
+                Gửi Zalo
+            </button>
+        </div>
+    </div>
+
+    <!-- Toast -->
+    <div id="toast" role="status" aria-live="polite"></div>
+
     <footer>
         <div class="container">
             <p>&copy; 2025 Mê Như Latte. Trải Nghiệm Trà & Cà Phê Cao Cấp.</p>
@@ -1431,72 +2259,295 @@
     </footer>
 
     <script>
-        // Modal functionality
+        // Global variables
+        let cart = [];
+        let cartItemCounter = 0;
+        let currentStep = 1;
+        let currentOrderMessage = '';
+        let previouslyFocusedElement = null;
+        let currentEditingItemId = null;
+        let currentEditingName = '';
+
+        // Modal elements
         const modal = document.getElementById('orderModal');
         const messageModal = document.getElementById('messageModal');
-        let currentOrderMessage = '';
+        const editNameModal = document.getElementById('editNameModal');
 
-        function orderOnline() {
-            modal.style.display = 'block';
-            // Set default selections
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            // Setup quick add buttons
+            setupQuickAddButtons();
+            // Initialize cart UI
+            updateCartUI();
+            // Setup mobile navigation
+            setupMobileNavigation();
+            // Setup option button handlers
+            setupOptionButtons();
+            // Setup event listeners
+            setupEventListeners();
+            // Initialize gallery navigation
+            updateGalleryNav(0);
+        });
+
+        // Toast helper
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            if (!toast) return;
+            toast.textContent = message;
+            toast.classList.add('show');
+            clearTimeout(window.__toastTimer);
+            window.__toastTimer = setTimeout(() => {
+                toast.classList.remove('show');
+            }, 1800);
+        }
+
+        // Update cart UI and badge
+        function updateCartUI() {
+            try {
+                const count = Array.isArray(cart) ? cart.length : 0;
+                const orderBtn = document.getElementById('orderBtn');
+                const ctaOrderBtn = document.getElementById('ctaOrderBtn');
+                const badge = document.getElementById('cartCountBadge');
+                const labelText = count > 0 ? '🛍️ Giỏ hàng' : '🛵 Đặt Hàng Online';
+
+                // Update button labels
+                if (orderBtn) {
+                    const span = orderBtn.querySelector('.btn-label');
+                    if (span) span.textContent = labelText;
+                }
+                if (ctaOrderBtn) {
+                    const span = ctaOrderBtn.querySelector('.btn-label');
+                    if (span) span.textContent = labelText;
+                }
+
+                // Update badge
+                if (badge) {
+                    if (count > 0) {
+                        badge.textContent = String(count);
+                        badge.style.display = 'inline-flex';
+                    } else {
+                        badge.style.display = 'none';
+                    }
+                }
+
+                // Update sticky total
+                updateStickyTotal();
+            } catch (e) {
+                console.log('Error updating cart UI:', e);
+            }
+        }
+
+        // Setup quick add buttons
+        function setupQuickAddButtons() {
+            document.querySelectorAll('.menu-item').forEach(item => {
+                const nameEl = item.querySelector('.menu-item-header h3');
+                const priceEl = item.querySelector('.menu-item-header .price');
+                if (!nameEl || !priceEl) return;
+                
+                const name = nameEl.textContent.trim();
+                const priceText = priceEl.textContent.trim();
+                const priceMatch = priceText.match(/(\d+)K/i);
+                const price = priceMatch ? parseInt(priceMatch[1], 10) : 0;
+
+                const wrap = document.createElement('div');
+                wrap.className = 'quick-add-wrap';
+                const btn = document.createElement('button');
+                btn.className = 'quick-add-btn';
+                btn.type = 'button';
+                btn.setAttribute('aria-label', `Thêm ${name} vào giỏ hàng`);
+                btn.textContent = '+';
+                btn.addEventListener('click', () => quickAddToCart(name, price));
+                wrap.appendChild(btn);
+                item.appendChild(wrap);
+            });
+        }
+
+        // Quick add to cart from menu
+        function quickAddToCart(drinkName, priceK) {
+            const cartItem = {
+                id: ++cartItemCounter,
+                drinkFor: 'Bạn',
+                drink: `${drinkName} - ${priceK}K`,
+                matchaType: '',
+                quantity: 1,
+                sweetness: '100%',
+                ice: 'vừa đá',
+                milk: 'sữa thường',
+                notes: '',
+                price: parseInt(priceK, 10) || 0
+            };
+
+            cart.push(cartItem);
+            updateCartDisplay();
+            updateCartUI();
+            showToast(`✅ Đã thêm "${drinkName}" vào giỏ hàng`);
+        }
+
+        // Setup mobile navigation
+        function setupMobileNavigation() {
+            const navToggle = document.querySelector('.nav-toggle');
+            const navLinks = document.querySelector('.nav-links');
+
+            if (navToggle && navLinks) {
+                navToggle.addEventListener('click', () => {
+                    const isExpanded = navToggle.getAttribute('aria-expanded') === 'true';
+                    navToggle.setAttribute('aria-expanded', !isExpanded);
+                    navToggle.classList.toggle('active');
+                    navLinks.classList.toggle('show');
+                });
+
+                // Close mobile nav when clicking outside
+                document.addEventListener('click', (e) => {
+                    if (!navToggle.contains(e.target) && !navLinks.contains(e.target)) {
+                        navToggle.setAttribute('aria-expanded', 'false');
+                        navToggle.classList.remove('active');
+                        navLinks.classList.remove('show');
+                    }
+                });
+            }
+        }
+
+        // Setup option buttons
+        function setupOptionButtons() {
             document.querySelectorAll('.option-group').forEach(group => {
-                const activeBtn = group.querySelector('.active');
-                if (!activeBtn) {
-                    group.querySelector('.option-btn').classList.add('active');
+                group.addEventListener('click', function(e) {
+                    if (e.target.classList.contains('option-btn')) {
+                        // Remove active class from siblings
+                        group.querySelectorAll('.option-btn').forEach(btn => {
+                            btn.classList.remove('active');
+                            btn.setAttribute('aria-checked', 'false');
+                        });
+                        // Add active class to clicked button
+                        e.target.classList.add('active');
+                        e.target.setAttribute('aria-checked', 'true');
+                        calculateItemPrice();
+                    }
+                });
+            });
+        }
+
+        // Setup event listeners
+        function setupEventListeners() {
+            // Price calculation triggers
+            const drinkSelect = document.getElementById('drinkSelect');
+            const matchaType = document.getElementById('matchaType');
+            const quantity = document.getElementById('quantity');
+
+            if (drinkSelect) drinkSelect.addEventListener('change', calculateItemPrice);
+            if (matchaType) matchaType.addEventListener('change', calculateItemPrice);
+            if (quantity) quantity.addEventListener('input', calculateItemPrice);
+
+            // Modal close on outside click
+            window.addEventListener('click', function(event) {
+                if (event.target === modal) closeOrderModal();
+                if (event.target === messageModal) closeMessageModal();
+                if (event.target === imagePopup) closeImagePopup();
+                if (event.target === editNameModal) closeEditNameModal();
+            });
+
+            // Keyboard navigation
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape') {
+                    if (modal.style.display === 'block') closeOrderModal();
+                    if (messageModal.style.display === 'block') closeMessageModal();
+                    if (imagePopup.style.display === 'block') closeImagePopup();
+                    if (editNameModal.style.display === 'block') closeEditNameModal();
+                }
+                
+                // Enter key in edit name modal
+                if (e.key === 'Enter' && editNameModal.style.display === 'block') {
+                    e.preventDefault();
+                    confirmEditName();
                 }
             });
+
+            // Setup gallery scroll listener
+            setupGalleryScrollListener();
+        }
+
+        // Modal management
+        function openModal(modalElement) {
+            previouslyFocusedElement = document.activeElement;
+            modalElement.style.display = 'block';
+            document.body.style.overflow = 'hidden';
+            document.body.classList.add('modal-open');
+        }
+
+        function closeModal(modalElement) {
+            modalElement.style.display = 'none';
+            document.body.style.overflow = 'auto';
+            document.body.classList.remove('modal-open');
+            
+            if (previouslyFocusedElement) {
+                previouslyFocusedElement.focus();
+                previouslyFocusedElement = null;
+            }
+        }
+
+        // Order functions
+        function orderOnline() {
+            openModal(modal);
+            goToStep1();
             calculateItemPrice();
         }
 
-        // Close main order modal
         function closeOrderModal() {
-            modal.style.display = 'none';
+            closeModal(modal);
+            goToStep1();
         }
 
-        // Close message preview modal
         function closeMessageModal() {
-            messageModal.style.display = 'none';
-            document.getElementById('scrollHint').style.display = 'none';
+            closeModal(messageModal);
         }
 
-        // Handle close button clicks for both modals
-        document.addEventListener('click', function(event) {
-            if (event.target.classList.contains('close')) {
-                const modal = event.target.closest('.modal, .message-modal');
-                if (modal) {
-                    modal.style.display = 'none';
-                }
+        // Step navigation
+        function goToStep1() {
+            currentStep = 1;
+            document.getElementById('step1').classList.add('active');
+            document.getElementById('step2').classList.remove('active');
+            
+            // Update step indicator
+            const step1 = document.querySelector('[data-step="1"]');
+            const step2 = document.querySelector('[data-step="2"]');
+            if (step1) {
+                step1.classList.add('active');
+                step1.classList.remove('completed');
             }
-        });
-
-        // Handle clicks outside modals
-        window.onclick = function(event) {
-            if (event.target == modal) {
-                modal.style.display = 'none';
-            }
-            if (event.target == messageModal) {
-                messageModal.style.display = 'none';
+            if (step2) {
+                step2.classList.remove('active');
+                step2.classList.remove('completed');
             }
         }
 
-        // Option button handling
-        document.querySelectorAll('.option-group').forEach(group => {
-            group.addEventListener('click', function(e) {
-                if (e.target.classList.contains('option-btn')) {
-                    // Remove active class from siblings
-                    group.querySelectorAll('.option-btn').forEach(btn => {
-                        btn.classList.remove('active');
-                    });
-                    // Add active class to clicked button
-                    e.target.classList.add('active');
-                    calculateTotal();
-                }
-            });
-        });
+        function goToStep2() {
+            if (cart.length === 0) {
+                showToast('⚠️ Vui lòng thêm ít nhất một món vào giỏ hàng!');
+                return;
+            }
 
-        // Cart functionality
-        let cart = [];
-        let cartItemCounter = 0;
+            currentStep = 2;
+            document.getElementById('step1').classList.remove('active');
+            document.getElementById('step2').classList.add('active');
+            
+            // Update step indicator
+            const step1 = document.querySelector('[data-step="1"]');
+            const step2 = document.querySelector('[data-step="2"]');
+            if (step1) {
+                step1.classList.remove('active');
+                step1.classList.add('completed');
+            }
+            if (step2) {
+                step2.classList.add('active');
+            }
+            
+            updateOrderReview();
+            
+            // Focus on first input
+            setTimeout(() => {
+                const customerName = document.getElementById('customerName');
+                if (customerName) customerName.focus();
+            }, 150);
+        }
 
         // Calculate item price
         function calculateItemPrice() {
@@ -1505,8 +2556,8 @@
             const quantity = document.getElementById('quantity');
             const itemPriceElement = document.getElementById('itemPrice');
 
-            if (!drinkSelect.value) {
-                itemPriceElement.textContent = '0K';
+            if (!drinkSelect || !drinkSelect.value) {
+                if (itemPriceElement) itemPriceElement.textContent = '0K';
                 return 0;
             }
 
@@ -1516,57 +2567,28 @@
 
             // Add matcha fee if selected
             let matchaFee = 0;
-            if (matchaType.value && drinkSelect.value.toLowerCase().includes('matcha')) {
+            if (matchaType && matchaType.value && drinkSelect.value.toLowerCase().includes('matcha')) {
                 matchaFee = 5;
             }
 
-            const qty = parseInt(quantity.value) || 1;
+            const qty = parseInt(quantity ? quantity.value : 1) || 1;
             const total = (basePrice + matchaFee) * qty;
 
-            itemPriceElement.textContent = total + 'K';
+            if (itemPriceElement) itemPriceElement.textContent = total + 'K';
             return total;
         }
 
-        // Add item to cart
+        // Add to cart
         function addToCart() {
-            const customerName = document.getElementById('customerName').value.trim();
-            const customerPhone = document.getElementById('customerPhone').value.trim();
-            const customerAddress = document.getElementById('customerAddress').value.trim();
-            const drinkFor = document.getElementById('drinkFor').value.trim();
+            const drinkFor = document.getElementById('drinkFor').value.trim() || 'Bạn';
             const drink = document.getElementById('drinkSelect').value;
             const matchaType = document.getElementById('matchaType').value;
             const quantity = parseInt(document.getElementById('quantity').value) || 1;
             const notes = document.getElementById('notes').value;
 
-            // Validate required fields
-            if (!customerName) {
-                alert('⚠️ Vui lòng nhập tên khách hàng!');
-                document.getElementById('customerName').focus();
-                return;
-            }
-
-            if (!customerPhone) {
-                alert('⚠️ Vui lòng nhập số điện thoại!');
-                document.getElementById('customerPhone').focus();
-                return;
-            }
-
-            // Basic phone validation
-            const phoneRegex = /^[0-9]{10,11}$/;
-            if (!phoneRegex.test(customerPhone.replace(/\D/g, ''))) {
-                alert('⚠️ Số điện thoại không hợp lệ! Vui lòng nhập 10-11 số.');
-                document.getElementById('customerPhone').focus();
-                return;
-            }
-
-            if (!customerAddress) {
-                alert('⚠️ Vui lòng nhập địa chỉ giao hàng!');
-                document.getElementById('customerAddress').focus();
-                return;
-            }
-
             if (!drink) {
-                alert('⚠️ Vui lòng chọn đồ uống!');
+                showToast('⚠️ Vui lòng chọn đồ uống!');
+                document.getElementById('drinkSelect').focus();
                 return;
             }
 
@@ -1577,15 +2599,9 @@
 
             const itemPrice = calculateItemPrice();
             
-            // Determine who this drink is for
-            const drinkForName = drinkFor || customerName;
-            
             const cartItem = {
                 id: ++cartItemCounter,
-                customerName: customerName,
-                customerPhone: customerPhone,
-                customerAddress: customerAddress,
-                drinkFor: drinkForName,
+                drinkFor: drinkFor,
                 drink: drink,
                 matchaType: matchaType,
                 quantity: quantity,
@@ -1598,70 +2614,16 @@
 
             cart.push(cartItem);
             updateCartDisplay();
-            clearForm();
+            updateCartUI();
+            clearItemForm();
             
-            // Show success message
-            const forWhom = drinkFor ? ` cho ${drinkFor}` : '';
-            alert(`✅ Đã thêm vào giỏ hàng${forWhom}! Bạn có thể tiếp tục thêm món khác.`);
+            const forWhom = drinkFor !== 'Bạn' ? ` cho ${drinkFor}` : '';
+            showToast(`✅ Đã thêm "${drink}"${forWhom} vào giỏ hàng`);
         }
 
-        // Remove item from cart
-        function removeFromCart(itemId) {
-            cart = cart.filter(item => item.id !== itemId);
-            updateCartDisplay();
-        }
-
-        // Update cart display
-        function updateCartDisplay() {
-            const cartItemsContainer = document.getElementById('cartItems');
-            const totalSummary = document.getElementById('totalSummary');
-            const submitBtn = document.getElementById('submitBtn');
-            const grandTotalElement = document.getElementById('grandTotal');
-
-            if (cart.length === 0) {
-                cartItemsContainer.innerHTML = '<div class="empty-cart">Giỏ hàng trống. Hãy thêm món đầu tiên!</div>';
-                totalSummary.style.display = 'none';
-                submitBtn.style.display = 'none';
-                return;
-            }
-
-            let cartHTML = '';
-            let grandTotal = 0;
-
-            cart.forEach(item => {
-                grandTotal += item.price;
-                const isForSomeoneElse = item.drinkFor !== item.customerName;
-                cartHTML += `
-                    <div class="cart-item">
-                        <button class="remove-item" onclick="removeFromCart(${item.id})">×</button>
-                        <h4>👤 ${item.customerName}</h4>
-                        <p><strong>📞 SĐT:</strong> ${item.customerPhone}</p>
-                        <p><strong>📍 Địa chỉ:</strong> ${item.customerAddress}</p>
-                        ${isForSomeoneElse ? `<p style="color: #6b8e23; font-weight: bold;">🍃 Ly này cho: ${item.drinkFor}</p>` : ''}
-                        <p><strong>Đồ uống:</strong> ${item.drink}</p>
-                        ${item.matchaType ? `<p><strong>Matcha:</strong> ${item.matchaType}</p>` : ''}
-                        <p><strong>Số lượng:</strong> ${item.quantity}</p>
-                        <p><strong>Độ ngọt:</strong> ${item.sweetness} | <strong>Đá:</strong> ${item.ice} | <strong>Sữa:</strong> ${item.milk}</p>
-                        ${item.notes ? `<p><strong>Ghi chú:</strong> ${item.notes}</p>` : ''}
-                        <p class="cart-item-price">💰 ${item.price}K</p>
-                    </div>
-                `;
-            });
-
-            cartItemsContainer.innerHTML = cartHTML;
-            grandTotalElement.textContent = grandTotal + 'K';
-            totalSummary.style.display = 'block';
-            submitBtn.style.display = 'block';
-        }
-
-        // Clear form after adding to cart (keep customer info for convenience)
-        function clearForm() {
-            // Keep customer name, phone, and address for convenience when adding multiple items
-            // document.getElementById('customerName').value = '';
-            // document.getElementById('customerPhone').value = '';
-            // document.getElementById('customerAddress').value = '';
-            
-            document.getElementById('drinkFor').value = '';  // Clear "for who" field
+        // Clear item form
+        function clearItemForm() {
+            document.getElementById('drinkFor').value = '';
             document.getElementById('drinkSelect').value = '';
             document.getElementById('matchaType').value = '';
             document.getElementById('quantity').value = '1';
@@ -1669,33 +2631,290 @@
             
             // Reset options to default
             document.querySelectorAll('.option-group').forEach(group => {
-                group.querySelectorAll('.option-btn').forEach(btn => btn.classList.remove('active'));
-                group.querySelector('.option-btn').classList.add('active'); // First option as default
+                group.querySelectorAll('.option-btn').forEach(btn => {
+                    btn.classList.remove('active');
+                    btn.setAttribute('aria-checked', 'false');
+                });
+                const firstBtn = group.querySelector('.option-btn');
+                if (firstBtn) {
+                    firstBtn.classList.add('active');
+                    firstBtn.setAttribute('aria-checked', 'true');
+                }
             });
             
             calculateItemPrice();
         }
 
-        // Calculate total price
-        function calculateTotal() {
-            calculateItemPrice();
+        // Remove from cart
+        function removeFromCart(itemId) {
+            cart = cart.filter(item => item.id !== itemId);
+            updateCartDisplay();
+            updateCartUI();
+            
+            if (currentStep === 2) {
+                updateOrderReview();
+            }
+            
+            if (cart.length === 0 && currentStep === 2) {
+                showToast('⚠️ Giỏ hàng trống! Quay lại bước chọn món.');
+                goToStep1();
+            }
         }
 
-        // Add event listeners for price calculation
-        document.getElementById('drinkSelect').addEventListener('change', calculateTotal);
-        document.getElementById('matchaType').addEventListener('change', calculateTotal);
-        document.getElementById('quantity').addEventListener('input', calculateTotal);
+        // Edit person name
+        function editPersonName(itemId, currentName) {
+            currentEditingItemId = itemId;
+            currentEditingName = currentName;
+            
+            // Set current name in input field
+            const nameInput = document.getElementById('newPersonName');
+            if (nameInput) {
+                nameInput.value = currentName;
+            }
+            
+            openModal(editNameModal);
+            
+            // Focus on input field
+            setTimeout(() => {
+                if (nameInput) {
+                    nameInput.select();
+                    nameInput.focus();
+                }
+            }, 150);
+        }
 
-        // Submit order function
-        function submitOrder() {
+        // Edit name modal functions
+        function closeEditNameModal() {
+            closeModal(editNameModal);
+            currentEditingItemId = null;
+            currentEditingName = '';
+        }
+
+        function confirmEditName() {
+            const nameInput = document.getElementById('newPersonName');
+            if (!nameInput) return;
+            
+            const newName = nameInput.value.trim();
+            
+            if (!newName) {
+                showToast('⚠️ Vui lòng nhập tên!');
+                nameInput.focus();
+                return;
+            }
+            
+            if (newName === currentEditingName) {
+                closeEditNameModal();
+                return;
+            }
+            
+            // Update all items with the same person name
+            let updatedCount = 0;
+            cart.forEach(item => {
+                if (item.drinkFor === currentEditingName) {
+                    item.drinkFor = newName;
+                    updatedCount++;
+                }
+            });
+            
+            if (updatedCount > 0) {
+                updateCartDisplay();
+                updateCartUI();
+                if (currentStep === 2) {
+                    updateOrderReview();
+                }
+                showToast(`✅ Đã đổi tên "${currentEditingName}" thành "${newName}" (${updatedCount} món)`);
+            }
+            
+            closeEditNameModal();
+        }
+
+        // Update cart display for Step 1
+        function updateCartDisplay() {
+            const cartItemsContainer = document.getElementById('cartItems');
+            const totalSummary = document.getElementById('totalSummary');
+            const proceedBtn = document.getElementById('proceedBtn');
+            const grandTotalElement = document.getElementById('grandTotal');
+
+            if (!cartItemsContainer) return;
+
             if (cart.length === 0) {
-                alert('Giỏ hàng trống! Vui lòng thêm ít nhất một món.');
+                cartItemsContainer.innerHTML = '<div class="empty-cart">Giỏ hàng trống. Hãy thêm món đầu tiên!</div>';
+                if (totalSummary) totalSummary.style.display = 'none';
+                if (proceedBtn) proceedBtn.style.display = 'none';
                 return;
             }
 
-            // Get main customer info (from first item)
-            const mainCustomer = cart[0];
+            let cartHTML = '';
+            let grandTotal = 0;
+
+            // Group items by person
+            const groupedItems = {};
+            cart.forEach(item => {
+                grandTotal += item.price;
+                const forWho = item.drinkFor;
+                
+                if (!groupedItems[forWho]) {
+                    groupedItems[forWho] = [];
+                }
+                groupedItems[forWho].push(item);
+            });
+
+            // Display grouped items
+            Object.keys(groupedItems).forEach(personName => {
+                const items = groupedItems[personName];
+                cartHTML += `<div class="person-group">`;
+                cartHTML += `
+                    <div class="person-group-header">
+                        <div class="person-name-edit">
+                            <span class="person-group-name">🍃 Ly nước của ${personName}</span>
+                            <button class="edit-name-btn" onclick="editPersonName(${items[0].id}, '${personName}')" 
+                                    title="Đổi tên người này" aria-label="Đổi tên ${personName}">✏️</button>
+                        </div>
+                    </div>
+                `;
+                
+                items.forEach(item => {
+                    cartHTML += `
+                        <div class="cart-item">
+                            <button class="remove-item" onclick="removeFromCart(${item.id})" aria-label="Xóa món này khỏi giỏ hàng">×</button>
+                            <h4>${item.drink}</h4>
+                            ${item.matchaType ? `<p><strong>Matcha:</strong> ${item.matchaType}</p>` : ''}
+                            <p><strong>Số lượng:</strong> ${item.quantity}</p>
+                            <p><strong>Độ ngọt:</strong> ${item.sweetness} | <strong>Đá:</strong> ${item.ice} | <strong>Sữa:</strong> ${item.milk}</p>
+                            ${item.notes ? `<p><strong>Ghi chú:</strong> ${item.notes}</p>` : ''}
+                            <p class="cart-item-price">💰 ${item.price}K</p>
+                        </div>
+                    `;
+                });
+                cartHTML += `</div>`;
+            });
+
+            cartItemsContainer.innerHTML = cartHTML;
+            if (grandTotalElement) grandTotalElement.textContent = grandTotal + 'K';
+            if (totalSummary) totalSummary.style.display = 'block';
+            if (proceedBtn) proceedBtn.style.display = 'block';
+        }
+
+        // Update order review for Step 2
+        function updateOrderReview() {
+            const orderReview = document.getElementById('orderReview');
+            const finalTotal = document.getElementById('finalTotal');
             
+            if (!orderReview) return;
+
+            if (cart.length === 0) {
+                orderReview.innerHTML = '<div class="empty-cart">Không có món nào trong giỏ hàng</div>';
+                if (finalTotal) finalTotal.textContent = '0K';
+                return;
+            }
+
+            let reviewHTML = '';
+            let grandTotal = 0;
+
+            // Group items by person
+            const groupedItems = {};
+            cart.forEach(item => {
+                grandTotal += item.price;
+                const forWho = item.drinkFor;
+                
+                if (!groupedItems[forWho]) {
+                    groupedItems[forWho] = [];
+                }
+                groupedItems[forWho].push(item);
+            });
+
+            // Display grouped items with edit functionality
+            Object.keys(groupedItems).forEach(personName => {
+                const items = groupedItems[personName];
+                reviewHTML += `<div class="person-group">`;
+                reviewHTML += `
+                    <div class="person-group-header">
+                        <div class="person-name-edit">
+                            <span class="person-group-name">🍃 Ly nước của ${personName}</span>
+                            <button class="edit-name-btn" onclick="editPersonName(${items[0].id}, '${personName}')" 
+                                    title="Đổi tên người này" aria-label="Đổi tên ${personName}">✏️</button>
+                        </div>
+                    </div>
+                `;
+                
+                items.forEach(item => {
+                    reviewHTML += `
+                        <div class="review-item">
+                            <h4>${item.drink}</h4>
+                            ${item.matchaType ? `<p><strong>Matcha:</strong> ${item.matchaType}</p>` : ''}
+                            <p><strong>Số lượng:</strong> ${item.quantity} | <strong>Độ ngọt:</strong> ${item.sweetness} | <strong>Đá:</strong> ${item.ice}</p>
+                            <p><strong>Sữa:</strong> ${item.milk}</p>
+                            ${item.notes ? `<p><strong>Ghi chú:</strong> ${item.notes}</p>` : ''}
+                            <div class="review-item-price">💰 ${item.price}K</div>
+                        </div>
+                    `;
+                });
+                reviewHTML += `</div>`;
+            });
+
+            orderReview.innerHTML = reviewHTML;
+            if (finalTotal) finalTotal.textContent = grandTotal + 'K';
+        }
+
+        // Update sticky total
+        function updateStickyTotal() {
+            const grandTotal = cart.reduce((sum, item) => sum + item.price, 0);
+            const stickyTotal = document.getElementById('stickyTotal');
+            if (stickyTotal) {
+                stickyTotal.textContent = grandTotal + 'K';
+            }
+        }
+
+        // Submit order
+        function submitOrder() {
+            if (currentStep === 1) {
+                goToStep2();
+                return;
+            }
+
+            // Validate step 2 fields
+            const customerName = document.getElementById('customerName').value.trim();
+            const customerPhone = document.getElementById('customerPhone').value.trim();
+            const customerAddress = document.getElementById('customerAddress').value.trim();
+
+            if (!customerName) {
+                showToast('⚠️ Vui lòng nhập tên khách hàng!');
+                document.getElementById('customerName').focus();
+                return;
+            }
+
+            if (!customerPhone) {
+                showToast('⚠️ Vui lòng nhập số điện thoại!');
+                document.getElementById('customerPhone').focus();
+                return;
+            }
+
+            // Basic phone validation
+            const phoneRegex = /^[0-9]{10,11}$/;
+            if (!phoneRegex.test(customerPhone.replace(/\D/g, ''))) {
+                showToast('⚠️ Số điện thoại không hợp lệ! Vui lòng nhập 10-11 số.');
+                document.getElementById('customerPhone').focus();
+                return;
+            }
+
+            if (!customerAddress) {
+                showToast('⚠️ Vui lòng nhập địa chỉ giao hàng!');
+                document.getElementById('customerAddress').focus();
+                return;
+            }
+
+            if (cart.length === 0) {
+                showToast('Giỏ hàng trống! Vui lòng thêm ít nhất một món.');
+                goToStep1();
+                return;
+            }
+
+            // Generate order message
+            generateOrderMessage(customerName, customerPhone, customerAddress);
+        }
+
+        // Generate order message
+        function generateOrderMessage(customerName, customerPhone, customerAddress) {
             // Group items by who they're for
             const groupedItems = {};
             let grandTotal = 0;
@@ -1712,9 +2931,9 @@
 
             // Format order message
             let orderMessage = `🧋 ĐƠN HÀNG MỚI - MÊ NHƯ LATTE\n\n`;
-            orderMessage += `👤 Tên người đặt: ${mainCustomer.customerName}\n`;
-            orderMessage += `📞 SĐT: ${mainCustomer.customerPhone}\n`;
-            orderMessage += `📍 Địa chỉ: ${mainCustomer.customerAddress}\n\n`;
+            orderMessage += `👤 Tên người đặt: ${customerName}\n`;
+            orderMessage += `📞 SĐT: ${customerPhone}\n`;
+            orderMessage += `📍 Địa chỉ: ${customerAddress}\n\n`;
             orderMessage += `📋 Chi tiết đơn hàng:\n`;
             
             // Add items grouped by person
@@ -1750,7 +2969,7 @@
             // Store the message and show preview modal
             currentOrderMessage = orderMessage;
             document.getElementById('messagePreview').textContent = orderMessage;
-            messageModal.style.display = 'block';
+            openModal(messageModal);
             
             // Show scroll hint if content is long
             showScrollHintIfNeeded();
@@ -1761,7 +2980,8 @@
             const messagePreview = document.getElementById('messagePreview');
             const scrollHint = document.getElementById('scrollHint');
             
-            // Simple check: if there are multiple items or long content, show hint
+            if (!messagePreview || !scrollHint) return;
+            
             setTimeout(() => {
                 const isScrollable = messagePreview.scrollHeight > messagePreview.clientHeight;
                 if (isScrollable || cart.length > 1 || currentOrderMessage.length > 500) {
@@ -1797,7 +3017,7 @@
             window.open('https://zalo.me/84984112173', '_blank');
             document.getElementById('copyStatus').innerHTML = '🚀 Đã mở Zalo! Nhấn "Nhắn tin" và dán tin nhắn.';
             
-            // Optional: Auto close after opening Zalo (user can still go back with X if needed)
+            // Optional: Auto close after opening Zalo
             setTimeout(() => {
                 const autoClose = confirm("Đã gửi đơn hàng thành công?\n\nOK: Xóa giỏ hàng và đóng\nCancel: Quay lại để chỉnh sửa");
                 if (autoClose) {
@@ -1809,13 +3029,23 @@
         // Function to completely finish the order and clear everything
         function finishOrder() {
             cart = [];
+            cartItemCounter = 0;
             updateCartDisplay();
-            messageModal.style.display = 'none';
-            modal.style.display = 'none';
+            updateCartUI();
+            closeMessageModal();
+            closeOrderModal();
             document.getElementById('copyStatus').innerHTML = '';
+            
+            // Reset forms
+            document.getElementById('customerName').value = '';
+            document.getElementById('customerPhone').value = '';
+            document.getElementById('customerAddress').value = '';
+            clearItemForm();
+            
+            showToast('✅ Đơn hàng đã hoàn tất! Cảm ơn bạn đã đặt hàng.');
         }
 
-        // Image Gallery Popup Functions
+        // Image Gallery Functions with scroll-snap
         const galleryImages = [
             {
                 src: 'image1.jpg',
@@ -1845,10 +3075,58 @@
         ];
 
         let currentImageIndex = 0;
+        const imagePopup = document.getElementById('imagePopup');
+
+        // Gallery scroll-snap navigation
+        function scrollToImage(index) {
+            const galleryContainer = document.querySelector('.gallery-container');
+            if (!galleryContainer) return;
+            
+            const slideWidth = 350; // Width of each slide
+            galleryContainer.scrollTo({
+                left: slideWidth * index,
+                behavior: 'smooth'
+            });
+            updateGalleryNav(index);
+        }
+
+        function updateGalleryNav(activeIndex) {
+            const navButtons = document.querySelectorAll('.gallery-nav-btn');
+            navButtons.forEach((btn, index) => {
+                btn.classList.toggle('active', index === activeIndex);
+                btn.setAttribute('aria-pressed', index === activeIndex);
+            });
+        }
+
+        // Gallery scroll listener to update nav
+        let galleryScrollTimeout;
+        function setupGalleryScrollListener() {
+            const galleryContainer = document.querySelector('.gallery-container');
+            if (!galleryContainer) return;
+            
+            galleryContainer.addEventListener('scroll', function() {
+                clearTimeout(galleryScrollTimeout);
+                galleryScrollTimeout = setTimeout(() => {
+                    const scrollLeft = this.scrollLeft;
+                    const slideWidth = window.innerWidth <= 768 ? 280 : 350;
+                    const activeIndex = Math.round(scrollLeft / slideWidth);
+                    updateGalleryNav(activeIndex);
+                }, 100);
+            });
+        }
+
+        // Keyboard navigation for gallery images
+        function handleImageKeydown(event, index) {
+            if (event.key === 'Enter' || event.key === ' ') {
+                event.preventDefault();
+                openImagePopup(index);
+            }
+        }
 
         function openImagePopup(imageIndex) {
+            if (!imagePopup || !galleryImages[imageIndex]) return;
+            
             currentImageIndex = imageIndex;
-            const popup = document.getElementById('imagePopup');
             const popupImage = document.getElementById('popupImage');
             const popupTitle = document.getElementById('popupTitle');
             const popupDescription = document.getElementById('popupDescription');
@@ -1856,26 +3134,19 @@
 
             const imageData = galleryImages[imageIndex];
             
-            popupImage.src = imageData.src;
-            popupImage.alt = imageData.title;
-            popupTitle.textContent = imageData.title;
-            popupDescription.textContent = imageData.description;
-            popupCounter.textContent = `${imageIndex + 1} / ${galleryImages.length}`;
+            if (popupImage) {
+                popupImage.src = imageData.src;
+                popupImage.alt = imageData.title;
+            }
+            if (popupTitle) popupTitle.textContent = imageData.title;
+            if (popupDescription) popupDescription.textContent = imageData.description;
+            if (popupCounter) popupCounter.textContent = `${imageIndex + 1} / ${galleryImages.length}`;
 
-            popup.style.display = 'block';
-            document.body.style.overflow = 'hidden';
-
-            // Add keyboard event listener
-            document.addEventListener('keydown', handlePopupKeydown);
+            openModal(imagePopup);
         }
 
         function closeImagePopup() {
-            const popup = document.getElementById('imagePopup');
-            popup.style.display = 'none';
-            document.body.style.overflow = 'auto';
-
-            // Remove keyboard event listener
-            document.removeEventListener('keydown', handlePopupKeydown);
+            closeModal(imagePopup);
         }
 
         function nextImage() {
@@ -1896,34 +3167,14 @@
 
             const imageData = galleryImages[currentImageIndex];
             
-            popupImage.src = imageData.src;
-            popupImage.alt = imageData.title;
-            popupTitle.textContent = imageData.title;
-            popupDescription.textContent = imageData.description;
-            popupCounter.textContent = `${currentImageIndex + 1} / ${galleryImages.length}`;
-        }
-
-        function handlePopupKeydown(event) {
-            switch(event.key) {
-                case 'Escape':
-                    closeImagePopup();
-                    break;
-                case 'ArrowLeft':
-                    previousImage();
-                    break;
-                case 'ArrowRight':
-                    nextImage();
-                    break;
+            if (popupImage) {
+                popupImage.src = imageData.src;
+                popupImage.alt = imageData.title;
             }
+            if (popupTitle) popupTitle.textContent = imageData.title;
+            if (popupDescription) popupDescription.textContent = imageData.description;
+            if (popupCounter) popupCounter.textContent = `${currentImageIndex + 1} / ${galleryImages.length}`;
         }
-
-        // Close popup when clicking outside the image
-        document.addEventListener('click', function(event) {
-            const popup = document.getElementById('imagePopup');
-            if (event.target === popup) {
-                closeImagePopup();
-            }
-        });
 
         // Smooth scrolling for navigation links
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
@@ -1935,6 +3186,15 @@
                         behavior: 'smooth',
                         block: 'start'
                     });
+                    
+                    // Close mobile nav if open
+                    const navToggle = document.querySelector('.nav-toggle');
+                    const navLinks = document.querySelector('.nav-links');
+                    if (navToggle && navLinks) {
+                        navToggle.setAttribute('aria-expanded', 'false');
+                        navToggle.classList.remove('active');
+                        navLinks.classList.remove('show');
+                    }
                 }
             });
         });
@@ -1944,23 +3204,72 @@
             option.addEventListener('click', function() {
                 // Remove active class from all options
                 document.querySelectorAll('.sweetness-option').forEach(opt => {
-                    opt.style.background = '#6b8e23';
+                    opt.style.background = 'var(--color-primary)';
                 });
                 // Add active state to clicked option
-                this.style.background = '#8fbc8f';
+                this.style.background = 'var(--color-primary-light)';
+            });
+
+            // Keyboard support
+            option.addEventListener('keydown', function(e) {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    this.click();
+                }
             });
         });
 
-        // Menu item hover effects
+        // Menu item keyboard navigation
         document.querySelectorAll('.menu-item').forEach(item => {
-            item.addEventListener('mouseenter', function() {
-                this.style.transform = 'translateY(-5px) scale(1.02)';
-            });
-            
-            item.addEventListener('mouseleave', function() {
-                this.style.transform = 'translateY(0) scale(1)';
+            item.addEventListener('keydown', function(e) {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    this.click();
+                }
             });
         });
+
+        // Performance optimization: Intersection Observer for animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        // Observe elements for fade-in animation when page loads
+        setTimeout(() => {
+            document.querySelectorAll('.menu-item, .contact-item, .special-item, .gallery-slide').forEach(el => {
+                el.style.opacity = '0';
+                el.style.transform = 'translateY(20px)';
+                el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+                observer.observe(el);
+            });
+        }, 100);
+
+        // Lazy loading for images (if not supported natively)
+        if ('loading' in HTMLImageElement.prototype === false) {
+            const images = document.querySelectorAll('img[loading="lazy"]');
+            const imageObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const img = entry.target;
+                        img.src = img.dataset.src || img.src;
+                        img.classList.remove('lazy');
+                        imageObserver.unobserve(img);
+                    }
+                });
+            });
+
+            images.forEach(img => imageObserver.observe(img));
+        }
     </script>
 </body>
 </html>
